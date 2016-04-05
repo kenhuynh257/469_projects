@@ -15,7 +15,7 @@ module dataflow(q0, q1, q2, q3, clk, rst);
 	output wire q0, q1, q2, q3;
 	wire [3:0] qs, qbars, countdrivers;
 	
-	assign {q3, q2, q1, q0} = {qbars[3:0]};
+	assign {q3, q2, q1, q0} = {qs[3:0]};
 	
 	assign countdrivers[0] = qbars[0];
 	assign countdrivers[1] = qs[0] ? qbars[1] : qs[1];
