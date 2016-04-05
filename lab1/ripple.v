@@ -16,9 +16,9 @@ module ripple(q0, q1, q2, q3, clk, rst);
 	wire q0bar, q1bar, q2bar, q3bar;
 	
 	DFlipFlop D0(q0bar, q0, q0, clk, rst);
-	DFlipFlop D1(q1bar, q1, q1, q0bar, rst);
-	DFlipFlop D2(q2bar, q2, q2, q1bar, rst);
-	DFlipFlop D3(q3bar, q3, q3, q2bar, rst);
+	DFlipFlop D1(q1bar, q1, q1, q0, rst);
+	DFlipFlop D2(q2bar, q2, q2, q1, rst);
+	DFlipFlop D3(q3bar, q3, q3, q2, rst);
 	
 endmodule
 	
