@@ -39,7 +39,7 @@ Description:
 Author:
 Written On:
 */
-module Tester(clk, rst, q0, q1, q2, q3);
+module tester(clk, rst, q0, q1, q2, q3);
 	
 	output reg clk, rst;
 	input q0, q1, q2, q3;
