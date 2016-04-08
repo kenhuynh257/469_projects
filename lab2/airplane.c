@@ -12,15 +12,27 @@
  * Finally write a fourth function to print the estimated flight duration.
  */
  
+#define HEADWIND 89.6
+#define MILES 4781
+ 
  
 int main(int argc, char *argv[]) {
-
+	float duration = 0;
+	printf("How long is your flight in hours?\n");
+	scanf("%f", &duration);
+	float velocity = estimateVelocity(duration);
+	estimateTime(velocity);
 }
 
-estimateVelocity() {
-
+float estimateVelocity(float time) {
+	float velocity = MILES / time;
+	printf("Without headwind, the plane will be travelling %.2f miles per hour\n", velocity);
+	return velocity;
 }
 
-estimateTime() {
-
+float estimateTime(float velocity) {
+	float newvel = velocity - HEADWIND;
+	float time = MILES / newvel;
+	printf("With headwind, the flight will take %.2f hours\n", time);
+	return time;
 }
