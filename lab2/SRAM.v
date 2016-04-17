@@ -12,9 +12,7 @@ module SRAM(data, addr, weBar, oeBar, clock);
 	always @(posedge clock) 
 	begin
 		if (!weBar & oeBar) 
-		begin
 			state[addr[10:0]][15:0] <= data[15:0];
-		end
 	end
 endmodule
 
