@@ -44,7 +44,7 @@ module tester(clk, rst, wrt_en, wrt_data, rd_s1, rd_s2, wrt_s, rd_data1, rd_data
 	output reg[31:0] rd_data1,rd_data2;
 	input clk, rst,wrt_en;
 	input [4:0] rd_s1, rd_s2 , wrt_s;
-	input[31:0] rd_s1, rd_s2;
+	input [31:0]wrt_data;
 	parameter Delay = 1;
 	integer i;
 	
