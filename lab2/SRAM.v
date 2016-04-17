@@ -1,42 +1,45 @@
-module SRAM(data, addr, weBar, oeBar);
-	inout [7:0] data;
-	input [7:0] addr;
+module SRAM(data, addr, weBar, oeBar, clock);
+	inout [15:0] data;
+	input [10:0] addr;
 	input weBar;
 	input oeBar;
+	input clock;
 
-	reg [7:0] state [255:0];
+	reg [15:0] state [2047:0];
 
-	assign data[7:0] = oeBar ? 'bz : state[addr[7:0]][7:0];
+	assign data[15:0] = oeBar ? 'bz : state[addr[10:0]][15:0];
 
-	always @(*) begin
-		if (!weBar & oeBar) begin
-			state[addr[7:0]][7:0] = data[7:0];
+	always @(posedge clock) 
+	begin
+		if (!weBar & oeBar) 
+		begin
+			state[addr[10:0]][15:0] <= data[15:0];
 		end
 	end
 endmodule
 
 
 module MAR(outAdd, inAdd, reset, clock);
-	output reg [7:0] outAdd;
-	input [7:0] inAdd;
+	output reg [10:0] outAdd;
+	input [10:0] inAdd;
 	input reset, clock;
 	
 	always @(posedge clock)
 	if (reset)
-		outAdd <= 7'b0;
+		outAdd <= 11'b0;
 	else
 		outAdd <= inAdd;
 
 endmodule
 
 module MDR(outDat, inDat, reset, clock);
-	output reg [7:0] outDat;
-	input [7:0] inDat;
+	output reg [15:0] outDat;
+	input [15:0] inDat;
 	input reset, clock;
 	
 	always @(posedge clock)
 	if (reset)
-		outDat <= 7'b0;
+		outDat <= 16'b0;
 	else
 		outDat <= inDat;
 endmodule
