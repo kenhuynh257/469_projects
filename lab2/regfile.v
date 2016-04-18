@@ -1,8 +1,8 @@
 /*
 32x32 register 
 */
-module regfile(clk, rst, wrt_en, wrt_data, rd_s1, rd_s2, wrt_s, rd_data1, rd_data2);
-	input  clk, rst, wrt_en;
+module regfile(clk, wrt_en, wrt_data, rd_s1, rd_s2, wrt_s, rd_data1, rd_data2);
+	input  clk, wrt_en;
 	input [4:0]  wrt_s, rd_s1,rd_s2;
 	input [31:0] wrt_data;
 	output reg [31:0] rd_data1, rd_data2;
