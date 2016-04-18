@@ -1,6 +1,6 @@
 `include "SRAM.v"
 
-module sramTop();
+module sramTestbench;
 	wire nOutput, nWrite;
 	wire [15:0]data, mdrSRAM;
 	wire [10:0]sramAddr, addr;
@@ -24,15 +24,15 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	inout [15:0] data;
 	output reg clock, nOutput, nWrite;
 	output reg [10:0] addr;
-	input [15:0] mdrSRAM;
-	input[10:0] sramAddr;
+	output [15:0] mdrSRAM;
+	output[10:0] sramAddr;
 	reg [15:0] writeData;
 	integer i;
 	
-	assign data[15:0] = nOutput ? writeData[15:0] : 16'bz;
+	assign data[15:0] = nOutput ? 'bz : writeData[15:0];
 	
 	
-	parameter delay = 200;
+	parameter delay = 2;
 	
 	initial 
 	begin 
@@ -45,34 +45,28 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	begin
 		clock = 1'b0;
 		nOutput = 1'b1;
-		nWrite = 1'b0;
+		nWrite = 1'b1;
 		addr[10:0] = 11'b0;
 		writeData[15:0] = 16'b0;
 		// write
-		for(i = 0; i < 128; i = i + 1) begin
+		for(i = 0; i < 128; i++) begin
 			#delay clock = ~clock;
 			writeData[15:0] = i;
-			#1 addr[10:0] = i;
-			#delay clock = ~clock;
+			addr[10:0] = i;
+			nOutput = 1'b1;
+			nWrite = 1'b0;
 		end
-
 		// settle
-		for(i = 0; i < 16; i = i + 1) begin
+		for(i = 0; i < 16; i++) begin
 			#delay clock = ~clock;
+			nWrite = 1'b1;
 		end
-		nOutput = 1'b0;
-		nWrite = 1'b1;
 		// read
-		for (i = 0; i < 128; i = i + 1) begin
-			
+		for (i = 0; i < 128; i++) begin
+			#delay clock = ~clock;
 			addr[10:0] = i;
 			nOutput = 1'b0;
 			nWrite = 1'b1;
-			#delay clock = ~clock;
-			#delay clock = ~clock;
-		end
-		for (i = 0; i < 16; i = i+1) begin
-			#delay clock = ~clock;
 		end
 	end
 	
