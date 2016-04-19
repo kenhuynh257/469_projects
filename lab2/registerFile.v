@@ -1,14 +1,18 @@
 module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we);
-
+	output reg [4:0] readOut_1, readOut_2;
+	input [4:0] readSel_1, readSel_2, writeSel;
+	input [31:0] data;
+	input we;
+	
+	
 endmodule
 
 module dFlipFlop(Q, Qbar, D, clock, reset);
-	output Q, Qbar;
+	output reg Q, Qbar;
 	input D, clock, reset;
 	
 	wire Dbar, s0, s1;
 	
-	not n0(Qbar, Q);
 	not n0(Dbar, D);
 	
 	nand nd0(s0, clock, D);
@@ -18,6 +22,7 @@ module dFlipFlop(Q, Qbar, D, clock, reset);
 	nand nd3(Qbar, Q, s1);
 
 endmodule
+
 
 module decoder();
 
