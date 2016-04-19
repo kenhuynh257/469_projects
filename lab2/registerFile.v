@@ -24,8 +24,52 @@ module dFlipFlop(Q, Qbar, D, clock, reset);
 endmodule
 
 
-module decoder();
+module decoder(decode, select);
+	output reg [31:0] decode;
+	input [4:0] select;
 
+	wire [4:0] nSelect;
+	integer i, j;
+	
+	not n0(nSelect[0], select[0]);
+	not n1(nSelect[1], select[1]);
+	not n2(nSelect[2], select[2]);
+	not n3(nSelect[3], select[3]);
+	not n4(nSelect[4], select[4]);
+	
+	and a0 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a1 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a2 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a3 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a4 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a5 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a6 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a7 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a8 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a9 (decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a10(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a11(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a12(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a13(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a14(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a15(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a16(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a17(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a18(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a19(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a20(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a21(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a22(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a23(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a24(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a25(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a26(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a27(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a28(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a29(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a30(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	and a31(decode[0], nSelect[4], nSelect[3], nSelect[2], nSelect[1], nSelect[0]);
+	
 endmodule
 
 
