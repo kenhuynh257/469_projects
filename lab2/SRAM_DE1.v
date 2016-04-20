@@ -24,9 +24,6 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 		end else begin
 			clock = divclk[19];
 		end
-		// Setup switches for nOutput and nWrite
-		nOutput = SW[1];
-		nWrite = SW[0];
 		// setup the lights
 		LEDR[6:0] = data[6:0];
 	end
@@ -75,14 +72,12 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, rst);
 		if (rst == 1'b0) begin
 			writeData[15:0] <= 16'd127;
 			addr[10:0] <= 11'b0;
-			nOutput <= 1'b1;
-			nWrite <= 1'b0;
-		 end else if (writeData > 0) begin
+		end else if (writeData > 0) begin
 			writeData <= writeData - 1'b1; // count down
 			addr <= addr + 1'b1;
 		end else if (writeData == 0) begin
-			nWrite <= 1'b1; // start reading
 			addr <= 11'b0;
+			nWrite <= 1'b1;
 			writeData <= writeData - 1'b1;
 		end else begin
 			addr <= addr - 1'b1;
