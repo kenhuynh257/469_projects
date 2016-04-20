@@ -8,7 +8,7 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 	wire [15:0] data;
 	reg [15:0] writeData;
 	reg [10:0] addr;	
-	reg nOutput, nWrite;
+	wire nOutput, nWrite;
 	wire [15:0] mdrSRAM;
 	wire [10:0]sramAddr;
 	reg [2:0] ps, ns;
@@ -35,6 +35,9 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 		LEDR[6:0] = data[6:0];
 		// setup reset
 		rst = SW[0];
+		// setup switches
+		nOutput = SW[1];
+		nWrite = SW[2];
 	end
 		
 	// connect the modules
