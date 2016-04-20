@@ -5,14 +5,21 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 	input CLOCK_50;
 	output [9:0] LEDR;
 	// module connections
+	wire [15:0] data;
+	reg [15:0] writeData;
+	reg [10:0] addr;	
 	wire nOutput, nWrite;
-	wire [15:0]data, sData;
-	wire [10:0]sAddr, addr;	
+	wire [15:0] mdrSRAM;
+	wire [10:0]sramAddr;
+	reg [2:0] ps, ns;
+	wire rst;
+	assign data[15:0] = (nWrite) ? writeData[15:0] : 16'bz;
+	
 	wire [31:0] divclk;
 	// clock division
 	clockDivider divideIt(divclk, CLOCK_50);
 	wire clock;
-	
+
 	always @(*) begin
 		// Choose divided clock
 		if (SW[9]) begin
@@ -26,16 +33,84 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 		end
 		// setup the lights
 		LEDR[6:0] = data[6:0];
+		// setup reset
+		rst = SW[0];
+		// setup switches
+		nOutput = SW[1];
+		nWrite = SW[2];
 	end
 		
 	// connect the modules
 	memory tSRAM(mdrSRAM, sramAddr, nWrite, clock);
 	MDR tMDR(data, mdrSRAM, nOutput, nWrite, clock);
 	MAR tMAR(sramAddr, addr, clock);
-	tester test(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, KEY[0]);
-
 	
+	// combo ns logic
+	always @(*) begin
+		case (ps)
+			3'b000: if(~nWrite) begin
+						ns = 3'b001;
+					end else begin
+						ns = 3'b000;
+					end
+			3'b001:	if (addr < 11'd127) begin
+						ns = 3'b001;
+					end else begin
+						ns = 3'b010;
+					end
+			3'b010:	if (~nWrite) begin
+						ns = 3'b010;
+					end else begin
+						ns = 3'b011;
+					end
+			3'b011:		ns = 3'b100;
+			3'b100:	if (nWrite && addr < 128) begin
+						ns = 3'b100;
+					end else if (nWrite) begin
+						ns = 3'b101;
+					end else begin
+						ns = 3'b000;
+					end
+			3'b101:	if (~nWrite) begin
+						ns = 3'b000;
+					end else begin
+						ns = 3'b101;
+					end
+			default: ns = 3'b000;
+		endcase
+	end
 	
+	// seq ps logic
+	always @(posedge clock) begin
+		if (rst) begin
+			ps <= 3'b000;
+		end else begin
+			ps <= ns;
+		end
+	end
+	
+	// output logic
+	always @(posedge clock) begin
+		case(ps)
+			3'b000: begin 
+						addr[10:0] <= 11'b0;
+						writeData[15:0] <= 16'd127;
+						end
+			3'b001: begin 
+						addr[10:0] <= addr[10:0] + 1'b1;
+						writeData[15:0] <= writeData[15:0] - 1'b1;
+						end
+			// nothing happens in 010 state
+			3'b011: begin addr[10:0] <= 11'b0; end
+			3'b100: begin addr[10:0] <= addr[10:0] + 1'b1; end
+			// nothing happens in 101 state
+			default: begin 
+						addr[10:0] <= 11'b0;
+						writeData[15:0] <= 16'b10101;
+						end
+		endcase
+	end
+		
 endmodule
 
 module clockDivider(divclk, CLK);
@@ -45,37 +120,5 @@ module clockDivider(divclk, CLK);
 	initial divclk = 0;
 	always @ (posedge CLK) begin
 		divclk <= divclk + 1'b1;
-	end
-endmodule
-
-module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, rst);
-	inout [15:0] data;
-	output reg nOutput, nWrite;
-	output reg [10:0] addr;
-	input [15:0] mdrSRAM;
-	input[10:0] sramAddr;
-	reg [15:0] writeData;
-	input clock, rst;
-	assign data[15:0] = nOutput ? writeData[15:0] : 16'bz;
-	
-	
-	
-	always @(posedge clock)
-	begin
-		if (rst == 1'b0) begin // write numbers 127-0 into memory locations 0-127
-			writeData[15:0] <= 16'd127;
-			addr[10:0] <= 11'b0;
-			nOutput = 1'b1;
-			nWrite = 1'b0;
-		end else if (writeData > 0) begin
-			writeData <= writeData - 1'b1; // count down
-			addr <= addr + 1'b1;
-		end else if (writeData == 0) begin
-			addr <= 11'b0;
-			nWrite <= 1'b1;
-			writeData <= writeData - 1'b1;
-		end else begin
-			addr <= addr - 1'b1;
-		end
 	end
 endmodule
