@@ -1,4 +1,4 @@
-module test (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we, clock);
+module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we, clock);
 	output [31:0] readOut_1, readOut_2;
 	input [4:0] readSel_1, readSel_2, writeSel;
 	input [31:0] data;
