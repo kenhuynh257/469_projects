@@ -1,6 +1,7 @@
-module SRAM_DE1(SW, CLOCK_50, LEDR);
+module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 	// DE1 connections
 	input [9:0] SW;
+	input [3:0] KEY;
 	input CLOCK_50;
 	output [9:0] LEDR;
 	// module connections
@@ -24,8 +25,8 @@ module SRAM_DE1(SW, CLOCK_50, LEDR);
 			clock = divclk[19];
 		end
 		// Setup switches for nOutput and nWrite
-		nOutput = SW[2];
-		nWrite = SW[1];
+		nOutput = SW[1];
+		nWrite = SW[0];
 		// setup the lights
 		LEDR[6:0] = data[6:0];
 	end
@@ -34,7 +35,7 @@ module SRAM_DE1(SW, CLOCK_50, LEDR);
 	memory tSRAM(mdrSRAM, sramAddr, nWrite, clock);
 	MDR tMDR(data, mdrSRAM, nOutput, nWrite, clock);
 	MAR tMAR(sramAddr, addr, clock);
-	tester test(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, SW[0]);
+	tester test(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, KEY[0]);
 
 	
 	
@@ -50,14 +51,14 @@ module clockDivider(divclk, CLK);
 	end
 endmodule
 
-module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
+module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, rst);
 	inout [15:0] data;
 	output reg clock, nOutput, nWrite;
 	output reg [10:0] addr;
 	input [15:0] mdrSRAM;
 	input[10:0] sramAddr;
 	reg [15:0] writeData;
-	
+	input rst;
 	assign data[15:0] = nOutput ? writeData[15:0] : 16'bz;
 	
 	// write numbers 127-0 into memory locations 0-127
@@ -71,7 +72,7 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	
 	always @(posedge clock)
 	begin
-		if (rst == 1'b1) begin
+		if (rst == 1'b0) begin
 			writeData[15:0] <= 16'd127;
 			addr[10:0] <= 11'b0;
 			nOutput <= 1'b1;
