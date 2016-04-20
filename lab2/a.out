@@ -6,70 +6,70 @@
 :vpi_module "vhdl_sys";
 :vpi_module "v2005_math";
 :vpi_module "va_math";
-S_0283a338 .scope module, "sramTop" "sramTop" 2 3;
+S_028c95a8 .scope module, "sramTop" "sramTop" 2 3;
  .timescale 0 0;
-v028783a0_0 .net "addr", 10 0, v02878088_0;  1 drivers
-v02878240_0 .net "clock", 0 0, v028788c8_0;  1 drivers
-RS_028490bc .resolv tri, L_028787c0, L_02878500;
-v028781e8_0 .net8 "data", 15 0, RS_028490bc;  2 drivers
-RS_028490d4 .resolv tri, L_028784a8, L_02878ad8;
-v02878348_0 .net8 "mdrSRAM", 15 0, RS_028490d4;  2 drivers
-v028783f8_0 .net "nOutput", 0 0, v02878608_0;  1 drivers
-v02878558_0 .net "nWrite", 0 0, v02878190_0;  1 drivers
-v028786b8_0 .net "sramAddr", 10 0, v028341c8_0;  1 drivers
-S_010ee1c8 .scope module, "tMAR" "MAR" 2 11, 3 90 0, S_0283a338;
+v028cfc48_0 .net "addr", 10 0, v028d0220_0;  1 drivers
+v028cfa38_0 .net "clock", 0 0, v028d02d0_0;  1 drivers
+RS_028dc0cc .resolv tri, L_028cfe00, L_028cfa90;
+v028d0170_0 .net8 "data", 15 0, RS_028dc0cc;  2 drivers
+RS_028dc0e4 .resolv tri, L_028cf880, L_028cfeb0;
+v028cfca0_0 .net8 "mdrSRAM", 15 0, RS_028dc0e4;  2 drivers
+v028cff08_0 .net "nOutput", 0 0, v028cfcf8_0;  1 drivers
+v028cffb8_0 .net "nWrite", 0 0, v028cff60_0;  1 drivers
+v028d01c8_0 .net "sramAddr", 10 0, v028c2b28_0;  1 drivers
+S_000de598 .scope module, "tMAR" "MAR" 2 11, 3 90 0, S_028c95a8;
  .timescale 0 0;
     .port_info 0 /OUTPUT 11 "outAdd"
     .port_info 1 /INPUT 11 "inAdd"
     .port_info 2 /INPUT 1 "clock"
-v02834748_0 .net "clock", 0 0, v028788c8_0;  alias, 1 drivers
-v02834170_0 .net "inAdd", 10 0, v02878088_0;  alias, 1 drivers
-v028341c8_0 .var "outAdd", 10 0;
-E_0283d4f0 .event posedge, v02834748_0;
-S_010ee298 .scope module, "tMDR" "MDR" 2 10, 3 59 0, S_0283a338;
+v028c2918_0 .net "clock", 0 0, v028d02d0_0;  alias, 1 drivers
+v028c27b8_0 .net "inAdd", 10 0, v028d0220_0;  alias, 1 drivers
+v028c2b28_0 .var "outAdd", 10 0;
+E_028c8e98 .event posedge, v028c2918_0;
+S_000de668 .scope module, "tMDR" "MDR" 2 10, 3 59 0, S_028c95a8;
  .timescale 0 0;
     .port_info 0 /INOUT 16 "data"
     .port_info 1 /INOUT 16 "memory"
     .port_info 2 /INPUT 1 "nOutput"
     .port_info 3 /INPUT 1 "nWrite"
     .port_info 4 /INPUT 1 "clock"
-L_02835158 .functor NOT 1, v02878608_0, C4<0>, C4<0>, C4<0>;
-L_02834e88 .functor AND 1, L_02835158, v02878190_0, C4<1>, C4<1>;
-v028347a0_0 .net *"_s0", 0 0, L_02835158;  1 drivers
-v02834220_0 .net *"_s2", 0 0, L_02834e88;  1 drivers
-o02849074 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
-; Elide local net with no drivers, v02834640_0 name=_s4
-o0284908c .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
-; Elide local net with no drivers, v02834538_0 name=_s8
-v028345e8_0 .var "aRegister", 15 0;
-v028347f8_0 .net "clock", 0 0, v028788c8_0;  alias, 1 drivers
-v028340c0_0 .net8 "data", 15 0, RS_028490bc;  alias, 2 drivers
-v02834278_0 .net8 "memory", 15 0, RS_028490d4;  alias, 2 drivers
-v028342d0_0 .net "nOutput", 0 0, v02878608_0;  alias, 1 drivers
-v02834118_0 .net "nWrite", 0 0, v02878190_0;  alias, 1 drivers
-L_028787c0 .functor MUXZ 16, o02849074, v028345e8_0, L_02834e88, C4<>;
-L_02878ad8 .functor MUXZ 16, v028345e8_0, o0284908c, v02878190_0, C4<>;
-S_010ec2e8 .scope module, "tSRAM" "SRAM" 2 9, 3 21 0, S_0283a338;
+L_028da4c8 .functor NOT 1, v028cfcf8_0, C4<0>, C4<0>, C4<0>;
+L_028da3f0 .functor AND 1, L_028da4c8, v028cff60_0, C4<1>, C4<1>;
+v028c2a78_0 .net *"_s0", 0 0, L_028da4c8;  1 drivers
+v028c2ad0_0 .net *"_s2", 0 0, L_028da3f0;  1 drivers
+o028dc084 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+; Elide local net with no drivers, v028c2868_0 name=_s4
+o028dc09c .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+; Elide local net with no drivers, v028c2b80_0 name=_s8
+v028c2a20_0 .var "aRegister", 15 0;
+v028c29c8_0 .net "clock", 0 0, v028d02d0_0;  alias, 1 drivers
+v028c2bd8_0 .net8 "data", 15 0, RS_028dc0cc;  alias, 2 drivers
+v028c24a0_0 .net8 "memory", 15 0, RS_028dc0e4;  alias, 2 drivers
+v028c24f8_0 .net "nOutput", 0 0, v028cfcf8_0;  alias, 1 drivers
+v028c2810_0 .net "nWrite", 0 0, v028cff60_0;  alias, 1 drivers
+L_028cfe00 .functor MUXZ 16, o028dc084, v028c2a20_0, L_028da3f0, C4<>;
+L_028cfeb0 .functor MUXZ 16, v028c2a20_0, o028dc09c, v028cff60_0, C4<>;
+S_000dc6b8 .scope module, "tSRAM" "SRAM" 2 9, 3 21 0, S_028c95a8;
  .timescale 0 0;
     .port_info 0 /INOUT 16 "data"
     .port_info 1 /INPUT 11 "addr"
     .port_info 2 /INPUT 1 "nWrite"
     .port_info 3 /INPUT 1 "clock"
-v02834328_0 .net *"_s0", 15 0, L_02878450;  1 drivers
-v028343d8_0 .net *"_s2", 12 0, L_02878768;  1 drivers
-L_02879010 .functor BUFT 1, C4<00>, C4<0>, C4<0>, C4<0>;
-v02834430_0 .net *"_s5", 1 0, L_02879010;  1 drivers
-o028491dc .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
-; Elide local net with no drivers, v02834488_0 name=_s6
-v028344e0_0 .net "addr", 10 0, v028341c8_0;  alias, 1 drivers
-v02834698_0 .net "clock", 0 0, v028788c8_0;  alias, 1 drivers
-v028780e0_0 .net8 "data", 15 0, RS_028490d4;  alias, 2 drivers
-v02878030 .array "memory", 0 2047, 15 0;
-v02878a80_0 .net "nWrite", 0 0, v02878190_0;  alias, 1 drivers
-L_02878450 .array/port v02878030, L_02878768;
-L_02878768 .concat [ 11 2 0 0], v028341c8_0, L_02879010;
-L_028784a8 .functor MUXZ 16, o028491dc, L_02878450, v02878190_0, C4<>;
-S_010ec3b8 .scope module, "test" "tester" 2 12, 2 23 0, S_0283a338;
+v028c2760_0 .net *"_s0", 15 0, L_028cfd50;  1 drivers
+v028c2600_0 .net *"_s2", 12 0, L_028cfe58;  1 drivers
+L_02909010 .functor BUFT 1, C4<00>, C4<0>, C4<0>, C4<0>;
+v028c2708_0 .net *"_s5", 1 0, L_02909010;  1 drivers
+o028dc1ec .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+; Elide local net with no drivers, v028c26b0_0 name=_s6
+v028c28c0_0 .net "addr", 10 0, v028c2b28_0;  alias, 1 drivers
+v028c2970_0 .net "clock", 0 0, v028d02d0_0;  alias, 1 drivers
+v028d00c0_0 .net8 "data", 15 0, RS_028dc0e4;  alias, 2 drivers
+v028cfda8 .array "memory", 0 2047, 15 0;
+v028d0068_0 .net "nWrite", 0 0, v028cff60_0;  alias, 1 drivers
+L_028cfd50 .array/port v028cfda8, L_028cfe58;
+L_028cfe58 .concat [ 11 2 0 0], v028c2b28_0, L_02909010;
+L_028cf880 .functor MUXZ 16, o028dc1ec, L_028cfd50, v028cff60_0, C4<>;
+S_000dc788 .scope module, "test" "tester" 2 12, 2 23 0, S_028c95a8;
  .timescale 0 0;
     .port_info 0 /OUTPUT 1 "clock"
     .port_info 1 /INOUT 16 "data"
@@ -78,191 +78,245 @@ S_010ec3b8 .scope module, "test" "tester" 2 12, 2 23 0, S_0283a338;
     .port_info 4 /OUTPUT 1 "nWrite"
     .port_info 5 /INPUT 16 "mdrSRAM"
     .port_info 6 /INPUT 11 "sramAddr"
-P_0283d518 .param/l "delay" 0 2 35, +C4<00000000000000000000000011001000>;
-o02849254 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
-; Elide local net with no drivers, v02878298_0 name=_s0
-v02878088_0 .var "addr", 10 0;
-v028788c8_0 .var "clock", 0 0;
-v028785b0_0 .net8 "data", 15 0, RS_028490bc;  alias, 2 drivers
-v028782f0_0 .var/i "i", 31 0;
-v02878138_0 .net8 "mdrSRAM", 15 0, RS_028490d4;  alias, 2 drivers
-v02878608_0 .var "nOutput", 0 0;
-v02878190_0 .var "nWrite", 0 0;
-v02878818_0 .net "sramAddr", 10 0, v028341c8_0;  alias, 1 drivers
-v02878710_0 .var "writeData", 15 0;
-L_02878500 .functor MUXZ 16, o02849254, v02878710_0, v02878608_0, C4<>;
-    .scope S_010ec2e8;
+P_028c8e48 .param/l "delay" 0 2 35, +C4<00000000000000000000000011001000>;
+o028dc264 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+; Elide local net with no drivers, v028cf8d8_0 name=_s0
+v028d0220_0 .var "addr", 10 0;
+v028d02d0_0 .var "clock", 0 0;
+v028cf828_0 .net8 "data", 15 0, RS_028dc0cc;  alias, 2 drivers
+v028d0118_0 .var/i "i", 31 0;
+v028cfb98_0 .net8 "mdrSRAM", 15 0, RS_028dc0e4;  alias, 2 drivers
+v028cfcf8_0 .var "nOutput", 0 0;
+v028cff60_0 .var "nWrite", 0 0;
+v028cfb40_0 .net "sramAddr", 10 0, v028c2b28_0;  alias, 1 drivers
+v028cfbf0_0 .var "writeData", 15 0;
+L_028cfa90 .functor MUXZ 16, o028dc264, v028cfbf0_0, v028cfcf8_0, C4<>;
+    .scope S_000dc6b8;
 T_0 ;
-    %wait E_0283d4f0;
-    %load/vec4 v02878a80_0;
+    %wait E_028c8e98;
+    %load/vec4 v028d0068_0;
     %inv;
     %flag_set/vec4 8;
     %jmp/0xz  T_0.0, 8;
-    %load/vec4 v028780e0_0;
-    %load/vec4 v028344e0_0;
+    %load/vec4 v028d00c0_0;
+    %load/vec4 v028c28c0_0;
     %pad/u 13;
     %ix/vec4 3;
     %ix/load 4, 0, 0; Constant delay
-    %assign/vec4/a/d v02878030, 0, 4;
+    %assign/vec4/a/d v028cfda8, 0, 4;
 T_0.0 ;
     %jmp T_0;
     .thread T_0;
-    .scope S_010ee298;
+    .scope S_000de668;
 T_1 ;
-    %wait E_0283d4f0;
-    %load/vec4 v02834118_0;
+    %wait E_028c8e98;
+    %load/vec4 v028c2810_0;
     %flag_set/vec4 8;
     %jmp/0xz  T_1.0, 8;
-    %load/vec4 v02834278_0;
-    %assign/vec4 v028345e8_0, 0;
+    %load/vec4 v028c24a0_0;
+    %assign/vec4 v028c2a20_0, 0;
     %jmp T_1.1;
 T_1.0 ;
-    %load/vec4 v028340c0_0;
-    %assign/vec4 v028345e8_0, 0;
+    %load/vec4 v028c2bd8_0;
+    %assign/vec4 v028c2a20_0, 0;
 T_1.1 ;
     %jmp T_1;
     .thread T_1;
-    .scope S_010ee1c8;
+    .scope S_000de598;
 T_2 ;
-    %wait E_0283d4f0;
-    %load/vec4 v02834170_0;
-    %assign/vec4 v028341c8_0, 0;
+    %wait E_028c8e98;
+    %load/vec4 v028c27b8_0;
+    %assign/vec4 v028c2b28_0, 0;
     %jmp T_2;
     .thread T_2;
-    .scope S_010ec3b8;
+    .scope S_000dc788;
 T_3 ;
     %vpi_call 2 39 "$display", "\011\011 clock \011 nOutput \011 nWrite \011 data \011 mdrSRAM \011 addr \011 sramAddr \011 time" {0 0 0};
-    %vpi_call 2 40 "$monitor", "\011\011 %b \011 %b \011 %b \011 %b \011 %b \011 %b \011 %b \011 %g", v028788c8_0, v02878608_0, v02878190_0, v028785b0_0, v02878138_0, v02878088_0, v02878818_0, $time {0 0 0};
+    %vpi_call 2 40 "$monitor", "\011\011 %b \011 %b \011 %b \011 %b \011 %b \011 %b \011 %b \011 %g", v028d02d0_0, v028cfcf8_0, v028cff60_0, v028cf828_0, v028cfb98_0, v028d0220_0, v028cfb40_0, $time {0 0 0};
     %end;
     .thread T_3;
-    .scope S_010ec3b8;
+    .scope S_000dc788;
 T_4 ;
     %pushi/vec4 0, 0, 1;
-    %store/vec4 v028788c8_0, 0, 1;
+    %store/vec4 v028d02d0_0, 0, 1;
     %pushi/vec4 0, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
 T_4.0 ;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %cmpi/s 4, 0, 32;
     %jmp/0xz T_4.1, 5;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
-    %load/vec4 v028782f0_0;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
     %pushi/vec4 1, 0, 32;
     %add;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
     %jmp T_4.0;
 T_4.1 ;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
+    %store/vec4 v028d02d0_0, 0, 1;
     %pushi/vec4 1, 0, 1;
-    %store/vec4 v02878608_0, 0, 1;
+    %store/vec4 v028cfcf8_0, 0, 1;
     %pushi/vec4 0, 0, 1;
-    %store/vec4 v02878190_0, 0, 1;
+    %store/vec4 v028cff60_0, 0, 1;
     %delay 1, 0;
     %pushi/vec4 0, 0, 11;
-    %store/vec4 v02878088_0, 0, 11;
+    %store/vec4 v028d0220_0, 0, 11;
     %delay 1, 0;
     %pushi/vec4 0, 0, 16;
-    %store/vec4 v02878710_0, 0, 16;
+    %store/vec4 v028cfbf0_0, 0, 16;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
+    %store/vec4 v028d02d0_0, 0, 1;
     %pushi/vec4 0, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
 T_4.2 ;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %cmpi/s 128, 0, 32;
     %jmp/0xz T_4.3, 5;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
+    %store/vec4 v028d02d0_0, 0, 1;
     %delay 1, 0;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %pad/s 16;
-    %store/vec4 v02878710_0, 0, 16;
+    %store/vec4 v028cfbf0_0, 0, 16;
     %delay 1, 0;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %pad/s 11;
-    %store/vec4 v02878088_0, 0, 11;
+    %store/vec4 v028d0220_0, 0, 11;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
-    %load/vec4 v028782f0_0;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
     %addi 1, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
     %jmp T_4.2;
 T_4.3 ;
     %pushi/vec4 0, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
 T_4.4 ;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %cmpi/s 4, 0, 32;
     %jmp/0xz T_4.5, 5;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
-    %load/vec4 v028782f0_0;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
     %addi 1, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
     %jmp T_4.4;
 T_4.5 ;
     %pushi/vec4 0, 0, 1;
-    %store/vec4 v02878608_0, 0, 1;
+    %store/vec4 v028cfcf8_0, 0, 1;
     %pushi/vec4 1, 0, 1;
-    %store/vec4 v02878190_0, 0, 1;
+    %store/vec4 v028cff60_0, 0, 1;
     %pushi/vec4 0, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
 T_4.6 ;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %cmpi/s 128, 0, 32;
     %jmp/0xz T_4.7, 5;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
+    %store/vec4 v028d02d0_0, 0, 1;
     %delay 1, 0;
-    %load/vec4 v028782f0_0;
+    %load/vec4 v028d0118_0;
     %pad/s 11;
-    %store/vec4 v02878088_0, 0, 11;
+    %store/vec4 v028d0220_0, 0, 11;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
-    %load/vec4 v028782f0_0;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
     %addi 1, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
     %jmp T_4.6;
 T_4.7 ;
     %pushi/vec4 0, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
 T_4.8 ;
-    %load/vec4 v028782f0_0;
-    %cmpi/s 16, 0, 32;
+    %load/vec4 v028d0118_0;
+    %cmpi/s 8, 0, 32;
     %jmp/0xz T_4.9, 5;
     %delay 200, 0;
-    %load/vec4 v028788c8_0;
+    %load/vec4 v028d02d0_0;
     %inv;
-    %store/vec4 v028788c8_0, 0, 1;
-    %load/vec4 v028782f0_0;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
     %addi 1, 0, 32;
-    %store/vec4 v028782f0_0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
     %jmp T_4.8;
 T_4.9 ;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v028cfcf8_0, 0, 1;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
+T_4.10 ;
+    %load/vec4 v028d0118_0;
+    %cmpi/s 8, 0, 32;
+    %jmp/0xz T_4.11, 5;
+    %delay 200, 0;
+    %load/vec4 v028d02d0_0;
+    %inv;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
+    %addi 1, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
+    %jmp T_4.10;
+T_4.11 ;
+    %delay 1, 0;
+    %pushi/vec4 5, 0, 10;
+    %ix/load 4, 1, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4 v028d0220_0, 4, 10;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
+T_4.12 ;
+    %load/vec4 v028d0118_0;
+    %cmpi/s 8, 0, 32;
+    %jmp/0xz T_4.13, 5;
+    %delay 200, 0;
+    %load/vec4 v028d02d0_0;
+    %inv;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
+    %addi 1, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
+    %jmp T_4.12;
+T_4.13 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v028cfcf8_0, 0, 1;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
+T_4.14 ;
+    %load/vec4 v028d0118_0;
+    %cmpi/s 8, 0, 32;
+    %jmp/0xz T_4.15, 5;
+    %delay 200, 0;
+    %load/vec4 v028d02d0_0;
+    %inv;
+    %store/vec4 v028d02d0_0, 0, 1;
+    %load/vec4 v028d0118_0;
+    %addi 1, 0, 32;
+    %store/vec4 v028d0118_0, 0, 32;
+    %jmp T_4.14;
+T_4.15 ;
     %end;
     .thread T_4;
-    .scope S_0283a338;
+    .scope S_028c95a8;
 T_5 ;
     %vpi_call 2 16 "$dumpfile", "SRAM.vcd" {0 0 0};
-    %vpi_call 2 17 "$dumpvars", 32'sb00000000000000000000000000000001, S_010ec3b8 {0 0 0};
+    %vpi_call 2 17 "$dumpvars", 32'sb00000000000000000000000000000001, S_000dc788 {0 0 0};
     %end;
     .thread T_5;
 # The file index is used to find the file name in the following table.

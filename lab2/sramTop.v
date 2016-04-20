@@ -74,7 +74,20 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 			#1 addr[10:0] = i;
 			#delay clock = ~clock;
 		end
-		for (i = 0; i < 16; i = i+1) begin
+		for (i = 0; i < 8; i = i+1) begin
+			#delay clock = ~clock;
+		end
+		// extra
+		nOutput = 1'b1;
+		for (i = 0; i < 8; i = i+1) begin
+			#delay clock = ~clock;
+		end
+		#1 addr[10:1] = 11'd5;
+		for (i = 0; i < 8; i = i+1) begin
+			#delay clock = ~clock;
+		end
+		nOutput = 1'b0;
+		for (i = 0; i < 8; i = i+1) begin
 			#delay clock = ~clock;
 		end
 	end
