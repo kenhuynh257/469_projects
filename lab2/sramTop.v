@@ -44,31 +44,34 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	initial
 	begin
 		clock = 1'b0;
+		for (i = 0; i < 4; i++) begin
+		#delay clock = ~clock;
+		end
+		#delay clock = ~clock;
 		nOutput = 1'b1;
 		nWrite = 1'b0;
-		addr[10:0] = 11'b0;
-		writeData[15:0] = 16'b0;
+		#1 addr[10:0] = 11'b0;
+		#1 writeData[15:0] = 16'b0;
+		#delay clock = ~clock;
 		// write
 		for(i = 0; i < 128; i = i + 1) begin
 			#delay clock = ~clock;
-			writeData[15:0] = i;
+			#1 writeData[15:0] = i; // small delay simulates propagation of information
 			#1 addr[10:0] = i;
 			#delay clock = ~clock;
 		end
 
 		// settle
-		for(i = 0; i < 16; i = i + 1) begin
+		for(i = 0; i < 4 ; i = i + 1) begin
 			#delay clock = ~clock;
+			
 		end
 		nOutput = 1'b0;
 		nWrite = 1'b1;
 		// read
 		for (i = 0; i < 128; i = i + 1) begin
-			
-			addr[10:0] = i;
-			nOutput = 1'b0;
-			nWrite = 1'b1;
 			#delay clock = ~clock;
+			#1 addr[10:0] = i;
 			#delay clock = ~clock;
 		end
 		for (i = 0; i < 16; i = i+1) begin

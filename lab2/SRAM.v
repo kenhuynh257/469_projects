@@ -63,7 +63,7 @@ module MDR(data, memory, nOutput, nWrite, clock);
 	
 	reg [15:0] aRegister; // the MDR
 	
-	assign data[15:0] = nOutput ? 16'bz : aRegister[15:0];
+	assign data[15:0] = (~nOutput && nWrite) ? aRegister[15:0] : 16'bz;
 	assign memory[15:0] = nWrite ? 16'bz : aRegister[15:0];
 	
 	always @(posedge clock)
