@@ -13,7 +13,7 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 	wire [10:0]sramAddr;
 	reg [2:0] ps, ns;
 	wire rst;
-	assign data[15:0] = (nWrite) ? writeData[15:0] : 16'bz;
+	assign data[15:0] = (nWrite) ? 16'bz : writeData[15:0];
 	
 	wire [31:0] divclk;
 	// clock division
