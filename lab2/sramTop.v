@@ -1,19 +1,35 @@
 `include "SRAM.v"
 
+// A complete SRAM for connecting to the General Register
+
+module memoryInterface(nMemOut, nMemWrite, memData, memAdd, clk);
+	inout [15:0] memData;
+	input [10:0] memAdd;
+	input nMemOut, nMemWrite, clk;
+	
+	wire [15:0] mdrSRAM;
+	wire [10:0] sramAddr;
+	
+	memory aSRAM(mdrSRAM, sramAddr, nMemWrite, clk);
+	MDR aMDR(memData, mdrSRAM, nMemOut, nMemWrite, clk);
+	MAR aMAR(sramAddr, memAdd, clk);
+	
+endmodule
+
 module sramTop();
 	wire nOutput, nWrite;
 	wire [15:0]data, mdrSRAM;
 	wire [10:0]sramAddr, addr;
 	wire clock;
 	
-	SRAM tSRAM(mdrSRAM, sramAddr, nWrite, clock);
+	memory tSRAM(mdrSRAM, sramAddr, nWrite, clock);
 	MDR tMDR(data, mdrSRAM, nOutput, nWrite, clock);
 	MAR tMAR(sramAddr, addr, clock);
 	tester test(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	
 	initial 
 	begin
-		$dumpfile("SRAM.vcd");
+		$dumpfile("memory.vcd");
 		$dumpvars(1, test);
 	end
 	
@@ -44,7 +60,7 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	initial
 	begin
 		clock = 1'b0;
-		for (i = 0; i < 4; i++) begin
+		for (i = 0; i < 4; i=i+1) begin
 		#delay clock = ~clock;
 		end
 		#delay clock = ~clock;

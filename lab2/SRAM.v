@@ -1,5 +1,5 @@
 
-// Module: SRAM
+// Module: memory
 // Authors: Maggie McCarthy, Hung Huynh, David Goniodsky
 // Date Written: 4/17/2016
 
@@ -18,19 +18,19 @@
 // 2048x16 bit memory that can be read or written to. 'addr' selects
 // which of the 2048 words is to be written/read, and then either that
 // word is read by the MDR or the word in the MDR is written to that address.
-module SRAM(data, addr, nWrite, clock);
+module memory(data, addr, nWrite, clock);
 	inout [15:0] data;
 	input [10:0] addr;
 	input nWrite, clock;
 	
-	reg [15:0] memory [2047:0];
+	reg [15:0] memReg [2047:0];
 	
-	assign data[15:0] = nWrite ? memory[addr[10:0]][15:0] : 16'bz;
+	assign data[15:0] = nWrite ? memReg[addr[10:0]][15:0] : 16'bz;
 	
 	always @(posedge clock)
 	begin
 	if (~nWrite)
-		memory[addr[10:0]][15:0] <= data[15:0];
+		memReg[addr[10:0]][15:0] <= data[15:0];
 	end
 	
 endmodule
