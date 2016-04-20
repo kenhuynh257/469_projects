@@ -50,28 +50,23 @@ endmodule
 
 module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, rst);
 	inout [15:0] data;
-	output reg clock, nOutput, nWrite;
+	output reg nOutput, nWrite;
 	output reg [10:0] addr;
 	input [15:0] mdrSRAM;
 	input[10:0] sramAddr;
 	reg [15:0] writeData;
-	input rst;
+	input clock, rst;
 	assign data[15:0] = nOutput ? writeData[15:0] : 16'bz;
 	
-	// write numbers 127-0 into memory locations 0-127
-	initial
-	begin
-		writeData[15:0] = 16'd127;
-		addr[10:0] = 11'b0;
-		nOutput = 1'b1;
-		nWrite = 1'b0;
-	end
+	
 	
 	always @(posedge clock)
 	begin
-		if (rst == 1'b0) begin
+		if (rst == 1'b0) begin // write numbers 127-0 into memory locations 0-127
 			writeData[15:0] <= 16'd127;
 			addr[10:0] <= 11'b0;
+			nOutput = 1'b1;
+			nWrite = 1'b0;
 		end else if (writeData > 0) begin
 			writeData <= writeData - 1'b1; // count down
 			addr <= addr + 1'b1;
