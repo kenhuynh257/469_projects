@@ -7,11 +7,6 @@ Last modified: 4/13/2016
 TODO:
  - Test C code
  - **SRAM:**
- - Base Code [must include MAR and MDR]
- - Program to FPGA
- - Signal Tap
- - **SRAM Interface:**
- - Base Code
  - Program to FPGA
  - Signal Tap
  - **Register File:**
@@ -23,4 +18,4 @@ TODO:
  - Program to FPGA
  - Signal Tap
  - **Report**
- - 
+ - Screenshots (C code included)
