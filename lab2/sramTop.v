@@ -1,4 +1,3 @@
-`include "SRAM.v"
 
 // A complete SRAM for connecting to the General Register
 
@@ -10,7 +9,7 @@ module memoryInterface(nMemOut, nMemWrite, memData, memAdd, clk);
 	wire [15:0] mdrSRAM;
 	wire [10:0] sramAddr;
 	
-	memory aSRAM(mdrSRAM, sramAddr, nMemWrite, clk);
+	SRAM aSRAM(mdrSRAM, sramAddr, nMemWrite, clk);
 	MDR aMDR(memData, mdrSRAM, nMemOut, nMemWrite, clk);
 	MAR aMAR(sramAddr, memAdd, clk);
 	
@@ -22,7 +21,7 @@ module sramTop();
 	wire [10:0]sramAddr, addr;
 	wire clock;
 	
-	memory tSRAM(mdrSRAM, sramAddr, nWrite, clock);
+	SRAM tSRAM(mdrSRAM, sramAddr, nWrite, clock);
 	MDR tMDR(data, mdrSRAM, nOutput, nWrite, clock);
 	MAR tMAR(sramAddr, addr, clock);
 	tester test(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);

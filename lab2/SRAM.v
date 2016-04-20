@@ -18,7 +18,7 @@
 // 2048x16 bit memory that can be read or written to. 'addr' selects
 // which of the 2048 words is to be written/read, and then either that
 // word is read by the MDR or the word in the MDR is written to that address.
-module memory(data, addr, nWrite, clock);
+module SRAM(data, addr, nWrite, clock);
 	inout [15:0] data;
 	input [10:0] addr;
 	input nWrite, clock;
