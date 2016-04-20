@@ -73,26 +73,47 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 	mux32 mb31(readOut_2[31], memory[31][31:0], readSel_2);
 	
 	wire [31:0] writeDec, enWriteDec;
-	reg [31:0] longWe;
 	decoder dec0(writeDec, writeSel); // decoding write select
 
-	and a0(enWriteDec[31:0], writeDec[31:0], longWe);
-
-	integer j;
-	always @ (we)
-	begin
-		for (j = 0; j < 0; j = j + 1)
-		begin
-			longWe[j] = we;
-		end
-	end
+	and a0 (enWriteDec[0],  writeDec[0],  we);
+	and a1 (enWriteDec[1],  writeDec[1],  we);
+	and a2 (enWriteDec[2],  writeDec[2],  we);
+	and a3 (enWriteDec[3],  writeDec[3],  we);
+	and a4 (enWriteDec[4],  writeDec[4],  we);
+	and a5 (enWriteDec[5],  writeDec[5],  we);
+	and a6 (enWriteDec[6],  writeDec[6],  we);
+	and a7 (enWriteDec[7],  writeDec[7],  we);
+	and a8 (enWriteDec[8],  writeDec[8],  we);
+	and a9 (enWriteDec[9],  writeDec[9],  we);
+	and a10(enWriteDec[10], writeDec[10], we);
+	and a11(enWriteDec[11], writeDec[11], we);
+	and a12(enWriteDec[12], writeDec[12], we);
+	and a13(enWriteDec[13], writeDec[13], we);
+	and a14(enWriteDec[14], writeDec[14], we);
+	and a15(enWriteDec[15], writeDec[15], we);
+	and a16(enWriteDec[16], writeDec[16], we);
+	and a17(enWriteDec[17], writeDec[17], we);
+	and a18(enWriteDec[18], writeDec[18], we);
+	and a19(enWriteDec[19], writeDec[19], we);
+	and a20(enWriteDec[20], writeDec[20], we);
+	and a21(enWriteDec[21], writeDec[21], we);
+	and a22(enWriteDec[22], writeDec[22], we);
+	and a23(enWriteDec[23], writeDec[23], we);
+	and a24(enWriteDec[24], writeDec[24], we);
+	and a25(enWriteDec[25], writeDec[25], we);
+	and a26(enWriteDec[26], writeDec[26], we);
+	and a27(enWriteDec[27], writeDec[27], we);
+	and a28(enWriteDec[28], writeDec[28], we);
+	and a29(enWriteDec[29], writeDec[29], we);
+	and a30(enWriteDec[30], writeDec[30], we);
+	and a31(enWriteDec[31], writeDec[31], we);
 	
 	integer k;
 	always @(posedge clock)
 	begin		
 		for (k = 0; k < 32; k = k + 1)
 		begin
-			if (longWe[k])
+			if (we)
 			begin
 				memory[k][31:0] <= data[31:0];
 			end
@@ -102,7 +123,7 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 endmodule
 
 module dFlipFlop(Q, Qbar, D, clock, reset);
-	output reg Q, Qbar;
+	output Q, Qbar;
 	input D, clock, reset;
 	
 	wire Dbar, s0, s1;
@@ -119,7 +140,7 @@ endmodule
 
 
 module decoder(decode, select);
-	output reg [31:0] decode;
+	output [31:0] decode;
 	input [4:0] select;
 
 	wire [4:0] nSelect;
@@ -167,7 +188,7 @@ endmodule
 
 
 module mux2(D0, in0, in1, sel0);
-	output reg D0;
+	output D0;
 	input  in0, in1;
 	input sel0;
 
@@ -182,37 +203,37 @@ endmodule
 
  
 module mux4(D0, in0, in1, in2, in3, sel0, sel1);
-	output reg D0;
+	output D0;
 	input in0, in1, in2, in3; 
 	input sel0, sel1;
 
 	wire q0, q1;
 
-	mux2_1 m0(q0, in0, in1, sel0);
-	mux2_1 m1(q1, in2, in3, sel0);
-	mux2_1 m (D0, q0, q1, sel1);
+	mux2 m0(q0, in0, in1, sel0);
+	mux2 m1(q1, in2, in3, sel0);
+	mux2 m (D0, q0, q1, sel1);
  
 endmodule
 
 
 module mux32 (D0, i, sel);
-	output reg D0;
+	output D0;
 	input [31:0] i ;
 	input[4:0] sel;
 
 	wire [9:0] v;
 
-	mux4_1 m0(v[0], i[0],  i[1],  i[2],  i[3],  sel[0], sel[1]);
-	mux4_1 m1(v[1], i[4],  i[5],  i[6],  i[7],  sel[0], sel[1]);
-	mux4_1 m2(v[2], i[8],  i[9],  i[10], i[11], sel[0], sel[1]);
-	mux4_1 m3(v[3], i[12], i[13], i[14], i[15], sel[0], sel[1]);
-	mux4_1 m4(v[4], i[16], i[17], i[18], i[19], sel[0], sel[1]);
-	mux4_1 m5(v[5], i[20], i[21], i[22], i[23], sel[0], sel[1]);
-	mux4_1 m6(v[6], i[24], i[25], i[26], i[27], sel[0], sel[1]);
-	mux4_1 m7(v[7], i[28], i[29], i[30], i[31], sel[0], sel[1]);
+	mux4 m0(v[0], i[0],  i[1],  i[2],  i[3],  sel[0], sel[1]);
+	mux4 m1(v[1], i[4],  i[5],  i[6],  i[7],  sel[0], sel[1]);
+	mux4 m2(v[2], i[8],  i[9],  i[10], i[11], sel[0], sel[1]);
+	mux4 m3(v[3], i[12], i[13], i[14], i[15], sel[0], sel[1]);
+	mux4 m4(v[4], i[16], i[17], i[18], i[19], sel[0], sel[1]);
+	mux4 m5(v[5], i[20], i[21], i[22], i[23], sel[0], sel[1]);
+	mux4 m6(v[6], i[24], i[25], i[26], i[27], sel[0], sel[1]);
+	mux4 m7(v[7], i[28], i[29], i[30], i[31], sel[0], sel[1]);
 
-	mux4_1 m8(v[8], v[0], v[1], v[2], v[3], sel[2], sel[3]);
-	mux4_1 m9(v[9], v[4], v[5], v[6], v[7], sel[2], sel[3]);
+	mux4 m8(v[8], v[0], v[1], v[2], v[3], sel[2], sel[3]);
+	mux4 m9(v[9], v[4], v[5], v[6], v[7], sel[2], sel[3]);
 
-	mux2_1 m10(D0, v[8], v[9], sel[4]);
+	mux2 m10(D0, v[8], v[9], sel[4]);
 endmodule
