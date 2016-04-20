@@ -49,47 +49,61 @@ module tester(clock , we, data, readSel_1, readSel_2, writeSel, readOut_1, readO
 	input [31:0] readOut_1,readOut_2;
 	
 	parameter Delay = 1;
-	integer i;
+	integer i, j;
 	
 	initial
 	begin 
-		$display("\t\t clock\t we \t data \t readSel_1 \t readSel_2 \t writeSel \t readOut_1\ t readOut_2 \t time");
-		$monitor("\t\t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %g", 
+		$display("\t\t clock\t we \t\t\t data \t\t\t readSel_1 \t readSel_2 \t writeSel \t\t readOut_1 \t\t\t\t readOut_2 \t\t\t time");
+		$monitor("\t\t %b \t %b \t %b \t %b \t\t %b \t\t %b \t\t %b \t %b \t %g", 
 				clock, we, data, readSel_1, readSel_2, writeSel, readOut_1, readOut_2 ,$time);			
 	end
 		
 	initial begin
 		clock = 1'b0;
-		we = 1'b0;
-		writeSel = 0;
+		we = 1'b1;
+		writeSel = 5'b00001;
 		data = 'h0xFFFF000F;
-		readSel_1 = 0;
-		readSel_2 = 0;
-		for(i = 1; i < 16; i++) begin
+		readSel_1 = 5'b0;
+		readSel_2 = 5'b0;
+		#Delay
+		clock = ~clock;
+		#Delay
+		clock = ~clock;
+		
+		for(i = 1; i < 16; i++) 
+		begin
 		 
 			#Delay 	clock = ~clock;
-					readSel_1 = i;
+					readSel_1 = i - 1;
 					readSel_2 = i;
-					data = data -1;
-					writeSel = writeSel+1;
+					data = data - 1;
+					writeSel = i + 1;
 			#Delay 	clock = ~clock;
 					
-					end
-			
+		end
+		
+		#Delay 	clock = ~clock;	
 		data = 'h0x0000FFF0;
-		readSel_1 = 17;
-		readSel_2 = 17;
-		for(i = 17; i < 32; i++) begin
+		writeSel = 5'b10001;
+		#Delay 	clock = ~clock;
+		
+		for(i = 17; i < 32; i++) 
+		begin
 		
 			#Delay 	clock = ~clock;
-					readSel_1 = i;
+					readSel_1 = i - 1;
 					readSel_2 = i;
-					data = data +1;
-					writeSel = writeSel+1;
+					data = data + 1;
+					writeSel = i + 1;
 					
 			#Delay 	clock = ~clock;		
-					end		
-		#Delay#Delay#Delay#Delay#Delay#Delay#Delay#Delay#Delay#Delay#Delay#Delay			
+		end
+		
+		for (j = 0; j < 10; j++)
+		begin
+			#Delay 	clock = ~clock;
+		end			
+		
 		$finish;
 	end
 

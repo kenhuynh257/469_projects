@@ -5,6 +5,8 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 	input we, clock;
 	
 	reg [31:0] memory [31:0]; //The structure that contains the data
+		
+	initial memory[0] = 31'b0;
 	
 	mux32 ma0(readOut_1, memory[0],
 						memory[1],
@@ -119,7 +121,6 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 				memory[k][31:0] <= data[31:0];
 			end			
 		end
-		
 		memory[0] <= 32'b0;
 	end
 	
