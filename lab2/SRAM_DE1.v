@@ -100,14 +100,26 @@ module SRAM_DE1(SW, CLOCK_50, LEDR, KEY);
 						addr[10:0] <= addr[10:0] + 1'b1;
 						writeData[15:0] <= writeData[15:0] - 1'b1;
 						end
-			// nothing happens in 010 state
-			3'b011: begin addr[10:0] <= 11'b0; end
-			3'b100: begin addr[10:0] <= addr[10:0] + 1'b1; end
-			// nothing happens in 101 state
+			3'b010: begin // nothing happens in 010 state
+						addr[10:0] <= addr[10:0];
+						writeData[15:0] <= writeData[15:0];
+					end
+			3'b011: begin
+					addr[10:0] <= 11'b0;
+					writeData[15:0] <= writeData[15:0];
+					end
+			3'b100: begin
+					addr[10:0] <= addr[10:0] + 1'b1;
+					writeData[15:0] <= writeData[15:0];
+					end
+			3'b101: begin // nothing happens in 101 state
+						addr[10:0] <= addr[10:0];
+						writeData[15:0] <= writeData[15:0];
+					end
 			default: begin 
 						addr[10:0] <= 11'b0;
 						writeData[15:0] <= 16'b10101;
-						end
+					end
 		endcase
 	end
 		
