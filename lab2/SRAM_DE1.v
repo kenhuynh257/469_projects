@@ -88,3 +88,4 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr, rst);
 			addr <= addr - 1'b1;
 		end
 	end
+endmodule
