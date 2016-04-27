@@ -1,7 +1,7 @@
-module adderRTL(sum, cout, overf, a, b, clock);
+module adderRTL(sum, cout, overf, zerof, a, b, clock);
   output [31:0] sum;
   output cout;
-  output overf;
+  output overf, zerof;
   input [31:0] a, b;
   input clock;
   
@@ -18,6 +18,7 @@ module adderRTL(sum, cout, overf, a, b, clock);
 
   assign cout = temp[31];
   assign overf = (temp[31] != temp[30]);
+  assign zerof = !overf && (sum == 0);
 
 endmodule
 
