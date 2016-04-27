@@ -5,7 +5,7 @@ module adder(sum, cout, overf, zerof, a, b, clock);
   input [31:0] a, b;
   input clock;
   
-  always @(posedge clock) 
+  always @(*) 
   begin
     {cout, sum} = a + b;
     overf = (a[0] == b[0]) && (a[0] != sum[0]);
