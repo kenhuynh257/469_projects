@@ -1,9 +1,8 @@
-module adderRTL(sum, cout, overf, zerof, a, b, clock);
+module adderRTL(sum, cout, overf, zerof, a, b);
   output [31:0] sum;
   output cout;
   output overf, zerof;
   input [31:0] a, b;
-  input clock;
   
   wire [31:0]temp;
   genvar i;
@@ -18,8 +17,39 @@ module adderRTL(sum, cout, overf, zerof, a, b, clock);
 
   assign cout = temp[31];
   assign overf = (temp[31] != temp[30]);
-  assign zerof = !overf && (sum == 0);
+  assign zerof = !overf && (sum == 32'b0);
 
+endmodule
+
+module subtractorRTL(diff, bout, overf, zerof, a, b);
+  output [31:0] diff;
+  output bout;
+  output overf, zerof;
+  input [31:0] a, b;
+
+  wire [31:0]temp;
+  genvar i;
+  
+  for (i = 0; i < 32; i = i + 1)
+  begin: subtractor
+	if (i == 0)
+		subtractor1 s0(diff[i], temp[i], a[i], b[i], 1'b0);
+	else
+		subtractor1 s1(diff[i], temp[i], a[i], b[i], temp[i - 1]);
+  end
+
+  assign bout = temp[31];
+  assign overf = (temp[31] != temp[30]);
+  assign zerof = !overf && (sum == 32'b0);
+  
+endmodule
+
+module subtractor1(diff, bout, a, b, bin);
+  output diff, bout;
+  input a, b, bin;
+  
+  assign diff = a ^ b ^ bin;
+  assign (~a && b) || (~bin && (a ^ b));
 endmodule
 
 module adder1(sum, cout, a, b, cin);
