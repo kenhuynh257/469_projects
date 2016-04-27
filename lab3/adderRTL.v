@@ -27,5 +27,5 @@ module adder1(sum, cout, a, b, cin);
 	input a, b, cin;
 	
 	assign sum = a ^ b ^ cin;
-	assign cout = (a & b) | (cin & (a ^ b));
+	assign cout = (a & b) || (cin & (a ^ b));
 endmodule
