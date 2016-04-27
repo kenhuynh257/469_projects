@@ -8,6 +8,6 @@ module adder(sum, cout, overf, a, b, clock);
   always @(posedge clock) 
   begin
     {cout, sum} = a + b;
-	overf = (a[0] == b[0]);
+    overf = (a[0] == b[0]) && (a[0] != sum[0]);
   end
 endmodule
