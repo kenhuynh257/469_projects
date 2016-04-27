@@ -17,7 +17,7 @@ module adderRTL(sum, cout, overf, a, b, clock);
   end
 
   assign cout = temp[31];
-  assign overf = (a == b);
+  assign overf = (temp[31] != temp[30]);
 
 endmodule
 
