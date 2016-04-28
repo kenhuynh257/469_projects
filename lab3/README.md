@@ -7,8 +7,8 @@
  - XOR
  - OR
  - AND
- - Set Less Than
- - Shift Left Logical
+ - ~~Set Less Than~~
+ - ~~Shift Left Logical~~
  - Top Level
 - **Dataflow**
  - ~~Adder~~
