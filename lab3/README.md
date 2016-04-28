@@ -18,10 +18,10 @@
  - AND
  - Set Less Than
  - Shift Left Logical
- - Top Level
+ - ~~Top Level~~
 - **Testing**
- - Adder
- - Subtractor
+ - ~~Adder~~
+ - ~~Subtractor~~
  - XOR
  - OR
  - AND
