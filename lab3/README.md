@@ -2,8 +2,8 @@
 
 ### ToDo:
  - *Behavioral*
- - ~Adder
- - ~Subtractor
+ - ~~Adder~~
+ - ~~Subtractor~~
  - XOR
  - OR
  - AND
@@ -11,8 +11,8 @@
  - Shift Left Logical
  - Top Level
  - *Dataflow*
- - ~Adder
- - ~Subtractor
+ - ~~Adder~~
+ - ~~Subtractor~~
  - XOR
  - OR
  - AND
