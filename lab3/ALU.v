@@ -1,23 +1,134 @@
-module ALU(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, basB, control, clock, reset);
+module ALU(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, busB, control, clock, reset);
 	output [31:0] dataOut;
 	output zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
-	input busA, busB;
+	input [31:0]busA, busB;
 	input [2:0] control;
 	input clock, reset;
 	
-	always @(posedge clock)
-	begin
-		case control
-		begin
-			000: //NOP
-			001: //ADD
-			010: //SUB
-			011: //AND
-			100: //OR
-			101: //XOR
-			110: //SLT
-			111: //SLL
-		end
+	wire [31:0] dataOut8 [7:0];
+	wire [7:0] zeroFlag8, overflowFlag8, carryoutFlag8, negativeFlag8;
+
+	// assign the NOP values
+	assign dataOut8[0] = 32'b0;
+	assign zeroFlag8[0] = 1'b0; // check with TA
+	assign overflowFlag8[0] = 1'b0;
+	assign carryoutFlag8[0] = 1'b0;
+	assign negativeFlag8[0] = 1'b0;
+	
+	//call all modules
+	adderRTL(dataOut8[1], carryoutFlag8[1], overflowFlag8[1], zeroFlag8[1], negativeFlag8[1], busA, busB);
+	subtractorRTL(dataOut8[2], carryoutFlag8[2], overflowFlag8[2], zeroFlag8[2], negativeFlag8[2], busA, busB);
+	andRTL(dataOut8[3], carryoutFlag8[3], overflowFlag8[3], zeroFlag8[3], negativeFlag8[3], busA, busB);
+	orRTL(dataOut8[4], carryoutFlag8[4], overflowFlag8[4], zeroFlag8[4], negativeFlag8[4], busA, busB);
+	xorRTL(dataOut8[5], carryoutFlag8[5], overflowFlag8[5], zeroFlag8[5], negativeFlag8[5], busA, busB);
+	compare(dataOut8[6], carryoutFlag8[6], overflowFlag8[6], zeroFlag8[6], negativeFlag8[6], busA, busB);
+	shift(dataOut8[7], carryoutFlag8[7], overflowFlag8[7], zeroFlag8[7], negativeFlag8[7], busA, busB);
+	
+	// Select between outputs
+	mux32_8(dataOut, dataOut8[0], dataOut8[1], dataOut8[2], dataOut8[3], dataOut8[4], dataOut8[5], dataOut8[6], dataOut8[7], control);
+	mux1_8(zeroFlag, zeroFlag8[0], zeroFlag8[1], zeroFlag8[2], zeroFlag8[3], zeroFlag8[4], zeroFlag8[5], zeroFlag8[6], zeroFlag8[7], control);
+	mux1_8(overflowFlag, overflowFlag8[0], overflowFlag8[1], overflowFlag8[2], overflowFlag8[3], overflowFlag8[4], overflowFlag8[5], overflowFlag8[6], overflowFlag8[7], control);
+	mux1_8(carryoutFlag, carryoutFlag8[0], carryoutFlag8[1], carryoutFlag8[2], carryoutFlag8[3], carryoutFlag8[4], carryoutFlag8[5], carryoutFlag8[6], carryoutFlag8[7], control);
+	mux1_8(negativeFlag, negativeFlag8[0], negativeFlag8[1], negativeFlag8[2], negativeFlag8[3], negativeFlag8[4], negativeFlag8[5], negativeFlag8[6], negativeFlag8[7], control);
+	
+endmodule
+
+
+module mux32_8 (D0, i0,
+					i1,
+					i2,
+					i3,
+					i4,
+					i5,
+					i6,
+					i7, sel);
+	output [31:0] D0;
+	input [31:0] i0, i1, i2, i3, i4, i5, i6, i7;
+	input[2:0] sel;
+
+	wire [31:0] v [1:0];
+
+	mux32_4 m0(v[0], i0,  i1,  i2,  i3,  sel[0], sel[1]);
+	mux32_4 m1(v[1], i4,  i5,  i6,  i7,  sel[0], sel[1]);
+
+	mux32_2 m10(D0, v[0], v[1], sel[2]);
+endmodule
+ 
+module mux32_4(D0, in0, in1, in2, in3, sel0, sel1);
+	output [31:0] D0;
+	input [31:0] in0, in1, in2, in3; 
+	input sel0, sel1;
+
+	wire [31:0] q0, q1;
+
+	mux32_2 m0(q0, in0, in1, sel0);
+	mux32_2 m1(q1, in2, in3, sel0);
+	mux32_2 m (D0, q0, q1, sel1);
+ 
+endmodule
+
+module mux32_2(D0, in0, in1, sel0);
+	output [31:0] D0;
+	input  [31:0] in0, in1;
+	input sel0;
+
+	wire nSel;
+	wire [31:0] q0, q1;
+
+	not(nSel, sel0);
+	
+	genvar i;
+	for (i = 0; i < 32; i = i + 1)
+	begin: ands
+		and(q0[i], in1[i], sel0);
+		and(q1[i], in0[i], nSel);
 	end
 	
+	genvar j;
+	for (j = 0; j < 32; j = j + 1)
+	begin: ors
+		or(D0[j], q0[j], q1[j]);
+	end
+endmodule
+
+module mux1_8 (D0, i, sel);
+	output D0;
+	input [7:0] i;
+	input[2:0] sel;
+
+	wire v [1:0];
+
+	mux1_4 m0(v[0], i[0],  i[1],  i[2],  i[3],  sel[0], sel[1]);
+	mux1_4 m1(v[1], i[4],  i[5],  i[6],  i[7],  sel[0], sel[1]);
+
+	mux1_2 m10(D0, v[0], v[1], sel[2]);
+endmodule
+ 
+module mux1_4(D0, in0, in1, in2, in3, sel0, sel1);
+	output D0;
+	input in0, in1, in2, in3; 
+	input sel0, sel1;
+
+	wire q0, q1;
+	
+	mux1_2 m0(q0, in0, in1, sel0);
+	mux1_2 m1(q1, in2, in3, sel0);
+	mux1_2 m (D0, q0, q1, sel1);
+ 
+endmodule
+
+module mux1_2(D0, in0, in1, sel0);
+	output D0;
+	input in0, in1;
+	input sel0;
+
+	wire nSel;
+	wire q0, q1;
+
+	not(nSel, sel0);
+	
+	and(q0, in1, sel0);
+	and(q1, in0, nSel);
+	or(D0, q0, q1);
+
 endmodule
