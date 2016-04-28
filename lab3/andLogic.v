@@ -11,8 +11,8 @@ module andLogic(a,b,out,control,clk);
 	
 	for(i=0; i<32; i++) begin
 		if (control == A) begin
-		 out[i] = a[i]*b[i];end
-		else begin out = 32'bx;end
+		 temp[i] = a[i]*b[i];end
+		else begin temp = 32'bx;end
 		
 		end
 	end
