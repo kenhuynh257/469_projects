@@ -40,7 +40,7 @@ module subtractorRTL(diff, bout, overf, zerof, a, b);
 
   assign bout = temp[31];
   assign overf = (temp[31] != temp[30]);
-  assign zerof = !overf && (sum == 32'b0);
+  assign zerof = !overf && (diff == 32'b0);
   
 endmodule
 
@@ -49,7 +49,7 @@ module subtractor1(diff, bout, a, b, bin);
   input a, b, bin;
   
   assign diff = a ^ b ^ bin;
-  assign (~a && b) || (~bin && (a ^ b));
+  assign bout = (~a && b) || (~bin && (a ^ b));
 endmodule
 
 module adder1(sum, cout, a, b, cin);
