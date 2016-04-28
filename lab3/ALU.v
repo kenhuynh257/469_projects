@@ -18,9 +18,9 @@ module ALU(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, bu
 	//call all modules
 	adderRTL(dataOut8[1], carryoutFlag8[1], overflowFlag8[1], zeroFlag8[1], negativeFlag8[1], busA, busB);
 	subtractorRTL(dataOut8[2], carryoutFlag8[2], overflowFlag8[2], zeroFlag8[2], negativeFlag8[2], busA, busB);
-	andRTL(dataOut8[3], carryoutFlag8[3], overflowFlag8[3], zeroFlag8[3], negativeFlag8[3], busA, busB);
-	orRTL(dataOut8[4], carryoutFlag8[4], overflowFlag8[4], zeroFlag8[4], negativeFlag8[4], busA, busB);
-	xorRTL(dataOut8[5], carryoutFlag8[5], overflowFlag8[5], zeroFlag8[5], negativeFlag8[5], busA, busB);
+	andRTL(busA, busB,dataOut8[3],zeroFlag8[3], negativeFlag8[3], overflowFlag8[3],carryoutFlag8[3] );
+	orRTL(busA, busB,dataOut8[4],zeroFlag8[4], negativeFlag8[4], overflowFlag8[4],carryoutFlag8[4] );
+	xorRTL(busA, busB,dataOut8[5],zeroFlag8[5], negativeFlag8[5], overflowFlag8[5],carryoutFlag8[5] );
 	compare(dataOut8[6], carryoutFlag8[6], overflowFlag8[6], zeroFlag8[6], negativeFlag8[6], busA, busB);
 	shift(dataOut8[7], carryoutFlag8[7], overflowFlag8[7], zeroFlag8[7], negativeFlag8[7], busA, busB);
 	
