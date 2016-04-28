@@ -1,7 +1,7 @@
 # Lab 3 : ALU
 
 ### ToDo:
- - *Behavioral*
+- **Behavioral**
  - ~~Adder~~
  - ~~Subtractor~~
  - XOR
@@ -10,7 +10,7 @@
  - Set Less Than
  - Shift Left Logical
  - Top Level
- - *Dataflow*
+- **Dataflow**
  - ~~Adder~~
  - ~~Subtractor~~
  - XOR
@@ -19,7 +19,7 @@
  - Set Less Than
  - Shift Left Logical
  - Top Level
-- *Testing*
+- **Testing**
  - Adder
  - Subtractor
  - XOR
