@@ -1,23 +1,17 @@
-module andLogic(a,b,out,control,clk);
-	input clk;
+module andLogic(a,b,out,zerof);
+	output zerof;
 	input  [31:0] a, b;
-	input  [2:0]control;
-	output reg [31:0] out;
-	reg [31:0]temp;
-
-	parameter A = 3'b011;
+	output  reg[31:0] out;
+	
 	integer i;
 	always @(*) begin
 	
 	for(i=0; i<32; i++) begin
-		if (control == A) begin
-		 temp[i] = a[i]*b[i];end
-		else begin temp = 32'bx;end
+		out[i] = a[i]*b[i];
 		
 		end
 	end
+	assign zerof = (out==0);
 	
 	
-		always @(posedge clk)
-		out = temp;
 endmodule
