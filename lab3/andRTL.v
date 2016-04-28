@@ -1,8 +1,8 @@
-module andRTL(a,b,out,zerof);
+module andRTL(a,b,out,zerof,negf,overf,carry);
 	input  [31:0] a, b;
 	output  [31:0] out;
-	output  zerof;
-
+	output  zerof,negf,overf,carry;
+	reg zerof;
 
 	genvar i;
 	 for (i = 0; i < 32; i = i + 1)
@@ -10,9 +10,10 @@ module andRTL(a,b,out,zerof);
 			and1 o(a[i],b[i],out[i]);
 		
 	end
-
 	assign zerof = (out ==  32'b0);
-	
+	assign negf = 0;
+	assign overf = 0;
+	assign carry = 0;
 endmodule
 
 
