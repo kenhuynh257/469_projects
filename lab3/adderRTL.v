@@ -1,7 +1,6 @@
 module adderRTL(sum, cout, overf, zerof, negf, a, b);
   output [31:0] sum;
-  output cout;
-  output overf, zerof, negf;
+  output cout, overf, zerof, negf;
   input [31:0] a, b;
   
   wire [31:0]temp;
@@ -22,10 +21,9 @@ module adderRTL(sum, cout, overf, zerof, negf, a, b);
 
 endmodule
 
-module subtractorRTL(diff, bout, overf, zerof, a, b);
+module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
   output [31:0] diff;
-  output bout;
-  output overf, zerof;
+  output bout, overf, zerof, negf;
   input [31:0] a, b;
 
   wire [31:0]temp;

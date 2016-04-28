@@ -18,9 +18,9 @@ module Testbench;
 	 wire [31:0] a, b, sum;
 	 wire clock, cout, overf, zerof;
 
-	subtractorRTL dut(sum, cout, overf, zerof, a, b);
+	adderRTL dut(sum, cout, overf, zerof, negf, a, b);
 	
-	tester test(a, b, clock, sum, cout, overf);
+	tester test(a, b, clock, sum, cout, overf, zerof, negf);
 	
 	initial begin
 			$dumpfile("adder.vcd");
@@ -40,21 +40,21 @@ Description:
 Author:
 Written On:
 */
-module tester(a, b, clock, sum, cout, overf);
+module tester(a, b, clock, sum, cout, overf, zerof, negf);
 	output reg clock;
 	output reg [31:0] a;
 	output reg [31:0] b;
 	input [31:0] sum;
-	input cout, overf, zerof;
+	input cout, overf, zerof, negf;
 	
 	parameter Delay = 1;
 	integer i, j;
 	
 	initial
 	begin 
-		$display("\t\t clock \t\t\t a \t\t\t\t\t b \t\t\t\t\t sum \t\t\t cout \t overf \t zerof \t time");
-		$monitor("\t\t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %g", 
-				clock, a, b, sum, cout, overf, zerof, $time);			
+		$display("\t\t clock \t\t\t a \t\t\t\t\t b \t\t\t\t\t sum \t\t\t cout \t overf \t zerof \t negf \t time");
+		$monitor("\t\t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %g", 
+				clock, a, b, sum, cout, overf, zerof, negf, $time);			
 	end
 		
 	initial begin
