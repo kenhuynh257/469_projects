@@ -19,22 +19,27 @@ assign enter = ~KEY[0]; // enter when KEY[0] is pressed.
 assign run = ~KEY[1];
 always_comb begin
 	if(enter==1) begin
-		control = SW[6:4];
-		if(SW[9]==1) display  = 1
+		
+		if) display  = 1
 		else if(SW[9:8]==0) busA = SW[3:0];
-		else  busb = SW[3:0];
+		else  busB = SW[3:0];
 	end
-	if(run=1) begin
+	if(run==1) begin
+		control = SW[6:4];
+		if(SW[9]==1) begin
 		HEX0= dis0; 
 		HEX1= dis1;
 		HEX2= dis2;
 		HEX3= dis3;
-	else begin 
+		end
+		
+		else begin 
 		HEX0= 1; 
 		HEX1= 1;
 		HEX2= 1;
 		HEX3= 1;
-	end
+		end
+		
 	end
 	
 	
