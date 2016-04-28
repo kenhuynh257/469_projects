@@ -1,7 +1,7 @@
-module orRTL(a,b,out,zerof);
+module xorRTL(a,b,out,zerof,negf,overf,carry);
 	input  [31:0] a, b;
 	output  [31:0] out;
-	output  zerof;
+	output  zerof,negf,overf,carry;
 
 
 	genvar i;
@@ -12,15 +12,15 @@ module orRTL(a,b,out,zerof);
 	end
 
 	assign zerof = (out == 0);
-	
+	assign negf = 0;
+	assign overf = 0;
+	assign carry = 0;
 endmodule
 
 
 module xor1(a,b,out);
-
 	input a,b;
 	output  out;
-	
 	assign out = a^b;
 	
 endmodule	
