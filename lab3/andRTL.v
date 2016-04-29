@@ -2,7 +2,7 @@ module andRTL(a,b,out,zerof,negf,overf,carry);
 	input  [31:0] a, b;
 	output  [31:0] out;
 	output  zerof,negf,overf,carry;
-	reg zerof;
+
 
 	genvar i;
 	 for (i = 0; i < 32; i = i + 1)
