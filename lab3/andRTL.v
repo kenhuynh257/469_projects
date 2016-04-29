@@ -20,7 +20,7 @@ endmodule
 module and1(a,b,out);
 
 	input a,b;
-	output  out,zerof;
+	output  out;
 	
 	assign out = a*b;
 
