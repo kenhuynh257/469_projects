@@ -6,6 +6,7 @@ module adderRTL(sum, cout, overf, zerof, negf, a, b);
   wire [31:0]temp;
   genvar i;
   
+  generate
   for (i = 0; i < 32; i = i + 1)
   begin: adder
 	if (i == 0)
@@ -13,6 +14,7 @@ module adderRTL(sum, cout, overf, zerof, negf, a, b);
 	else
 		adder1 a1(sum[i], temp[i], a[i], b[i], temp[i - 1]);
   end
+  endgenerate
 
   assign cout = temp[31];
   assign overf = (temp[31] != temp[30]);
@@ -29,6 +31,7 @@ module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
   wire [31:0]temp;
   genvar i;
   
+  generate
   for (i = 0; i < 32; i = i + 1)
   begin: subtractor
 	if (i == 0)
@@ -36,6 +39,7 @@ module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
 	else
 		subtractor1 s1(diff[i], temp[i], a[i], b[i], temp[i - 1]);
   end
+  endgenerate
 
   assign bout = temp[31];
   assign overf = (temp[31] != temp[30]);
