@@ -1,5 +1,5 @@
-module xorLogic(a,b,out,zerof);
-	output zerof;
+module xorLogic(out,zerof,negf,overf,carry,a,b);
+	output zerof,negf,overf,carry;
 	input  [31:0] a, b;
 	output  reg[31:0] out;
 	
@@ -12,6 +12,8 @@ module xorLogic(a,b,out,zerof);
 		end
 	end
 	assign zerof = (out==0);
-	
+	assign negf = 0;
+	assign overf = 0;
+	assign carry = 0;
 	
 endmodule
