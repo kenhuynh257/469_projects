@@ -20,23 +20,23 @@ assign run = ~KEY[1];
 always_ff (posedge clk[whichClock]) begin
 	if(enter==1) begin
 		if(SW[9]==1) begin
-		HEX0= dis0; 
-		HEX1= dis1;
-		HEX2= dis2;
-		HEX3= dis3;
+		HEX0<= dis0; 
+		HEX1<= dis1;
+		HEX2<= dis2;
+		HEX3<= dis3;
 		end
 		else begin
-		HEX0= 1; 
-		HEX1= 1;
-		HEX2= 1;
-		HEX3= 1;
-		if(SW[8]==0) busA = SW[3:0];
-		else busB = SW[3:0];
+		HEX0<= 1; 
+		HEX1<= 1;
+		HEX2<= 1;
+		HEX3<= 1;
+		if(SW[8]==0) busA <= SW[3:0];
+		else busB <= SW[3:0];
 		end
 	end
 	if(run==1) begin
-		control = SW[6:4];		
-	else control = 0;
+		control <= SW[6:4];		
+	else control <= 0;
 	end
 	
 end
