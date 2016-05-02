@@ -10,40 +10,40 @@ logic [31:0] clk;
 parameter whichClock = 25;
 clock_divider cdiv (CLOCK_50, clk);
 // Hook up FSM inputs and outputs.
-logic run, enter,z,v,c,n ;
+logic run, enter,z,o,c,n ;
 logic [31:0] busA, busB, out;
 logic [2:0] control;
 logic [6:0] dis0,dis1,dis2,dis3; 
 
 assign enter = ~KEY[0]; // enter when KEY[0] is pressed.
 assign run = ~KEY[1];
-always_comb begin
+always_ff (posedge clk[whichClock]) begin
 	if(enter==1) begin
-		
-		if) display  = 1
-		else if(SW[9:8]==0) busA = SW[3:0];
-		else  busB = SW[3:0];
-	end
-	if(run==1) begin
-		control = SW[6:4];
 		if(SW[9]==1) begin
 		HEX0= dis0; 
 		HEX1= dis1;
 		HEX2= dis2;
 		HEX3= dis3;
 		end
-		
-		else begin 
+		else begin
 		HEX0= 1; 
 		HEX1= 1;
 		HEX2= 1;
 		HEX3= 1;
+		if(SW[8]==0) busA = SW[3:0];
+		else busB = SW[3:0];
 		end
-		
+	end
+	if(run=1) begin
+		control = SW[6:4];		
+	else control = 0;
 	end
 	
-	
 end
+//call ALU module
+alu a1(out, z, o, c, n, busA, busB, control, clock, reset);
+
+//display the result 
 seg7 s0 (.in(out[3:0]),.leds(dis0));
 seg7 s1 (.in(out[7:4]),.leds(dis1));
 seg7 s2 (.in(out[11:8]),.leds(dis2));
