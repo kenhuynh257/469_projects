@@ -34,7 +34,7 @@ always_ff (posedge clk[whichClock]) begin
 		else busB = SW[3:0];
 		end
 	end
-	if(run=1) begin
+	if(run==1) begin
 		control = SW[6:4];		
 	else control = 0;
 	end
