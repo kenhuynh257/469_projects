@@ -8,7 +8,7 @@ input logic [9:0] SW;
 // Generate clk off of CLOCK_50, whichClock picks rate.
 logic [31:0] clk;
 parameter whichClock = 30;
-clock_divider cdiv (CLOCK_50, clk);
+//clock_divider cdiv (CLOCK_50, clk);
 // Hook up FSM inputs and outputs.
 logic run, enter,z,o,c,n ;
 logic [31:0] busA, busB, out;
@@ -22,12 +22,15 @@ initial begin
  HEX1= 7'b1111111;
  HEX2= 7'b1111111;
  HEX3= 7'b1111111;
+  busA  = 0;
+  busB = 0;
  end
 
+ 
 assign enter = ~KEY[0]; // enter when KEY[0] is pressed.
 assign run = ~KEY[1];
-assign busA [31:16] = 0;
-assign busB[31:16] = 0;
+
+
 always_ff @(posedge CLOCK_50) begin
     if(enter ==1 )begin
 	if (SW[9:8] == 2'b00) subbusA <= subbus;
@@ -35,25 +38,18 @@ always_ff @(posedge CLOCK_50) begin
 	end
 	if(run==1) begin
 		control <= SW[6:4];
+		busA[15:0] <= subbusA;
+	   busB[15:0] <= subbusB;
 		if(SW[9]==1) begin
 		HEX0<= dis0; 
 		HEX1<= dis1;
 		HEX2<= dis2;
 		HEX3<= dis3;
-		end
-		else begin
-		//HEX0<= 7'b1111111; 
-		//HEX1<= 7'b1111111;
-		//HEX2<= 7'b1111111;
-		//HEX3<= 7'b1111111;
-		if(SW[8]==0) busA[15:0] <= subbusA;
-		else busB[15:0] <= subbusB;
-		end
+		end		
 
 	end
 	end
 	
-
 //call ALU module
 alu a1(out, z, o, c, n, busA, busB, control);
 
@@ -63,24 +59,13 @@ seg7 s1 (.in(out[7:4]),.leds(dis1));
 seg7 s2 (.in(out[11:8]),.leds(dis2));
 seg7 s3 (.in(out[15:12]),.leds(dis3));
 //get input from SW
-fourHex f1 (CLOCK_50,enter,subbus);
-assign LEDR= { subbusA[4:0],subbusB[4:0]};
+fourHex f1 (CLOCK_50,SW[3:0],subbus);
+assign LEDR= { busA[4:0],busB[4:0]};
 
 endmodule
 
 
-
-
-module clock_divider (clock, divided_clocks);
-input logic clock;
-output logic [31:0] divided_clocks;
-initial
-divided_clocks = 0;
-always_ff @(posedge clock)
-divided_clocks = divided_clocks + 1;
-endmodule
-
-//hex value from SW
+//Change the input from switch into a binary number
 module fourHex (clk,  in, out);
 
 	input logic clk;
