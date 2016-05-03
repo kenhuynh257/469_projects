@@ -53,7 +53,7 @@ module subtractor1(diff, bout, a, b, bin);
   input a, b, bin;
   
   assign diff = a ^ b ^ bin;
-  assign bout = (~a && b) || (~bin && (a ^ b));
+  assign bout = (~a && b) || (bin && ~(a ^ b));
 endmodule
 
 module adder1(sum, cout, a, b, cin);
