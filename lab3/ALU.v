@@ -22,7 +22,7 @@ module alu(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, bu
 	orRTL orer(busA, busB,dataOut8[4],zeroFlag8[4], negativeFlag8[4], overflowFlag8[4],carryoutFlag8[4] );
 	xorRTL xorer(busA, busB,dataOut8[5],zeroFlag8[5], negativeFlag8[5], overflowFlag8[5],carryoutFlag8[5] );
 	compareRTL comparer(busA, busB,dataOut8[6][1:0], zeroFlag8[6], overflowFlag8[6], carryoutFlag8[6], negativeFlag8[6]);
-	shiftRTL shifter(busA, busB[1:0],dataOut8[7], zeroFlag8[6], overflowFlag8[6], carryoutFlag8[6], negativeFlag8[6]);
+	shiftRTL shifter(busA, busB[1:0],dataOut8[7], zeroFlag8[7], overflowFlag8[7], carryoutFlag8[7], negativeFlag8[7]);
 	
 	// Select between outputs
 	mux32_8 selDataOut(dataOut, dataOut8[0], dataOut8[1], dataOut8[2], dataOut8[3], dataOut8[4], dataOut8[5], dataOut8[6], dataOut8[7], control);
