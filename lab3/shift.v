@@ -4,7 +4,7 @@ module shiftTop();
 	wire [31:0]busA, busB;
 	wire [2:0] control;
 
-	shiftBehave dutShift(busA, busB[1:0], dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
+	shiftRTL dutShift(busA, busB[1:0], dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	tester testShift(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 
 	initial begin
@@ -32,14 +32,15 @@ module tester(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativ
 		busA = 32'b11110000111100001111000011110000;
 		busB = 32'b0;
 		#delay;
+		busB = 4;
+		#delay;
 		busB = 1;
 		#delay;
 		busB = 2;
 		#delay;
 		busB = 3;
 		#delay;
-		busB = 4;
-		#delay;
+
 	end
 endmodule
 

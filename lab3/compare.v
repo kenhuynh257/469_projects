@@ -3,7 +3,7 @@ module compareTop();
 	wire zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
 	wire [31:0]busA, busB;
 
-	compareBehave dut(busA, busB, dataOut[1:0], zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
+	compareRTL dut(busA, busB, dataOut[1:0], zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	tester testCompare(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	initial begin
 		$dumpfile("compare.vcd");

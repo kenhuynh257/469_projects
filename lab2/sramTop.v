@@ -1,5 +1,6 @@
 
 // A complete SRAM for connecting to the General Register
+`include "SRAM.v"
 
 module memoryInterface(nMemOut, nMemWrite, memData, memAdd, clk);
 	inout [15:0] memData;
