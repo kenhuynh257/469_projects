@@ -5,16 +5,13 @@ module shiftTop();
 	wire [2:0] control;
 
 	shiftRTL dutShift(busA, busB[1:0], dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
-	tester testShift(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
+	//tester testShift(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 
-	initial begin
-		$dumpfile("shift.vcd");
-		$dumpvars(1, testShift);
-	end
+
 endmodule
 
 
-
+/*
 module tester(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] dataOut;
 	input zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
@@ -43,7 +40,7 @@ module tester(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativ
 
 	end
 endmodule
-
+*/
  
 module shiftBehave(in, amount, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] in;

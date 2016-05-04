@@ -25,17 +25,13 @@ module sramTop();
 	SRAM tSRAM(mdrSRAM, sramAddr, nWrite, clock);
 	MDR tMDR(data, mdrSRAM, nOutput, nWrite, clock);
 	MAR tMAR(sramAddr, addr, clock);
-	tester test(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
+
 	
-	initial 
-	begin
-		$dumpfile("memory.vcd");
-		$dumpvars(1, test);
-	end
+
 	
 endmodule
 
-
+/*
 module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	inout [15:0] data;
 	output reg clock, nOutput, nWrite;
@@ -109,3 +105,4 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	end
 	
 endmodule
+*/

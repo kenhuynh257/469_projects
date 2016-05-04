@@ -24,12 +24,7 @@ module memoryRegandALU(clk);
 	wire rst, sramDecoder, regDataSel;
 	restOfComputer asus420DXO(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2);
 	
-// decoder on SRAM data output
-	assign instDecode = (sramDecoder) ? 0 : memData;
-	assign control = instDecode[2:0]; // connect decoder output to ALU control input
-	assign regDecode = (sramDecoder) ? memData : 0;
-// mux on general register data input
-	assign regDataIn = (regDataSel) ? regDecode : aluData;
+
 	
 endmodule
 
@@ -96,181 +91,181 @@ module restOfComputer(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel,
 	end
 	
 // output logic
-	always @(*) begin
+	always @(posedge clk) begin
 		case(ps)
 			8'h00: begin
-					nMemOut = 1;
-					nMemWrite = 0;
-					memData = 32'b0;
-					memAdd = 32'd1024;
-					rSel1 = 5'b0;
-					rSel2 = 5'b0;
-					writeSel = 0;
+					nMemOut <= 1;
+					nMemWrite <= 0;
+					memData <= 32'b0;
+					memAdd <= 32'd1024;
+					rSel1 <= 5'b0;
+					rSel2 <= 5'b0;
+					writeSel <= 0;
 					end
 			8'h01: begin
-					memData = memData + 1;
-					memAdd = memAdd + 1;
+					memData <= memData + 1;
+					memAdd <= memAdd + 1;
 					end
 			8'h02: begin
-					memAdd = 0;
-					memData = -16;
+					memAdd <= 0;
+					memData <= -16;
 					end
 			8'h03: begin
-					memAdd = memAdd + 1;
-					memData = memData + 1;
+					memAdd <= memAdd + 1;
+					memData <= memData + 1;
 					end
 			8'h04: begin
-					memAdd = 129;
-					memData = 'h7FFFFFFF;
+					memAdd <= 129;
+					memData <= 'h7FFFFFFF;
 					end
 			8'h05: begin
-					memAdd = 130;
-					memData = 'hFFFFFFFF;
+					memAdd <= 130;
+					memData <= 'hFFFFFFFF;
 					end
 			8'h06: begin
-					nMemOut = 0;
-					nMemWrite = 1;
-					memAdd = 11'b0;
-					sramDecoder = 1;
-					regDataSel = 1;
-					we = 1;
-					writeSel = 1;
+					nMemOut <= 0;
+					nMemWrite <= 1;
+					memAdd <= 11'b0;
+					sramDecoder <= 1;
+					regDataSel <= 1;
+					we <= 1;
+					writeSel <= 1;
 					end
 			8'h07: begin end
 			8'h08: begin
-					memAdd = 33;
-					writeSel = 2;					
+					memAdd <= 33;
+					writeSel <= 2;					
 					end
 			8'h09: begin end
 			8'h0A: begin
-					rSel1 = 1;
-					rSel2 = 2;
-					sramDecoder = 0;
-					regDataSel = 0;
-					writeSel = 16;
-					memAdd = 1;
+					rSel1 <= 1;
+					rSel2 <= 2;
+					sramDecoder <= 0;
+					regDataSel <= 0;
+					writeSel <= 16;
+					memAdd <= 1;
 					end
 			8'h0B: begin end
 			8'h0C: begin
-					memAdd = 17;
-					sramDecoder = 1;
-					regDataSel = 1;
-					writeSel = 3;
+					memAdd <= 17;
+					sramDecoder <= 1;
+					regDataSel <= 1;
+					writeSel <= 3;
 					end
 			8'h0D: begin end
 			8'h0E: begin
-					memAdd = 127;
-					writeSel = 4;
+					memAdd <= 127;
+					writeSel <= 4;
 					end
 					
 			8'h0F: begin end
 			8'h10: begin
-					rSel1 = 3;
-					rSel2 = 4;
-					sramDecoder = 0;
-					regDataSel = 0;
-					memAdd = 1;
-					writeSel = 17;
+					rSel1 <= 3;
+					rSel2 <= 4;
+					sramDecoder <= 0;
+					regDataSel <= 0;
+					memAdd <= 1;
+					writeSel <= 17;
 					end 
 			8'h11: begin end
 			8'h12: begin
-					memAdd= 130;
-					sramDecoder = 1;
-					regDataSel = 1;
-					writeSel = 5;
+					memAdd <= 130;
+					sramDecoder <= 1;
+					regDataSel <= 1;
+					writeSel <= 5;
 					end
 			8'h13: begin end
 			8'h14: begin
-					memAdd = 15;
-					writeSel = 5;
+					memAdd <= 15;
+					writeSel <= 5;
 					end
 			8'h15: begin end
 			8'h16: begin
-					rSel1 = 5;
-					rSel2 = 6;
-					sramDecoder = 0; 
-					memAdd = 2;
-					regDataSel = 0;
-					writeSel = 18;
+					rSel1 <= 5;
+					rSel2 <= 6;
+					sramDecoder <= 0; 
+					memAdd <= 2;
+					regDataSel <= 0;
+					writeSel <= 18;
 					end
 			8'h17: begin end
 			8'h18: begin
-					memAdd = 17;
-					sramDecoder = 1;
-					regDataSel = 1;
-					writeSel = 17;
+					memAdd <= 17;
+					sramDecoder <= 1;
+					regDataSel <= 1;
+					writeSel <= 17;
 					end
 			8'h19: begin end
 			8'h1A: begin
-					memAdd = memAdd + 1;
-					writeSel = writeSel + 1;
+					memAdd <= memAdd + 1;
+					writeSel <= writeSel + 1;
 					end
 			8'h1B: begin
-					rSel1 = 7;
-					rSel2 = 8;
-					sramDecoder = 0;
-					memAdd = 3;
-					regDataSel = 0;
-					writeSel = 19;
+					rSel1 <= 7;
+					rSel2 <= 8;
+					sramDecoder <= 0;
+					memAdd <= 3;
+					regDataSel <= 0;
+					writeSel <= 19;
 					end
 			8'h1C: begin
-					rSel1 = 8;
-					rSel2 = 9;
-					memAdd = 4;
-					writeSel = 20;
+					rSel1 <= 8;
+					rSel2 <= 9;
+					memAdd <= 4;
+					writeSel <= 20;
 					end
 			8'h1D: begin
-					rSel1 = 9;
-					rSel2 = 10;
-					memAdd = 5;
-					writeSel = 21;
+					rSel1 <= 9;
+					rSel2 <= 10;
+					memAdd <= 5;
+					writeSel <= 21;
 					end
 			8'h1E: begin
-					rSel1 = 10;
-					rSel2 = 11;
-					memAdd = 6;
-					writeSel = 22;
+					rSel1 <= 10;
+					rSel2 <= 11;
+					memAdd <= 6;
+					writeSel <= 22;
 					end
 			8'h1F: begin
-					rSel1 = 11;
-					rSel2 = 10;
-					memAdd = 6;
-					writeSel = 23;
+					rSel1 <= 11;
+					rSel2 <= 10;
+					memAdd <= 6;
+					writeSel <= 23;
 					end
 			8'h20: begin
-					rSel1 = 12;
-					rSel2 = 0;
-					memAdd = 7;
-					writeSel = 24;
+					rSel1 <= 12;
+					rSel2 <= 0;
+					memAdd <= 7;
+					writeSel <= 24;
 					end
 			8'h21: begin
-					rSel2 = 7;
-					memAdd = 7;
-					writeSel = 25;
+					rSel2 <= 7;
+					memAdd <= 7;
+					writeSel <= 25;
 					end
 			8'h22: begin
-					rSel2 = rSel2 + 1;
-					memAdd = 7;
-					writeSel = writeSel + 1;
+					rSel2 <= rSel2 + 1;
+					memAdd <= 7;
+					writeSel <= writeSel + 1;
 					end
 			8'h23: begin end
 			8'h24: begin
-					we = 0;
-					nMemOut = 1;
-					nMemWrite = 1;
-					rSel1 = 0;
-					rSel2 = 0;
+					we <= 0;
+					nMemOut <= 1;
+					nMemWrite <= 1;
+					rSel1 <= 0;
+					rSel2 <= 0;
 					end
 			default: begin
-						nMemOut = 1;
-						nMemWrite = 1;
-						memData = 'bx;
-						we = 0;
-						sramDecoder = 1'bx;
-						regDataSel = 'bx;
-						rSel1 = 0;
-						rSel2 = 0;
-						writeSel = 0;
+						nMemOut <= 1;
+						nMemWrite <= 1;
+						memData <= 'bx;
+						we <= 0;
+						sramDecoder <= 1'bx;
+						regDataSel <= 'bx;
+						rSel1 <= 0;
+						rSel2 <= 0;
+						writeSel <= 0;
 					end
 		endcase	
 	end

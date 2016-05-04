@@ -1,5 +1,7 @@
 `include "sramTop.v"
 `include "registerFile.v"
+`include "ALU.v"
+`include "ALUdemo.v"
 
 module ALUtestbench();
 	wire clk;
@@ -35,7 +37,8 @@ module ALUtestbench();
 	
 // build tester
 
-	tester moveClock(clk);
+	tester moveClock(clk, rst, memData, memAdd, nMemOut, nMemWrite, busA, busB, we, rSel1, rSel2, writeSel, regDataIn,
+ aluData, control, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, sramDecoder, regDataSel, regDecode);
 	initial 
 	begin
 		$dumpfile("alu.vcd");
@@ -49,7 +52,7 @@ module tester (clk, rst, memData, memAdd, nMemOut, nMemWrite, busA, busB, we, rS
 	input [15:0] memData;
 	input [10:0] memAdd;
 	input [31:0] busA, busB;
-	input we;
+	input we, nMemOut, nMemWrite;
 	input [4:0] rSel1, rSel2, writeSel;
 	input [31:0] regDataIn;
 	input [31:0] aluData;
@@ -60,15 +63,16 @@ module tester (clk, rst, memData, memAdd, nMemOut, nMemWrite, busA, busB, we, rS
 	
 	parameter delay = 1;
 	
-	initial 
-	begin 
-		$display("\t\t clock \t rst \t nWrite \t data \t mdrSRAM \t addr \t sramAddr \t time");
-		$monitor("\t\t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %g",
-					clock, nOutput, nWrite, data, mdrSRAM, addr, sramAddr, $time);			
-	end
 	
 	initial begin
-		clk = 1'b0;
+		rst = 0;
+		clk = 0;
+		for (i = 0; i < 2; i = i + 1) begin
+			#delay;
+			clk = ~clk;
+			rst = ~rst;
+		end
+
 		for (i = 0; i < 128; i = i + 1) begin
 			#delay;
 			clk = ~clk;

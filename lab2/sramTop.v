@@ -35,7 +35,7 @@ module sramTop();
 	
 endmodule
 
-
+/*
 module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	inout [15:0] data;
 	output reg clock, nOutput, nWrite;
@@ -109,3 +109,4 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	end
 	
 endmodule
+*/

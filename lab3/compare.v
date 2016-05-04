@@ -4,15 +4,11 @@ module compareTop();
 	wire [31:0]busA, busB;
 
 	compareRTL dut(busA, busB, dataOut[1:0], zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
-	tester testCompare(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
-	initial begin
-		$dumpfile("compare.vcd");
-		$dumpvars(1, testCompare);
-	end
+	//tester testCompare(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 
 endmodule
 
-
+/*
 module tester(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] dataOut;
 	input zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
@@ -38,7 +34,7 @@ module tester(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativ
 		#delay;
 	end
 endmodule
-
+*/
 
 module compareRTL(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] busA, busB;
