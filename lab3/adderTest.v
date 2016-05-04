@@ -6,7 +6,7 @@
 `include "adderRTL.v"
 
 /*
-dTestbench
+Testbench
 Inputs:
 Outputs:
 Description: 
@@ -59,8 +59,16 @@ module tester(a, b, clock, sum, cout, overf, zerof, negf);
 		
 	initial begin
 		clock  = 1'b0;
-		a = 32'b0;
+		a = 'h7FFFFFFF;
+		b = 'h00000001;
+#Delay		clock = ~clock;
+#Delay		clock = ~clock;
+		a = 32'b1;
 		b = 4294967295;
+#Delay		clock = ~clock;
+#Delay		clock = ~clock;
+		a = 'hFFFFFFFF;
+		b = 'hFFFFFFFF;
 #Delay		clock = ~clock;
 #Delay		clock = ~clock;
 		for (i = 0; i < 20; i = i + 1)

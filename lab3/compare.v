@@ -40,30 +40,40 @@ module tester(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativ
 endmodule
 
 
-module compareBehave(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
+module compareRTL(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] busA, busB;
-	output reg[1:0] dataOut;
+	output reg[31:0] dataOut;
 	output reg zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
 	
-	always @(*) begin
-		zeroFlag = (busA == 0 && busB == 0) ? 1'b1 : 1'b0;
-		overflowFlag = 1'b0;
-		carryoutFlag = 1'b0;
-		negativeFlag = 1'b0;
-		if (busA == busB) dataOut = 2'b0;
-		else if (busA > busB) dataOut = 2'b01;
-		else dataOut = 2'b10;
-	end
+	assign zeroFlag = 0;
+	assign overflowFlag = 0;
+	assign carryoutFlag = 0;
+	assign negativeFlag = 0;
+	assign dataOut = (a < b) ? 1 : 0;
 endmodule
 
-module compareRTL (busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
+/* module compareRTL (busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] busA, busB;
 	output [1:0] dataOut;
 	output zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
 	
-	assign zeroFlag = (busA == 0 && busB == 0) ? 1'b1 : 1'b0;
-	assign overflowFlag = 1'b0;
-	assign carryoutFlag = 1'b0;
-	assign negativeFlag = 1'b0;
-	assign dataOut = (busA == busB) ? 2'b0 : (busA > busB) ? 2'b01 : 2'b10;
-endmodule
+	genvar i;
+	
+	generate
+	for (i = 0; i < 32; i = i + 1)
+	begin: comparator
+		assign lessThan = 
+	end
+	
+	assign dataOut = (a[31] > b[31]) | ((a[31] == b[31]) & )
+	assign zeroFlag = 0;
+	assign overflowFlag = 0;
+	assign carryoutFlag = 0;
+	assign negativeFlag = 0;
+endmodule */
+
+/* module compare1(out, a, b);
+	output out;
+	input a, b;
+	assign out = (a < b) ? 1 : 0;
+endmodule */
