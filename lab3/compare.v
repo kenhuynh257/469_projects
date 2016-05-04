@@ -42,14 +42,14 @@ endmodule
 
 module compareRTL(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] busA, busB;
-	output reg[31:0] dataOut;
-	output reg zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
+	output [31:0] dataOut;
+	output  zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
 	
 	assign zeroFlag = 0;
 	assign overflowFlag = 0;
 	assign carryoutFlag = 0;
 	assign negativeFlag = 0;
-	assign dataOut = (a < b) ? 1 : 0;
+	assign dataOut = (busA < busB) ? 1 : 0;
 endmodule
 
 /* module compareRTL (busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
