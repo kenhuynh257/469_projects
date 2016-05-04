@@ -1,3 +1,10 @@
+`include "shift.v"
+`include "compare.v"
+`include "adderRTL.v"
+`include "andRTL.v"
+`include "orRTL.v"
+`include "xorRTL.v"
+
 module alu(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, busB, control);
 	output [31:0] dataOut;
 	output zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
