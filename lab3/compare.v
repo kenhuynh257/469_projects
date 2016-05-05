@@ -47,29 +47,3 @@ module compareRTL(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, neg
 	assign negativeFlag = 0;
 	assign dataOut = (busA < busB) ? 1 : 0;
 endmodule
-
-/* module compareRTL (busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
-	input [31:0] busA, busB;
-	output [1:0] dataOut;
-	output zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
-	
-	genvar i;
-	
-	generate
-	for (i = 0; i < 32; i = i + 1)
-	begin: comparator
-		assign lessThan = 
-	end
-	
-	assign dataOut = (a[31] > b[31]) | ((a[31] == b[31]) & )
-	assign zeroFlag = 0;
-	assign overflowFlag = 0;
-	assign carryoutFlag = 0;
-	assign negativeFlag = 0;
-endmodule */
-
-/* module compare1(out, a, b);
-	output out;
-	input a, b;
-	assign out = (a < b) ? 1 : 0;
-endmodule */
