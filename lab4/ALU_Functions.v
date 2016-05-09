@@ -18,8 +18,8 @@ module adderRTL(sum, cout, overf, zerof, negf, a, b);
 
 	assign cout = temp[31];
 	assign overf = (temp[31] != temp[30]);
-	assign zerof = !overf && (sum == 32'b0);
-	assign negf = sum[31];
+	assign zerof = !overf && ((sum == 0) && !cout);
+	assign negf = !overf && (cout || (!cout && sum[31]));
 endmodule
 
 module adder1(sum, cout, a, b, cin);
@@ -50,8 +50,8 @@ module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
 
 	assign bout = temp[31];
 	assign overf = (temp[31] != temp[30]);
-	assign zerof = !overf && (diff == 32'b0);
-	assign negf = diff[31];
+	assign zerof = !overf && ((diff == 0) && !bout);
+	assign negf = (bout || (!bout && diff[31]));
 endmodule
 
 module subtractor1(diff, bout, a, b, bin);
