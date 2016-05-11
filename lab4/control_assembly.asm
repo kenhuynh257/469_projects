@@ -13,3 +13,17 @@ else
 C = C << 5;
 *dPtr = 7;
 } 
+
+  .data
+A: .word 7
+B: .word 5
+C: .word 2
+D: .word 4
+  .text
+main:
+  li $t2 3
+  lw $t3 A
+  lw $t4 B
+  lw $t5 C
+  lw $t6 D
+  
