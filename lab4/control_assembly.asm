@@ -19,6 +19,7 @@ A: .word 7
 B: .word 5
 C: .word 2
 D: .word 4
+#assign pointer to D
   .text
 main:
   li $t2 3
@@ -26,4 +27,11 @@ main:
   lw $t4 B
   lw $t5 C
   lw $t6 D
-  
+  sub $t7 $t3 $t4
+  bgt $t7 $t2 if
+  sll $t6 $t6 3
+  sll $t6 $t6 2
+  #update D from the pointer
+if: 
+  #set c to six
+  sll $t5 $t5 2
