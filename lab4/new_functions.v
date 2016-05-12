@@ -21,9 +21,11 @@ module jump(nextAddr,currentAddr,target, pc, jump);
 	input[25:0] target;
 	input[31:0] pc;
 	input jump;
+	wire[31:0] pcPlus4;
 	
+	assign pcPlus4 = pc+4;
 	always@(*)
-	if(jump) nextAddr = {pc[31:28], target ,2'b0}; 
+	if(jump==2) nextAddr = {pcPlus4[31:28],, target ,2'b0}; 
 endmodule 
 
 //jump to an address specified register s
