@@ -25,15 +25,20 @@ module jump(nextAddr,currentAddr,target, pc, jump);
 	
 	assign pcPlus4 = pc+4;
 	always@(*)
-	if(jump==2) nextAddr = {pcPlus4[31:28],, target ,2'b0}; 
+	if(jump==2) nextAddr = {pcPlus4[31:28], target ,2'b0}; 
 endmodule 
 
 //jump to an address specified register s
 //PC = nPC; nPC = $s;
 //syntax: jr $s
-module jumpRegister();
+module jumpRegister(nextAddr,s);
+	output reg [31:0] nextAddr;
+	input[4:0] s;
+	
+	//decoder in registerfile
+	decoder d1(nextAddr,s);
 
-endmodule
+endmodule 
 
 //branches if the provided value s is greater than t by the specified offset
 //if $s > $t advance_pc (offset << 2)); else advance_pc (4);
