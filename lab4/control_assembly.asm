@@ -2,6 +2,7 @@
 # - Immediates?
 # - Pointers?
 # - Exit Status?
+# - Size of Instructions
 
 int A = 7;
 int B = 5;
