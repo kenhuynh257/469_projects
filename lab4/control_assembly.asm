@@ -1,3 +1,8 @@
+# Things to ask TA:
+# - Immediates?
+# - Pointers?
+# - Exit Status?
+
 int A = 7;
 int B = 5;
 int C = 2;
@@ -22,7 +27,6 @@ D: .word 4
 temp1: .word 3
 temp2: .word 6
 temp3: .word 7
-
 #assign pointer to D
   .text
 main:
