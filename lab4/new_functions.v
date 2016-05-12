@@ -31,12 +31,16 @@ endmodule
 //jump to an address specified register s
 //PC = nPC; nPC = $s;
 //syntax: jr $s
-module jumpRegister(nextAddr,s);
+module jumpRegister(nextAddr,s,jr);
 	output reg [31:0] nextAddr;
 	input[4:0] s;
-	
+	reg [31:0]tempnextAddr;
+	input jr;
 	//decoder in registerfile
-	decoder d1(nextAddr,s);
+	decoder d1(tempnextAddr,s);
+	
+	always@(*)
+	if(jr) nextAddr =  tempnextAddr;
 
 endmodule 
 
