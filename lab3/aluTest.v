@@ -42,7 +42,7 @@ module ALUtestbench();
 	initial 
 	begin
 		$dumpfile("alu.vcd");
-		$dumpvars(1, asus420DX);
+		$dumpvars(1, moveClock);
 	end
 endmodule
 
