@@ -3,6 +3,7 @@
 # - Pointers?
 # - Exit Status?
 # - Size of Instructions
+# - 32 bit SRAM
 
 int A = 7;
 int B = 5;
