@@ -6,7 +6,7 @@ module PC(pcout,pcin,clk, rst);
 	
 	always@(posedge clk) begin
 		if(rst) pcout <= 0;
-		else pcout <= pcin;
+		else pcout <= pcin+4;
 	end
 	
 endmodule
