@@ -26,13 +26,10 @@ A: .word 7
 B: .word 5
 C: .word 2
 D: .word 4
-temp1: .word 3
-temp2: .word 6
-temp3: .word 7
 #assign pointer to D
   .text
 main:
-  lw $t2 temp1
+  li $t2 3
   lw $t3 A
   lw $t4 B
   lw $t5 C
@@ -48,3 +45,4 @@ if:
   sll $t5 $t5 2
   j ext
 ext:
+  #loop
