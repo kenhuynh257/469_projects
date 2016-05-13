@@ -48,6 +48,43 @@ endmodule
 //branches if the provided value s is greater than t by the specified offset
 //if $s > $t advance_pc (offset << 2)); else advance_pc (4);
 //syntax: bgt $s, $t, offset
-module branchGreaterThan();
+module brachGreaterThan(nextAddr,s,t,offset,pc,bgt);
+	output[31:0] nextAddr;
+	input [4:0]s,t;
+	input [15:0]offset;0
+	input bgt;
+	input [31:0] pc;
+	reg neg;
+	
 
+	//find the bigger
+	subtractor5 sub1(neg,s,t);
+
+	
+	always@(*)begin
+	if (bgt) begin
+		if(!neg) nextAddr ={pc[31:18],offset[15],offset,2'b0};
+		else nextAddr =  pc;
+	end
+	end
+endmodule
+
+//subtract 5 bit
+module subtractor5( bout, a, b);
+  
+  output reg bout;
+  //output reg overf;
+  input [4:0] a, b;
+ 
+  wire [4:0] bnot;
+  reg [4:0] diff;
+  
+  assign bnot = ~b;
+  
+  always @(*)
+  begin
+    {bout, diff} = a + bnot;
+    //overf = (a[0] == bnot[0]) && (a[0] != diff[0]);
+    //zerof = !overf && (diff == 32'b0);
+  end
 endmodule
