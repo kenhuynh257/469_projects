@@ -51,7 +51,7 @@ endmodule
 module brachGreaterThan(nextAddr,s,t,offset,pc,bgt);
 	output[31:0] nextAddr;
 	input [4:0]s,t;
-	input [15:0]offset;0
+	input [15:0]offset;
 	input bgt;
 	input [31:0] pc;
 	reg neg;
@@ -63,7 +63,7 @@ module brachGreaterThan(nextAddr,s,t,offset,pc,bgt);
 	
 	always@(*)begin
 	if (bgt) begin
-		if(!neg) nextAddr ={pc[31:18],offset[15],offset,2'b0};
+		if(!neg) nextAddr ={pc[31:18],offset,2'b0};
 		else nextAddr =  pc;
 	end
 	end
