@@ -32,18 +32,20 @@ endmodule
 //jump to an address specified register s
 //PC = nPC; nPC = $s;
 //syntax: jr $s
-module jumpRegister(nextAddr,s,jr);
-	output reg [31:0] nextAddr;
+module jumpRegiste(nextAddr,s,jr,pc,clk);
+	output reg [6:0] nextAddr;
 	input[4:0] s;
-	reg [31:0]tempnextAddr;
 	input jr;
-	//decoder in registerfile
-	decoder d1(tempnextAddr,s);
+	input clk;
+	input [6:0]pc;
+	reg [31:0]readOut1,readOut2;
+	//read from regfile
+	registerFile read1 (readOut1,readOut2,s,0,0,0,0,clk);
 	
 	always@(*)
-	if(jr) nextAddr =  tempnextAddr;
-
-endmodule 
+	if(jr) nextAddr =  readOut1;
+	else nextAddr = pc;
+endmodule  
 
 //branches if the provided value s is greater than t by the specified offset
 //if $s > $t advance_pc (offset << 2)); else advance_pc (4);
