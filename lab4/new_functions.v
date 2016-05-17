@@ -50,27 +50,18 @@ endmodule
 //branches if the provided value s is greater than t by the specified offset
 //if $s > $t advance_pc (offset << 2)); else advance_pc (4);
 //syntax: bgt $s, $t, offset
-module brachGreaterThan(nextAddr,offset,pc,bgt);
-	output[31:0] nextAddr;
+module brachGreaterThan(nextAddr,s,t,offset,pc,bgt);
+	output[6:0] nextAddr;
 	//input [4:0]s,t;
-	input [31:0]offset;
+	input [15:0]offset;
 	input bgt;
-	input [31:0] pc;
-	reg neg;
-	wire[31:0]tempoffset;
-	
-	//shift left by 2
-	assign tempoffset = {offset[29:0], 2'b0};
-	
-	wire cout, overf, zerof, negf;
-	wire [31:0]sum;
-	adderCLA32(sum, cout, overf, zerof, negf, tempoffset, pc);
-		
+	input [6:0] pc;		
 	
 	always@(*)begin
 	if (bgt) begin
-		nextAddr = sum;
+		nextAddr = offset[6:0];
 	end
 	else nextAddr = pc;
 	end
 endmodule
+
