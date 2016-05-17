@@ -18,26 +18,34 @@ endmodule
 
 module sramTop();
 	wire nOutput, nWrite;
-	wire [15:0]data, mdrSRAM;
-	wire [10:0]sramAddr, addr;
+	wire [15:0]data;
+	wire [10:0] addr;
 	wire clock;
 	
+	memoryInterface aMemory(nOutput, nWrite, data, addr, clock);
+	tester testIt(clock, data, addr, nOutput, nWrite);
+	/*
 	SRAM tSRAM(mdrSRAM, sramAddr, nWrite, clock);
 	MDR tMDR(data, mdrSRAM, nOutput, nWrite, clock);
 	MAR tMAR(sramAddr, addr, clock);
-
+	*/
+	initial 
+	begin
+		$dumpfile("memory.vcd");
+		$dumpvars(1, testIt);
+	end
 	
 
 	
 endmodule
 
-/*
-module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
+
+module tester(clock, data, addr, nOutput, nWrite);
 	inout [15:0] data;
 	output reg clock, nOutput, nWrite;
 	output reg [10:0] addr;
-	input [15:0] mdrSRAM;
-	input[10:0] sramAddr;
+	//input [15:0] mdrSRAM;
+	//input[10:0] sramAddr;
 	reg [15:0] writeData;
 	integer i;
 	
@@ -48,9 +56,9 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	
 	initial 
 	begin 
-		$display("\t\t clock \t nOutput \t nWrite \t data \t mdrSRAM \t addr \t sramAddr \t time");
-		$monitor("\t\t %b \t %b \t %b \t %b \t %b \t %b \t %b \t %g",
-					clock, nOutput, nWrite, data, mdrSRAM, addr, sramAddr, $time);			
+		$display("\t\t clock \t nOutput \t nWrite \t data \t addr \t time");
+		$monitor("\t\t %b \t %b \t %b \t %b \t %b \t %g",
+					clock, nOutput, nWrite, data, addr, $time);			
 	end
 	
 	initial
@@ -105,4 +113,3 @@ module tester(clock, data, addr, nOutput, nWrite, mdrSRAM, sramAddr);
 	end
 	
 endmodule
-*/

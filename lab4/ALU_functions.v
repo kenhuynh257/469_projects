@@ -1,3 +1,4 @@
+// RTL adder
 module adderRTL(sum, cout, overf, zerof, negf, a, b);
 	output [31:0] sum;
 	output cout, overf, zerof, negf;
@@ -22,6 +23,7 @@ module adderRTL(sum, cout, overf, zerof, negf, a, b);
 	assign negf = !overf && (cout || (!cout && sum[31]));
 endmodule
 
+// carry look ahead
 module CLA_4bit(S, Cout, PG, GG, A, B, Cin);
     output [3:0] S,
     output Cout,PG,GG,
@@ -43,6 +45,7 @@ module CLA_4bit(S, Cout, PG, GG, A, B, Cin);
     assign GG = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | (P[3] & P[2] & P[1] & G[0]);
 endmodule
 
+// another adder
 module adder1(sum, cout, a, b, cin);
 	output sum, cout;
 	input a, b, cin;
@@ -51,6 +54,7 @@ module adder1(sum, cout, a, b, cin);
 	assign cout = (a & b) || (cin & (a ^ b));
 endmodule
 
+// RTL subtractor
 module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
 	output [31:0] diff;
 	output bout, overf, zerof, negf;
@@ -75,6 +79,7 @@ module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
 	assign negf = (bout || (!bout && diff[31]));
 endmodule
 
+// A subtractor
 module subtractor1(diff, bout, a, b, bin);
 	output diff, bout;
 	input a, b, bin;
@@ -83,6 +88,7 @@ module subtractor1(diff, bout, a, b, bin);
 	assign bout = (~a && b) || (bin && ~(a ^ b));
 endmodule
 
+// Shift left logical RTL
 module shiftRTL(in, amount, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] in;
 	input [1:0] amount;
@@ -96,6 +102,7 @@ module shiftRTL(in, amount, dataOut, zeroFlag, overflowFlag, carryoutFlag, negat
 	assign zeroFlag = (dataOut == 0) ? 1'b1 : 1'b0;
 endmodule
 
+// Compare RTL
 module compareRTL(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag);
 	input [31:0] busA, busB;
 	output [31:0] dataOut;
@@ -108,6 +115,7 @@ module compareRTL(busA, busB, dataOut, zeroFlag, overflowFlag, carryoutFlag, neg
 	assign dataOut = (busA < busB) ? 1 : 0;
 endmodule
 
+// XOR RTL
 module xorRTL(a,b,out,zerof,negf,overf,carry);
 	input [31:0] a, b;
 	output [31:0] out;
@@ -127,12 +135,14 @@ module xorRTL(a,b,out,zerof,negf,overf,carry);
 	assign carry = 0;
 endmodule
 
+// Another XOR
 module xor1(a,b,out);
 	input a,b;
 	output  out;
 	assign out = a^b;
 endmodule	
 
+// AND RTL
 module andRTL(a,b,out,zerof,negf,overf,carry);
 	input  [31:0] a, b;
 	output  [31:0] out;
@@ -152,6 +162,7 @@ module andRTL(a,b,out,zerof,negf,overf,carry);
 	assign carry = 0;
 endmodule
 
+// Another AND
 module and1(a,b,out);
 	input a,b;
 	output  out;
@@ -159,6 +170,7 @@ module and1(a,b,out);
 	assign out = a*b;
 endmodule
 
+// OR RTL
 module orRTL(a,b,out,zerof,negf,overf,carry);
 	input  [31:0] a, b;
 	output  [31:0] out;
@@ -179,7 +191,7 @@ module orRTL(a,b,out,zerof,negf,overf,carry);
 	assign carry = 0;
 endmodule
 
-
+// Another OR
 module or1(a,b,out);
 	input a,b;
 	output  out;

@@ -27,7 +27,8 @@ module ALUtestbench();
 	
 // build the FSM (rest of the computer)
 	wire rst, sramDecoder, regDataSel, regDecode;
-	restOfComputer asus420DX(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2);
+	wire [7:0] ps; // just for debug
+	restOfComputer asus420DX(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2, ps);
 	
 // decoder on SRAM data output
 	assign control = (sramDecoder) ? 0 : memData;
@@ -38,16 +39,16 @@ module ALUtestbench();
 // build tester
 
 	tester moveClock(clk, rst, memData, memAdd, nMemOut, nMemWrite, busA, busB, we, rSel1, rSel2, writeSel, regDataIn,
- aluData, control, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, sramDecoder, regDataSel, regDecode);
+ aluData, control, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, sramDecoder, regDataSel, regDecode, ps);
 	initial 
 	begin
 		$dumpfile("alu.vcd");
-		$dumpvars(1, asus420DX);
+		$dumpvars(1, moveClock);
 	end
 endmodule
 
 module tester (clk, rst, memData, memAdd, nMemOut, nMemWrite, busA, busB, we, rSel1, rSel2, writeSel, regDataIn,
- aluData, control, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, sramDecoder, regDataSel, regDecode);
+ aluData, control, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, sramDecoder, regDataSel, regDecode, ps);
 	output reg clk, rst;
 	input [15:0] memData;
 	input [10:0] memAdd;
@@ -59,9 +60,10 @@ module tester (clk, rst, memData, memAdd, nMemOut, nMemWrite, busA, busB, we, rS
 	input [2:0] control;
 	input zeroFlag, overflowFlag, carryoutFlag, negativeFlag;
 	input sramDecoder, regDataSel, regDecode;
+	input [7:0] ps;
 	integer i;
 	
-	parameter delay = 1;
+	parameter delay = 10;
 	
 	
 	initial begin

@@ -22,19 +22,21 @@ module memoryRegandALU(clk);
 	
 // build the FSM (rest of the computer)
 	wire rst, sramDecoder, regDataSel;
-	restOfComputer asus420DXO(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2);
+	wire [7:0] ps;
+	restOfComputer asus420DXO(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2, ps);
 	
 
 	
 endmodule
 
-module restOfComputer(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2);
+module restOfComputer(clk, rst, nMemOut, nMemWrite, we, sramDecoder, regDataSel, memData, memAdd, writeSel, rSel1, rSel2, ps);
 	input clk, rst;
 	output reg nMemOut, nMemWrite, we, sramDecoder,  regDataSel;
 	output reg [31:0] memData;
 	output reg [10:0] memAdd;
 	output reg [4:0] writeSel, rSel1, rSel2;
-	reg [7:0] ps, ns;
+	output reg [7:0] ps; // ps is an output just for debug
+	reg [7:0] ns;
 
 // combo ns logic
 	always @(*) begin
