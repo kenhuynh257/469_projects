@@ -15,17 +15,18 @@ endmodule
 //jump to target address
 //PC = nPC; nPC = (PC & 0xf0000000) | (target << 2);
 //syntax: j target
-module jump(nextAddr,jumpAddr, pc, jump);
-	output reg [31:0] nextAddr;
+module jump(nextAddr,jumpAddr, jump,pc);
+	output reg [6:0] nextAddr;
 	input[25:0] jumpAddr;
-	input[31:0] pc;
 	input jump;
+	input [6:0] pc;
 	//wire[31:0] pcPlus4;
 	
 	//assign pcPlus4 = pc+4;
 	
 	always@(*)
-	if(jump) nextAddr = {pc[31:28], jumpAddr ,2'b0}; 
+	if(jump) nextAddr =  jumpAddr ; 
+	else nextAddr = pc;
 endmodule 
 
 //jump to an address specified register s
