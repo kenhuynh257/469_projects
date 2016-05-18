@@ -1,13 +1,13 @@
-module instructiondec(clk,instruction, writedata);
+module instructiondec(instructionOut,clk,instruction,pc);
 	input [31:0] instruction;
+	input [6:0] pc;
 	input clk;
-	[31:0]writedata; //from datamemory
-	
+	output [6:0]instructionOut;
 	
 	//from controlunit
-	 wire regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite;
+	 wire regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,j,jr;
 	 wire [1:0]ALUOp;
-	 controlunit c1(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,instruction[31:26]);
+	 controlunit c1(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,j,jr,instruction[31:26]);
 		
 	//from registerfile
 	wire [4:0] writereg;
@@ -35,11 +35,27 @@ module instructiondec(clk,instruction, writedata);
 	
 	//datamemory
 	wire [31:0]writedata; //from datamemory
+	SRAM(readdata2,writedata,dataOut,memWrite,memRead,clk);
 	
 	//mux readdata and ALUresult
 	assign writedata = (memtoReg)? readdata:dataOut;
 	
+	//jump 
+	wire out1;
+	jump j1(out1,instruction[25:0],j,pc);
+	//jr
+	wire out2;
+	jumpRegister jr1(out2,readdata1,jr,out1);
+	
+	//bgt
+	wire bgt;
+	//and gate 
+	assign bgt = branch*negf;
+	BGT b10(instructionOut,instruction[15:0],out2,bgt);
+
+
 endmodule
+
 
 module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,j, jr, instruction);
 	input[5:0] instruction;
