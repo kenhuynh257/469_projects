@@ -25,27 +25,24 @@ module jump(nextAddr,jumpAddr, jump,pc);
 	//assign pcPlus4 = pc+4;
 	
 	always@(*)
-	if(jump) nextAddr =  jumpAddr ; 
+	if(jump) nextAddr =  jumpAddr[6:0] ; 
 	else nextAddr = pc;
 endmodule 
 
 //jump to an address specified register s
 //PC = nPC; nPC = $s;
 //syntax: jr $s
-module jumpRegiste(nextAddr,s,jr,pc,clk);
+module jumpRegister(nextAddr,s,jr,pc,clk);
 	output reg [6:0] nextAddr;
-	input[4:0] s;
+	input[31:0] s;
 	input jr;
 	input clk;
 	input [6:0]pc;
-	reg [31:0]readOut1,readOut2;
-	//read from regfile
-	registerFile read1 (readOut1,readOut2,s,0,0,0,0,clk);
 	
 	always@(*)
-	if(jr) nextAddr =  readOut1;
+	if(jr) nextAddr =  s[6:0];
 	else nextAddr = pc;
-endmodule  
+endmodule 
 
 //branches if the provided value s is greater than t by the specified offset
 //if $s > $t advance_pc (offset << 2)); else advance_pc (4);
