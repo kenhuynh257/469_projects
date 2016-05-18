@@ -17,9 +17,10 @@ module instructiondec(instructionOut,clk,instruction,pc);
 	//from registerfile
 	wire [4:0] writereg;
 	wire[31:0] readdata1,readdata2;
+	wire [31:0]data;
 	assign writereg = (regDst)? instruction[15:11]:instruction[20:16];
 			
-	registerFile reg1(readdata1,readdata2,instruction[25:21],instruction[20:16],writereg,writedata,regWrite,clk);
+	registerFile reg1(readdata1,readdata2,instruction[25:21],instruction[20:16],writereg,data,regWrite,clk);
 	
 	//signextend
 	wire [31:0]ins32bit;
@@ -34,22 +35,23 @@ module instructiondec(instructionOut,clk,instruction,pc);
 	ALUcontrol alu1(control,instruction[5:0],ALUOp);
 	
 	//put in ALU
-	wire [31:0] dataOut;
+	wire [31:0] aluresult;
 	wire zerof,overf,carryf,negf;
-	ALU alu2(dataOut,zerof,overf,carryf,negf,rea,busB,control);
+	alu alu2(aluresult,zerof,overf,carryf,negf,readdata1,busB,control);
 	
 	//datamemory
 	wire [31:0] readdata; //from datamemory
-	SRAM(readdata2,readdata,dataOut,memWrite,memRead,clk);
+	
+	SRAM s2(readdata2,readdata,aluresult,memWrite,memRead,clk);
 	
 	//mux readdata and ALUresult
-	assign writedata = (memtoReg)? readdata:dataOut;
+	assign data = (memtoReg)? readdata:aluresult;
 	
 	//jump 
-	wire out1;
+	wire [6:0]out1;
 	jump j1(out1,instruction[25:0],j,pc);
 	//jr
-	wire out2;
+	wire [6:0]out2;
 	jumpRegister jr1(out2,readdata1,jr,out1);
 	
 	//bgt

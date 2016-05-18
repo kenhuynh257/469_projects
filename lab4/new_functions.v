@@ -32,11 +32,11 @@ endmodule
 //jump to an address specified register s
 //PC = nPC; nPC = $s;
 //syntax: jr $s
-module jumpRegister(nextAddr,s,jr,pc,clk);
+module jumpRegister(nextAddr,s,jr,pc);
 	output reg [6:0] nextAddr;
 	input[31:0] s;
 	input jr;
-	input clk;
+
 	input [6:0]pc;
 	
 	always@(*)
@@ -47,8 +47,8 @@ endmodule
 //branches if the provided value s is greater than t by the specified offset
 //if $s > $t advance_pc (offset << 2)); else advance_pc (4);
 //syntax: bgt $s, $t, offset
-module brachGreaterThan(nextAddr,s,t,offset,pc,bgt);
-	output[6:0] nextAddr;
+module BGT(nextAddr,offset,pc,bgt);
+	output reg[6:0] nextAddr;
 	//input [4:0]s,t;
 	input [15:0]offset;
 	input bgt;

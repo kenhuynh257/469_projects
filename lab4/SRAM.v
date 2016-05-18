@@ -34,8 +34,8 @@ module SRAM(writeData, readData, address, memWrite, memRead, clock);
 	// buffers for data and address
 	always @(posedge clock) begin
 		if (memWrite)
-			memory[addr[10:0]][31:0] <= writeData[31:0];
+			memory[address[10:0]][31:0] <= writeData[31:0];
 		else
-			memory[addr[10:0]][31:0] <= memory[addr[10:0]][31:0];
+			memory[address[10:0]][31:0] <= memory[address[10:0]][31:0];
 	end	
 endmodule

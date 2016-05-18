@@ -10,9 +10,9 @@ module adderCLA32(sum, cout, overf, zerof, negf, a, b);
 		for (i = 0; i < 8; i = i + 1)
 		begin: adder
 			if (i == 0)
-				adderCLA4 a0(sum[3:0], temp[0], a[3:0], b[3:0], 1'b0);
+				CLA_4bit a0(sum[3:0], temp[0], a[3:0], b[3:0], 1'b0);
 			else
-				adderCLA4 a1(sum[((i * 4) + 3): (i * 4)], temp[i], a[((i * 4) + 3): (i * 4)], b[((i * 4) + 3): (i * 4)], temp[i - 1]);
+				CLA_4bit a1(sum[((i * 4) + 3): (i * 4)], temp[i], a[((i * 4) + 3): (i * 4)], b[((i * 4) + 3): (i * 4)], temp[i - 1]);
 		end
 	endgenerate
 
@@ -24,11 +24,11 @@ endmodule
 
 
 // carry look ahead
-module CLA_4bit(S, Cout, PG, GG, A, B, Cin);
-    output [3:0] S,
-    output Cout,PG,GG,
-    input [3:0] A,B,
-    input Cin
+module CLA_4bit(sum, cout, a, b, cin);
+    output [3:0] sum;
+    output cout;
+    input [3:0] a, b;
+    input cin;
     
     wire [3:0] g, p, c;
  
@@ -48,7 +48,7 @@ module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
 	output bout, overf, zerof, negf;
 	input [31:0] a, b;
 
-	adderCLA32 sub(diff, bout, overf, zerof, negf, a, (!b + 1'b1));
+	adderCLA32 sub(diff, bout, overf, zerof, negf, a, (~b + 1'b1));
 endmodule
 
 /*****************************************************************************/

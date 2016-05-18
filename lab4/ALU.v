@@ -18,12 +18,12 @@ module alu(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, bu
 	assign negativeFlag8[0] = 1'b0;
 	
 	//call all modules
-	adderRTL adder(dataOut8[1], carryoutFlag8[1], overflowFlag8[1], zeroFlag8[1], negativeFlag8[1], busA, busB);
+	adderCLA32 adder(dataOut8[1], carryoutFlag8[1], overflowFlag8[1], zeroFlag8[1], negativeFlag8[1], busA, busB);
 	subtractorRTL subtractor(dataOut8[2], carryoutFlag8[2], overflowFlag8[2], zeroFlag8[2], negativeFlag8[2], busA, busB);
 	andRTL ander(busA, busB,dataOut8[3],zeroFlag8[3], negativeFlag8[3], overflowFlag8[3],carryoutFlag8[3] );
 	orRTL orer(busA, busB,dataOut8[4],zeroFlag8[4], negativeFlag8[4], overflowFlag8[4],carryoutFlag8[4] );
 	xorRTL xorer(busA, busB,dataOut8[5],zeroFlag8[5], negativeFlag8[5], overflowFlag8[5],carryoutFlag8[5] );
-	compareRTL comparer(busA, busB,dataOut8[6][1:0], zeroFlag8[6], overflowFlag8[6], carryoutFlag8[6], negativeFlag8[6]);
+	compareRTL comparer(busA, busB,dataOut8[6], zeroFlag8[6], overflowFlag8[6], carryoutFlag8[6], negativeFlag8[6]);
 	shiftRTL shifter(busA, busB[1:0],dataOut8[7], zeroFlag8[7], overflowFlag8[7], carryoutFlag8[7], negativeFlag8[7]);
 	
 	// Select between outputs
