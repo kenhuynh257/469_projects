@@ -1,7 +1,4 @@
-`include "SRAM.v"
-`include "ALU.v"
-`include "registerFile.v"
-`include "new_functions.v"
+
 
 module instructiondec(instructionOut,clk,instruction,pc);
 	input [31:0] instruction;
@@ -11,7 +8,7 @@ module instructiondec(instructionOut,clk,instruction,pc);
 	
 	//from controlunit
 	 wire regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,j,jr;
-	 wire [1:0]ALUOp;
+	 wire [2:0]ALUOp;
 	 controlunit c1(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,j,jr,instruction[31:26]);
 		
 	//from registerfile
@@ -67,21 +64,21 @@ endmodule
 module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,j, jr, instruction);
 	input[5:0] instruction;
 	output reg regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
-	output reg [1:0]ALUOp;
+	output reg [2:0]ALUOp;
 	parameter [5:0]
 	NOP =	6'b0,
 	AND =	6'b100100,
-	ANDI =	6'b1100,
+	ANDI =6'b1100,
 	OR =	6'b100101,
 	ORI =	6'b001101,
 	XOR =	6'b100110,
-	XORI =	6'b1110,
+	XORI =6'b1110,
 	ADD =	6'b100000,
-	ADDI =	6'b1000,
-	SUB = 	6'b100010,
+	ADDI =6'b1000,
+	SUB = 6'b100010,
 	SLT =	6'b101010,
 	SLL =	6'b1,
-	J =		6'b10,
+	J =	6'b10,
 	JR =	6'b1001,
 	BGT =	6'b111,
 	LW = 	6'b100011,
@@ -100,7 +97,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -112,7 +109,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -124,7 +121,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b011;
 					j=0;
 					jr=0;
 				end
@@ -136,7 +133,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -148,7 +145,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b101;
 					j=0;
 					jr=0;
 				end
@@ -160,7 +157,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -172,7 +169,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b100;
 					j=0;
 					jr=0;
 				end
@@ -184,7 +181,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -196,7 +193,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b0;
 					j=0;
 					jr=0;
 				end
@@ -208,7 +205,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -220,7 +217,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -232,7 +229,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'b010;
 					j=0;
 					jr=0;
 				end
@@ -244,7 +241,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'bx;
 					j=1;
 					jr=0;
 				end
@@ -256,7 +253,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b10;
+					ALUOp=3'bx;
 					j=0;
 					jr=1;
 				end
@@ -268,7 +265,9 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 1;
-					ALUOp=2'b01;
+					ALUOp=3'b001;
+					j=0;
+					jr=0;
 				end
 			LW: begin
 					regDst=0;
@@ -278,7 +277,9 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 1;
 					memWrite =0;
 					branch = 0;
-					ALUOp=2'b00;
+					ALUOp=3'b0;
+					j=0;
+					jr=0;
 				end
 			SW: begin
 					regDst= 1'bx;
@@ -288,7 +289,9 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =1;
 					branch = 0;
-					ALUOp=2'b00;
+					ALUOp=3'b0;
+					j=0;
+					jr=0;
 				end
 			default: begin // default is same as R function
 					regDst=1;
@@ -310,27 +313,32 @@ endmodule
 
 module ALUcontrol (control,instruction,ALUOp);
 	input [5:0] instruction;
-	input [1:0] ALUOp;
+	input [2:0] ALUOp;
 	output reg [2:0] control;
 	
 	always@(*)begin
 		case(ALUOp)
 			//LW and SW perform add ALU
-			2'b00: control = 3'b001;
+			3'b0: control = 3'b001;
 			//bgt
-			2'b01: control = 3'b010;
+			3'b001: control = 3'b010;
 			//r-type
-			2'b10: begin 
-				//if (instruction = 6'b0) control = 3'b0;//
-				if (instruction == 6'b100000) control = 3'b001;//add
+			3'b010: begin 
+				if (instruction == 6'b0) control = 3'b0;//
+				else if (instruction == 6'b100000) control = 3'b001;//add
 				else if (instruction == 6'b100010) control = 3'b101;//sub
 				else if (instruction == 6'b100100) control = 3'b011;//and
 				else if (instruction == 6'b100101) control = 3'b100;//or
 				else if (instruction == 6'b100000) control = 3'b101;//xor
 				else if (instruction == 6'b101010) control = 3'b110;//SLT
 				else if (instruction == 6'b100000) control = 3'b111;//SLL
+				else control =3'b0;
 			end
-			default: control =3'bx;
+			3'b011: control = 3'b011;
+			3'b100: control = 3'b101;
+			3'b101: control = 3'b100;
+			
+			default: control =3'b0;
 			endcase
 				
 	end

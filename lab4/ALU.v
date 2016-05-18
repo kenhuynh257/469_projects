@@ -1,4 +1,4 @@
-`include "ALU_Functions.v"
+//`include "ALU_Functions.v"
 
 module alu(dataOut, zeroFlag, overflowFlag, carryoutFlag, negativeFlag, busA, busB, control);
 	output [31:0] dataOut;

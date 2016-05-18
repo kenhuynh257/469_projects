@@ -27,15 +27,24 @@ module SRAM(writeData, readData, address, memWrite, memRead, clock);
 	input memWrite, memRead, clock;
 	output [31:0] readData;
 	
-	reg [31:0] memory [2047:0];
+	reg [31:0] memory [31:0];
 	
-	assign readData[31:0] = (memRead) ? memory[address[10:0]][31:0] : 32'bz;
+	assign readData[31:0] = (memRead) ? memory[address[4:0]][31:0] : 32'bz;
 	
 	// buffers for data and address
 	always @(posedge clock) begin
 		if (memWrite)
-			memory[address[10:0]][31:0] <= writeData[31:0];
+			memory[address[4:0]][31:0] <= writeData[31:0];
 		else
-			memory[address[10:0]][31:0] <= memory[address[10:0]][31:0];
-	end	
+			memory[address[4:0]][31:0] <= memory[address[4:0]][31:0];
+	end
+
+	initial begin
+		memory[0][31:0] = 32'd7;
+		memory[1][31:0] = 32'd5;
+		memory[2][31:0] = 32'd2;
+		memory[3][31:0] = 32'd4;
+		memory[4][31:0] = 32'd8;
+		memory[5][31:0] = 32'd4;
+	end
 endmodule
