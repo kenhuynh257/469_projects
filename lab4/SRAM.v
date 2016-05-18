@@ -21,23 +21,21 @@
 // 2048x16 bit memory that can be read or written to. 'addr' selects
 // which of the 2048 words is to be written/read, and then either that
 // word is read by the MDR or the word in the MDR is written to that address.
-module SRAM(data, addr, nWrite, nOutput, clock);
-	inout [31:0] data;
-	input [10:0] addr;
-	input nWrite, nOutput, clock;
+module SRAM(writeData, readData, address, memWrite, memRead, clock);
+	input [31:0] writeData;
+	input [31:0] address;
+	input memWrite, memRead, clock;
+	output [31:0] readData;
 	
-	reg [31:0] memReg [2047:0];
-	reg [31:0] outBuff;
-
+	reg [31:0] memory [2047:0];
 	
-	// tristate to data bus
-	assign data[31:0] = (~nOutput && nWrite) ? outBuff[31:0] : 32'bz;
+	assign readData[31:0] = (memRead) ? memory[address[10:0]][31:0] : 32'bz;
 	
 	// buffers for data and address
 	always @(posedge clock) begin
-		if (nWrite)
-			outBuff <= memReg[addr[10:0]][31:0];
+		if (memWrite)
+			memory[addr[10:0]][31:0] <= writeData[31:0];
 		else
-			memReg[addr[10:0]][31:0] <= data;
+			memory[addr[10:0]][31:0] <= memory[addr[10:0]][31:0];
 	end	
 endmodule
