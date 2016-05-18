@@ -41,9 +41,9 @@ module instructiondec(clk,instruction, writedata);
 	
 endmodule
 
-module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,instruction);
+module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUOp,j, jr, instruction);
 	input[5:0] instruction;
-	output reg regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite;
+	output reg regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
 	output reg [1:0]ALUOp;
 	parameter [5:0]
 	NOP =	6'b0,
@@ -70,6 +70,16 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 	always@(*) begin
 		case(instruction)
 			NOP: begin
+					regDst=1;
+					ALUSrc=0;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=0;
+					jr=0;
 				end
 			AND: begin
 					regDst=1;
@@ -84,6 +94,16 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					jr=0;
 				end
 			ANDI: begin
+					regDst=1;
+					ALUSrc=1;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=0;
+					jr=0;
 				end
 			OR: begin
 					regDst=1;
@@ -98,6 +118,16 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					jr=0;
 				end
 			ORI: begin
+					regDst=1;
+					ALUSrc=1;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=0;
+					jr=0;
 				end
 			XOR: begin
 					regDst=1;
@@ -112,6 +142,16 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					jr=0;
 				end
 			XORI: begin
+					regDst=1;
+					ALUSrc=1;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=0;
+					jr=0;
 				end
 			ADD: begin
 					regDst=1;
@@ -126,6 +166,16 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					jr=0;
 				end
 			ADDI: begin
+					regDst=1;
+					ALUSrc=1;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=0;
+					jr=0;
 				end
 			SUB: begin
 					regDst=1;
@@ -164,8 +214,28 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					jr=0;
 				end
 			J: begin
+					regDst=1;
+					ALUSrc=0;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=1;
+					jr=0;
 				end
 			JR: begin
+					regDst=1;
+					ALUSrc=0;
+					memtoReg = 0;
+					regWrite=1;
+					memRead = 0;
+					memWrite =0;
+					branch = 0;
+					ALUOp=2'b10;
+					j=0;
+					jr=1;
 				end
 			BGT: begin
 					regDst=1'bx;
