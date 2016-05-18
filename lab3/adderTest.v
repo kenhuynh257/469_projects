@@ -2,8 +2,7 @@
 
 */
 
-`include "adder.v"
-`include "adderRTL.v"
+`include "ALU_functions.v"
 
 /*
 Testbench
@@ -18,7 +17,7 @@ module Testbench;
 	 wire [31:0] a, b, sum;
 	 wire clock, cout, overf, zerof;
 
-	adderRTL dut(sum, cout, overf, zerof, negf, a, b);
+	adderCLA32 dut(sum, cout, overf, zerof, negf, a, b);
 	
 	tester test(a, b, clock, sum, cout, overf, zerof, negf);
 	
