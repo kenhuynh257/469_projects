@@ -1,3 +1,8 @@
+`include "SRAM.v"
+`include "ALU.v"
+`include "registerFile.v"
+`include "new_functions.v"
+
 module instructiondec(instructionOut,clk,instruction,pc);
 	input [31:0] instruction;
 	input [6:0] pc;
@@ -34,8 +39,8 @@ module instructiondec(instructionOut,clk,instruction,pc);
 	ALU alu2(dataOut,zerof,overf,carryf,negf,rea,busB,control);
 	
 	//datamemory
-	wire [31:0]writedata; //from datamemory
-	SRAM(readdata2,writedata,dataOut,memWrite,memRead,clk);
+	wire [31:0] readdata; //from datamemory
+	SRAM(readdata2,readdata,dataOut,memWrite,memRead,clk);
 	
 	//mux readdata and ALUresult
 	assign writedata = (memtoReg)? readdata:dataOut;
@@ -296,6 +301,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					jr=0;
 					end
 		endcase
+	end
 
 	
 endmodule 
@@ -331,10 +337,10 @@ endmodule
 
 
 module signextend(instruction32bit,instruction);
-	input[15:0] instruction
+	input[15:0] instruction;
 	output [31:0] instruction32bit;
 	
-	assign instruction32bit = {16{instruction[15]},instruction};
+	assign instruction32bit = (instruction[15]) ? {15'b1, instruction[15:0]} : {15'b0,instruction[15:0]};
 
 endmodule
 
