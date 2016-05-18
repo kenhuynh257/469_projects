@@ -1,8 +1,6 @@
-module pcplus1(pcout,pcin,clk);
+module pcplus1(pcout,pcin);
 	input[6:0] pcin;
-	output reg[6:0] pcout;
-	input clk;
+	output [6:0] pcout;
 	
-	always@(posedge clk)
-	pcout = pcin+1;
+	assign pcout = pcin+1;
 endmodule
