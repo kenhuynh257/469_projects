@@ -21,10 +21,11 @@ main:
 
 if:
   lw $t6 D          # 0x34
-  si 6 C            # 0x38
-  sll $t6 $t6 2     # 0x3C
-  sw $t6 D          # 0x40
-  j ext             # 0x44
+  addi $t1 $zero 6  # 0x38
+  sw $t1 C          # 0x3C
+  sll $t6 $t6 2     # 0x40
+  sw $t6 D          # 0x44
+  j ext             # 0x48
 
 ext:
-  j ext             # 0x48
+  j ext             # 0x4C
