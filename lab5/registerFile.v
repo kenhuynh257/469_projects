@@ -1,13 +1,16 @@
-module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we, clock);
+module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we,rst, clock);
 	output [31:0] readOut_1, readOut_2;
 	input [4:0] readSel_1, readSel_2, writeSel;
 	input [31:0] data;
-	input we, clock;
+	input rst, we, clock;
 	
 	reg [31:0] memory [31:0]; //The structure that contains the data
-		
-	initial memory[0] = 31'b0;
-	
+	integer i;
+	initial begin
+		for(i =1; i < 32;i=i+1) begin
+			memory[i] = 31'b0;
+			end
+	end
 	mux32 ma0(readOut_1, memory[0],
 						memory[1],
 						memory[2],
@@ -112,16 +115,26 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 	and a31(enWriteDec[31], writeDec[31], we);
 	
 	integer k;
-	always @(*)
-	begin		
+	always @(posedge clock)begin
+	//rst signal
+	if( rst ==1) begin 
+	for (k = 1; k < 32; k = k + 1)
+		begin
+			memory[k] <= 31'b0;
+	end
+	end
+	else begin
+			
 		for (k = 1; k < 32; k = k + 1)
 		begin
 			if (enWriteDec[k])
 			begin
-				memory[k][31:0] = data[31:0];
+				memory[k][31:0] <= data[31:0];
 			end			
 		end
-		memory[0] = 32'b0;
+		memory[0] <= 32'b0;
+		
+		end
 	end
 	
 endmodule
