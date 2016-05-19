@@ -54,8 +54,8 @@ module instructiondec(instructionOut,clk,instruction,pc);
 	//bgt
 	wire bgt;
 	//and gate 
-	assign bgt = branch*negf;
-	BGT b10(instructionOut,instruction[15:0],out2,bgt);
+	assign bgt = branch && (~negf);
+	BGT b10(instructionOut, instruction[15:0], out2, bgt);
 
 
 endmodule
@@ -241,7 +241,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=3'bx;
+					ALUOp=3'b010;
 					j=1;
 					jr=0;
 				end
@@ -253,7 +253,7 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					memRead = 0;
 					memWrite =0;
 					branch = 0;
-					ALUOp=3'bx;
+					ALUOp=3'b010;
 					j=0;
 					jr=1;
 				end
@@ -285,11 +285,11 @@ module controlunit(regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite,ALUO
 					regDst= 1'bx;
 					ALUSrc=1;
 					memtoReg = 1'bx;
-					regWrite=0;
+					regWrite = 0;
 					memRead = 0;
-					memWrite =1;
+					memWrite = 1;
 					branch = 0;
-					ALUOp=3'b0;
+					ALUOp = 3'b0;
 					j=0;
 					jr=0;
 				end
@@ -318,7 +318,7 @@ module ALUcontrol (control,instruction,ALUOp);
 	
 	always@(*)begin
 		case(ALUOp)
-			//LW and SW perform add ALU
+			//LW and SW perform add ALU, addi
 			3'b0: control = 3'b001;
 			//bgt
 			3'b001: control = 3'b010;
@@ -326,17 +326,17 @@ module ALUcontrol (control,instruction,ALUOp);
 			3'b010: begin 
 				if (instruction == 6'b0) control = 3'b0;//
 				else if (instruction == 6'b100000) control = 3'b001;//add
-				else if (instruction == 6'b100010) control = 3'b101;//sub
+				else if (instruction == 6'b100010) control = 3'b010;//sub
 				else if (instruction == 6'b100100) control = 3'b011;//and
 				else if (instruction == 6'b100101) control = 3'b100;//or
-				else if (instruction == 6'b100000) control = 3'b101;//xor
+				else if (instruction == 6'b100110) control = 3'b101;//xor
 				else if (instruction == 6'b101010) control = 3'b110;//SLT
-				else if (instruction == 6'b100000) control = 3'b111;//SLL
+				else if (instruction == 6'b000001) control = 3'b111;//SLL
 				else control =3'b0;
 			end
-			3'b011: control = 3'b011;
-			3'b100: control = 3'b101;
-			3'b101: control = 3'b100;
+			3'b011: control = 3'b011;//andi
+			3'b100: control = 3'b101;//xori
+			3'b101: control = 3'b100;//ori
 			
 			default: control =3'b0;
 			endcase

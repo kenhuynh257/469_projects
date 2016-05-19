@@ -48,7 +48,7 @@ module subtractorRTL(diff, bout, overf, zerof, negf, a, b);
 	output bout, overf, zerof, negf;
 	input [31:0] a, b;
 
-	adderCLA32 sub(diff, bout, overf, zerof, negf, a, (~b + 1'b1));
+	adderCLA32 sub(diff, bout, overf, zerof, negf, a, (~b + 32'b1));
 endmodule
 
 /*****************************************************************************/

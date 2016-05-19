@@ -30,14 +30,16 @@ module SRAM(writeData, readData, address, memWrite, memRead, clock);
 	reg [31:0] memory [31:0];
 	
 	assign readData[31:0] = (memRead) ? memory[address[4:0]][31:0] : 32'bz;
+//	assign memory[address[4:0]][31:0] = (memWrite) ? writeData[31:0] : memory[address[4:0]][31:0];
 	
 	// buffers for data and address
-	always @(posedge clock) begin
+	always @(*) begin
 		if (memWrite)
-			memory[address[4:0]][31:0] <= writeData[31:0];
+			memory[address[4:0]][31:0] = writeData[31:0];
 		else
-			memory[address[4:0]][31:0] <= memory[address[4:0]][31:0];
+			memory[address[4:0]][31:0] = memory[address[4:0]][31:0];
 	end
+	integer i;
 
 	initial begin
 		memory[0][31:0] = 32'd7;
@@ -46,5 +48,11 @@ module SRAM(writeData, readData, address, memWrite, memRead, clock);
 		memory[3][31:0] = 32'd4;
 		memory[4][31:0] = 32'd8;
 		memory[5][31:0] = 32'd4;
+		
+		for (i = 6; i < 32; i = i + 1);
+		begin
+			memory[i][31:0] = 32'b0;
+		end
+		
 	end
-endmodule
+endmodule 
