@@ -112,16 +112,16 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 	and a31(enWriteDec[31], writeDec[31], we);
 	
 	integer k;
-	always @(posedge clock)
+	always @(*)
 	begin		
 		for (k = 1; k < 32; k = k + 1)
 		begin
 			if (enWriteDec[k])
 			begin
-				memory[k][31:0] <= data[31:0];
+				memory[k][31:0] = data[31:0];
 			end			
 		end
-		memory[0] <= 32'b0;
+		memory[0] = 32'b0;
 	end
 	
 endmodule
