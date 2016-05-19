@@ -73,6 +73,7 @@ memory4, memory5, memory6, memory7, memory8, memory9, memory10, memory11, memory
 		else
 			memory[address[4:0]][15:0] = memory[address[4:0]][15:0];
 	end
+	integer i;
 
 	initial begin
 		memory[0][15:0] = 32'd7;
@@ -82,4 +83,4 @@ memory4, memory5, memory6, memory7, memory8, memory9, memory10, memory11, memory
 		memory[4][15:0] = 32'd8;
 		memory[5][15:0] = 32'd4;
 	end
-endmodule
+endmodule 
