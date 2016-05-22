@@ -1,3 +1,3 @@
-module fetch
+module fetch ();
 
 endmodule
