@@ -3,3 +3,11 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr);
  	input PCSrc, clock, reset;
 	input [6:0] jumpAddr;
 endmodule
+
+module pc();
+
+endmodule
+
+module instructionMemory();
+
+endmodule
