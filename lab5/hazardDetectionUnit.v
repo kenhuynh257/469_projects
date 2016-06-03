@@ -1,4 +1,12 @@
-module hazardDetectionUnit(write_FD, write_PC, controlMux_D, memRead_DX, rs_FD, rt_FD, rt_DX);
-	output write_FD, write_PC, controlMux_D;
+module hazardDetectionUnit(stall, memRead_DX, rs_FD, rt_FD, rt_DX);
+	output stall;
 	input memRead_DX, rs_FD, rt_FD, rt_DX;
+	
+	always_@(*) begin
+		if(memRead_DX && ((rt_DX == rs_FD) || (rt_DX == rt_FD)))
+			stall = 1;
+		else 
+			stall = 0 ;
+	
+	end
 endmodule
