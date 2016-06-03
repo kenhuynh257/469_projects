@@ -11,7 +11,7 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	reg [6:0] plusOne;
 	
 	
-	always @(PCSrc) begin
+	always @(*) begin
 		plusOne = pcOut + 1;
 		case(PCSrc)
 			3'b1XX: pcIn = branchAddr;
@@ -22,7 +22,7 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 		endcase
 	end
 	
-	pc programCounter(pcWrite, pcIn, pcOut, clock);
+	pc programCounter(pcWrite, pcIn, pcOut, clock, reset);
 	instructionMemory instructionMemory1(pcOut, memoryOut);
 	
 	always @(posedge clock) begin
@@ -34,33 +34,31 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	end
 endmodule
 
-module pc(pcWrite, pcIn, pcOut, clock);
-	input clock;
+module pc(pcWrite, pcIn, pcOut, clock, reset);
+	input clock, reset;
 	input pcWrite; // used to freeze the PC address for hazard control
 	input [6:0] pcIn; // instruction address
 	output reg [6:0] pcOut;
 	
 	always @(posedge clock) begin
-		if (pcWrite) begin
+		if (reset) begin
+			pcOut <= 0;
+		end else if (pcWrite) begin
 			pcOut <= pcIn;
 		end else begin
 			pcOut <= pcOut;
 		end
 	end
-	
-	initial begin
-		pcOut = 7'b0;
-	end
 endmodule
 
-module instructionMemory(address, instruction);
+module instructionMemory(address, memoryOut);
 	input [6:0] address;
-	output [31:0] instruction;
+	output [31:0] memoryOut;
 	reg [31:0] memory [127:0];
 	
-	assign instruction = memory[address[6:0]][31:0];
+	assign memoryOut = memory[address[6:0]][31:0];
 	
-	integer i
+	integer i;
 	initial begin
 		// load instructions into memory
 		for (i = 0; i < 64; i = i + 1) begin
@@ -81,9 +79,9 @@ module testbench();
 	
 	initial begin
 		$dumpfile("fetch.vcd");
-		$dumpvars(1, test);
+		$dumpvars();
 	end
-end
+endmodule
 
 module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush);
 	input [31:0] instruction;
@@ -98,10 +96,16 @@ module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	initial begin
 		// increment through instructions
 		clock = 1;
+		reset = 1;
 		PCSrc = 3'b0;
 		pcWrite = 1;
 		IFFlush = 0;
-		for (i = 0; i < 8; i = i + 1) begin
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+		reset = 0;
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
