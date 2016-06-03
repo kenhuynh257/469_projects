@@ -60,8 +60,12 @@ module instructionMemory(address, instruction);
 	
 	assign instruction = memory[address[6:0]][31:0];
 	
+	integer i
 	initial begin
-	// load instructions into memory
+		// load instructions into memory
+		for (i = 0; i < 64; i = i + 1) begin
+			memory[i][31:0] = i;
+		end
 	end
 endmodule
 
@@ -87,12 +91,67 @@ module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	output reg clock, reset;
 	output reg [6:0] jumpAddr, jrAddr, branchAddr;
 	output reg pcWrite, IFFlush;
+	integer i;
 	
 	parameter delay = 10;
 	
 	initial begin
-	
+		// increment through instructions
+		clock = 1;
+		PCSrc = 3'b0;
+		pcWrite = 1;
+		IFFlush = 0;
+		for (i = 0; i < 8; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+		// jump to different places
+		PCSrc = 3'b100;
+		branchAddr = 1;
+		jumpAddr = 4;
+		jrAddr = 9;
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+
+		PCSrc =  3'b010;
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+
+		PCSrc = 3'b001;
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+
+		PCSrc = 3'b000;
+		for (i = 0; i < 8; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+		// stall
+		pcWrite = 0;
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+		// flush
+		IFFlush = 1;
+		PCSrc = 3'b001;
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
+		IFFlush = 0;
+		pcWrite = 1;
+		for (i = 0; i < 4; i = i + 1) begin
+			#delay;
+			clock = ~clock;
+		end
 	end
-	
+endmodule
 
 	
