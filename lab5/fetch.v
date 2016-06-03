@@ -5,7 +5,7 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	input pcWrite; // enables writing to the PC for hazard control (stalling)
 	input IFFlush; // signal to flush the IF/ID pipeline register
 	input [6:0] jumpAddr, jrAddr, branchAddr;
-		
+	wire [6:0] pcIn, pcOut;
 	always @(*) begin
 		case(PCSrc)
 			1XX: pcIn = branchAddr;
