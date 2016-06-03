@@ -1,9 +1,8 @@
-module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFWrite, IFFlush);
+module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush);
 	output reg [31:0] instruction;
 	input clock, reset;
 	input [2:0] PCSrc; // one-hot encoded mux control to PC choosing between j, jr, and branch
 	input pcWrite; // enables writing to the PC for hazard control (stalling)
-	input IFWrite; // enables writing to the IF/ID pipeline register
 	input IFFlush; // signal to flush the IF/ID pipeline register
 	input [6:0] jumpAddr, jrAddr, branchAddr;
 		
@@ -21,7 +20,11 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	instructionMemory instructionMemory1(pcOut, memoryOut);
 	
 	always @(posedge clock) begin
-		instruction <= memoryOut;
+		if (IFFlush) begin
+			instruction <= 32'b0;
+		end else begin
+			instruction <= memoryOut;
+		end
 	end
 endmodule
 
