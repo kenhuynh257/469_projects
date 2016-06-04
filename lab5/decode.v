@@ -1,13 +1,13 @@
 `include "registerFile.v" // is the register file tested and working? what about reading and writing in the same clock cycle?
 
-module decode(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, jumpAddr, clock, reset);
-
+// tested and looks like it's working but I'm not sure about the latency on the register reads/writes. May need to check out register file.
+module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+	output reg [5:0] opCode;
 	output reg [4:0] rs_FD, rt_FD, rd_FD;
 	output reg [31:0] readData_1, readData_2, immediate;
 	output reg [6:0] jumpAddr_FD;
 
 	input [31:0] instruction, writeData;
-	input [6:0] jumpAddr;
 	input [4:0] writeAddr;
 	input regWrite;
 	input clock, reset;
@@ -20,10 +20,11 @@ module decode(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instructio
 		readData_1 <= regDataOut1;
 		readData_2 <= regDataOut2;
 		immediate <= extendedImmediate;
+		opCode <= instruction[31:26];
 		rs_FD <= instruction[25:21];
 		rt_FD <= instruction[20:16];
 		rd_FD <= instruction[15:11];
-		jumpAddr_FD <= jumpAddr;
+		jumpAddr_FD <= instruction[6:0];
 	end
 endmodule
 
@@ -37,26 +38,30 @@ endmodule
 
 ////////////////////////////////////////////////////////////////////
 module testbench();
+	wire [5:0] opCode;
 	wire [4:0] rs_FD, rt_FD, rd_FD;
+	wire [6:0] jumpAddr_FD;
 	wire [31:0] readData_1, readData_2, immediate;
 	wire [31:0] instruction, writeData;
 	wire [4:0] writeAddr;
 	wire regWrite;
 	wire clock, reset;
 
-	decode instructionDecode(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
-	tester test(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+	decode instructionDecode(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+	tester test(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
 
 
 	initial begin
-		$dumpfile("fetch.vcd");
+		$dumpfile("decode.vcd");
 		$dumpvars();
 	end
 endmodule
 
 ///////////////////////////////////////////////
-module tester(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+module tester(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+	input [5:0] opCode;
 	input [4:0] rs_FD, rt_FD, rd_FD;
+	input [6:0] jumpAddr_FD;
 	input [31:0] readData_1, readData_2, immediate;
 	output reg [31:0] instruction, writeData;
 	output reg [4:0] writeAddr;
@@ -78,7 +83,7 @@ module tester(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instructio
 			clock = ~clock;
 			#delay;
 			clock = ~clock;
-			#delay
+			#delay;
 		end
 		reset = 0;
 		regWrite = 1;
@@ -93,7 +98,7 @@ module tester(rs_FD, rt_FD, rd_FD, readData_1, readData_2, immediate, instructio
 		// read register and instruction lines
 		regWrite = 0;
 		for (i = 0; i < 16; i = i + 1) begin
-			instruction [31:26] = i
+			instruction [31:26] = i;
 			instruction[25:21] = i;
 			instruction[20:16] = 16 - i; // counting down just to tell apart from rt
 			instruction[15:0] = i - 8; // counting from -8 to +8 to check sign extend
