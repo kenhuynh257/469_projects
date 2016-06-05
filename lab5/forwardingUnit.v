@@ -16,9 +16,9 @@ module forwardingUnit(forwardA, forwardB, readSel1_DX, readSel2_DX, writeSel_XM,
 			forwardB = 0;
 		end
 		
-		if(regWrite_MW && (writeSel_MW != 0) && (writeSel_XM == readSel1_DX)&& (writeSel_XM != readSel1_DX))
+		if(regWrite_MW && (writeSel_MW != 0) && (writeSel_XM == readSel1_DX)&& (writeSel_XM != readSel1_DX)&& !(regWrite_XM && (readSel2_DX !=0)))
 			forwardA = 2'b01;
-		else if(regWrite_MW && (writeSel_MW != 0) && (writeSel_XM == readSel2_DX)&& (writeSel_XM != readSel2_DX))
+		else if(regWrite_MW && (writeSel_MW != 0) && (writeSel_XM == readSel2_DX)&& (writeSel_XM != readSel2_DX)&& !(regWrite_XM && (readSel2_DX !=0)))
 			forwardB = 2'b01;
 		else begin
 			forwardA = 0;
@@ -26,3 +26,5 @@ module forwardingUnit(forwardA, forwardB, readSel1_DX, readSel2_DX, writeSel_XM,
 		end
 	end
 endmodule
+
+module
