@@ -1,8 +1,16 @@
-module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush);
+// this has been tested and it works, but we need to look at the timing together 6:15pm 6/4 - David
+
+// Includes the IF/ID register.
+// Instruction memory is loaded with an initial block
+// Instructions are chosen with the PC address which can be:
+// jump address, jump register address, branch address, and the sequential address (see case statement)
+// Inputs from the Hazard detection can stall the PC and IFID registers and put all zeros into IFID
+module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush, IFIDWrite);
 	output reg [31:0] instruction;
 	input clock, reset; // reset doesn't do anything right now...
 	input [2:0] PCSrc; // one-hot encoded mux control to PC choosing between j, jr, and branch
 	input pcWrite; // enables writing to the PC for hazard control (stalling)
+	input IFIDWrite; // enables writing to the pipeline register for stalling
 	input IFFlush; // signal to flush the IF/ID pipeline register
 	input [6:0] jumpAddr, jrAddr, branchAddr;
 	reg [6:0] pcIn;
@@ -14,11 +22,11 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	always @(*) begin
 		plusOne = pcOut + 1;
 		case(PCSrc)
-			3'b1XX: pcIn = branchAddr;
-			3'b01X: pcIn = jumpAddr;
+			3'b100: pcIn = branchAddr;
+			3'b010: pcIn = jumpAddr;
 			3'b001: pcIn = jrAddr;
 			3'b000: pcIn = plusOne;
-			default: pcIn = 0;
+			default: pcIn = 11;
 		endcase
 	end
 	
@@ -28,8 +36,10 @@ module fetch (instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 	always @(posedge clock) begin
 		if (IFFlush) begin
 			instruction <= 32'b0;
-		end else begin
+		end else if (IFIDWrite) begin
 			instruction <= memoryOut;
+		end else begin
+			instruction <= instruction;
 		end
 	end
 endmodule
@@ -74,8 +84,8 @@ module testbench();
 	wire [6:0] jumpAddr, jrAddr, branchAddr;
 	wire pcWrite, IFFlush;
 	
-	fetch dut(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush);
-	tester test(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush);
+	fetch dut(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush, IFIDWrite);
+	tester test(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush, IFIDWrite);
 	
 	initial begin
 		$dumpfile("fetch.vcd");
@@ -83,12 +93,12 @@ module testbench();
 	end
 endmodule
 
-module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush);
+module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pcWrite, IFFlush, IFIDWrite);
 	input [31:0] instruction;
 	output reg [2:0] PCSrc;
 	output reg clock, reset;
 	output reg [6:0] jumpAddr, jrAddr, branchAddr;
-	output reg pcWrite, IFFlush;
+	output reg pcWrite, IFFlush, IFIDWrite;
 	integer i;
 	
 	parameter delay = 10;
@@ -100,6 +110,7 @@ module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 		PCSrc = 3'b0;
 		pcWrite = 1;
 		IFFlush = 0;
+		IFIDWrite = 1;
 		for (i = 0; i < 4; i = i + 1) begin
 			#delay;
 			clock = ~clock;
@@ -114,44 +125,45 @@ module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 		branchAddr = 1;
 		jumpAddr = 4;
 		jrAddr = 9;
-		for (i = 0; i < 4; i = i + 1) begin
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
 
 		PCSrc =  3'b010;
-		for (i = 0; i < 4; i = i + 1) begin
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
 
 		PCSrc = 3'b001;
-		for (i = 0; i < 4; i = i + 1) begin
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
 
 		PCSrc = 3'b000;
-		for (i = 0; i < 8; i = i + 1) begin
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
 		// stall
 		pcWrite = 0;
-		for (i = 0; i < 4; i = i + 1) begin
+		IFIDWrite = 0;
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
 		// flush
 		IFFlush = 1;
 		PCSrc = 3'b001;
-		for (i = 0; i < 4; i = i + 1) begin
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
 		IFFlush = 0;
 		pcWrite = 1;
-		for (i = 0; i < 4; i = i + 1) begin
+		for (i = 0; i < 16; i = i + 1) begin
 			#delay;
 			clock = ~clock;
 		end
