@@ -11,3 +11,11 @@
   - CLA Subtractor
 
 **Develop Pipelined CPU**
+ - Easy:
+  - Next
+ - Medium:
+  - Memory
+  - Controls
+ - Hard:
+  - Execute
+  - Top-Level Module
