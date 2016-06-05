@@ -1,5 +1,5 @@
-module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we,rst, clock);
-	output [31:0] readOut_1, readOut_2;
+module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data, we, rst, clock);
+	output reg [31:0] readOut_1, readOut_2;
 	input [4:0] readSel_1, readSel_2, writeSel;
 	input [31:0] data;
 	input rst, we, clock;
@@ -11,7 +11,10 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 			memory[i] = 31'b0;
 			end
 	end
-	mux32 ma0(readOut_1, memory[0],
+	
+	wire [31:0] readOut_1_temp, readOut_2_temp;
+	
+	mux32 ma0(readOut_1_temp, memory[0],
 						memory[1],
 						memory[2],
 						memory[3],
@@ -44,7 +47,7 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 						memory[30],
 						memory[31], readSel_1);
 	
-	mux32 ma1(readOut_2, memory[0],
+	mux32 ma1(readOut_2_temp, memory[0],
 						memory[1],
 						memory[2],
 						memory[3],
@@ -115,25 +118,32 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 	and a31(enWriteDec[31], writeDec[31], we);
 	
 	integer k;
-	always @(posedge clock)begin
-	//rst signal
-	if( rst ==1) begin 
-	for (k = 1; k < 32; k = k + 1)
+	always @(*)
+	begin
+		if(rst)
+			for (k = 1; k < 32; k = k + 1)
+					memory[k] <= 31'b0;
+		else
 		begin
-			memory[k] <= 31'b0;
-	end
-	end
-	else begin
-			
-		for (k = 1; k < 32; k = k + 1)
-		begin
-			if (enWriteDec[k])
+			for (k = 1; k < 32; k = k + 1)
 			begin
-				memory[k][31:0] <= data[31:0];
-			end			
+				if (enWriteDec[k])
+					memory[k][31:0] <= data[31:0];	
+			end
+			memory[0] <= 32'b0;
 		end
-		memory[0] <= 32'b0;
-		
+	end
+	
+	always @ (negedge clock) begin
+		if (rst)
+		begin
+			readOut_1 <= 32'b0;
+			readOut_2 <= 32'b0;
+		end
+		else 
+		begin
+			readOut_1 <= readOut_1_temp;
+			readOut_2 <= readOut_2_temp;
 		end
 	end
 	
