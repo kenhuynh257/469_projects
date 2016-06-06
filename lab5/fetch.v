@@ -71,10 +71,12 @@ module instructionMemory(address, memoryOut);
 	integer i;
 	initial begin
 		// load instructions into memory
-		for (i = 0; i < 32; i = i + 1) begin
-			memory[i][31:0] = {6'b0 + i, 5'b0 + i, 5'b11111 - i, 15'b0 + i}; // op, rs, and immediate count up
-																			 // rt counts down
-		end
+ 		for (i = 0; i < 32; i = i + 1) begin
+			memory[i][31:26] = i; // op
+			memory[i][25:21] = i; // rs
+			memory[i][20:16] = 31 - i; // rt
+			memory[i][15:0] = i; // immediate
+		end 
 	end
 endmodule
 

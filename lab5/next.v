@@ -1,4 +1,4 @@
-module memory(branch, readDatam regWriteSelout, dataMemAddrout, memRead, branchSel, memWrite, zeroF, regWriteSelin, dataMemAddrin, memData);
+module memory(branch, readData, regWriteSelout, dataMemAddrout, memRead, branchSel, memWrite, zeroF, regWriteSelin, dataMemAddrin, memData);
 	output branch;
 	output [31:0] readData;
 	output [4:0] regWriteSelout; //rd_XM
