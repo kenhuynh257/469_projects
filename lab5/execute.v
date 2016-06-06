@@ -19,13 +19,13 @@ module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediat
 	mux32_4 mux1(busA, readData1, address, nextOutput, 32'b0, forwardA);
 	mux32_4 mux2(busBpreMux, readData2, address, nextOutput, 32'b0, forwardB);
 	
-	mux32_2 mux2(busB, busBpreMux, immediate, ALUSrc);
+	mux32_2 mux3(busB, busBpreMux, immediate, ALUSrc);
 	
 	alu arithmetic(ALUresult, zeroF, oFlag, nFlag, cFlag, busA, busB, control);
 	
 	ALUcontrol aCon(control, immediate[5:0], ALUOp);
 	
-	mux5_2to1 mux3(regWriteSel, rt_DX, rd_DX, regDst);
+	mux5_2to1 mux4(regWriteSel, rt_DX, rd_DX, regDst);
 	
 endmodule
 
