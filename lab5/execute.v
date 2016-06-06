@@ -1,5 +1,5 @@
 `include "ALU.v"
-`include "ALUcontrol"
+`include "ALUcontrol.v"
 
 module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2in, regDst, ALUSrc, ALUOp, clock);
 	output [31:0] ALUresult, busBpreMux;
