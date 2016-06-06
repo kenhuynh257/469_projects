@@ -2,12 +2,16 @@
 `include "ALUcontrol.v"
 `include "ALU_functions.v"
 
-module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2, nextOutput, address, regDst, ALUSrc, ALUOp, clock);
+module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX,
+ immediate, readData1, readData2, nextOutput, address, regDst,
+ ALUSrc, ALUOp, branchOut, clock);
+ 
 	output reg [31:0] ALUresult, outB;
 	output reg negF;
 	output reg [4:0] regWriteSel;
+	output reg [6:0] branchOut; // immediate goes into pipeline register and out to the PC mux
 	input [4:0] rt_DX, rd_DX;
-	input [31:0] immediate, readData1, readData2, nextOutput, address;
+	input [31:0] immediate, readData1, readData2, nextOutput, address; // immediate will contain the branch address
 	input [1:0] forwardA, forwardB;
 	input regDst, ALUSrc; 
 	input [2:0] ALUOp;
@@ -35,6 +39,8 @@ module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX, immediate, read
 		negF <= nFlag;
 		ALUresult <= ALUout;
 		outB <= busBpreMux;
+		branchOut[6:0] <= immediate[6:0];
+		
 	end
 	
 endmodule

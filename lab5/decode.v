@@ -4,7 +4,7 @@
 module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
 	output reg [5:0] opCode;
 	output reg [4:0] rs_FD, rt_FD, rd_FD;
-	output reg [31:0] readData_1, readData_2, immediate;
+	output reg [31:0] readData_1, readData_2, immediate; // immediate contains the branch address
 	output [6:0] jumpAddrOut;
 	output [6:0] jrAddrOut;
 
