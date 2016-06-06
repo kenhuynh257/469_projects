@@ -1,6 +1,6 @@
 `include "fetch.v"
 `include "decode.v"
-
+// doesn't reflect additions of jrAddrOut and jumpAddrOut in decode
 module fetchDecodeTest();
 	wire [31:0] instruction;
 	
