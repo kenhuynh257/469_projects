@@ -2,14 +2,10 @@
 `include "ALUcontrol.v"
 `include "ALU_functions.v"
 
-<<<<<<< HEAD
 module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX,
  immediate, readData1, readData2, nextOutput, address, regDst,
  ALUSrc, ALUOp, branchOut, clock);
  
-=======
-module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2, nextOutput, address, forwardA, forwardB, regDst, ALUSrc, ALUOp, clock);
->>>>>>> aa6192455327dd2234865e8d0f7e11c2bb61d60a
 	output reg [31:0] ALUresult, outB;
 	output reg negF;
 	output reg [4:0] regWriteSel;
