@@ -1,5 +1,6 @@
 `include "ALU.v"
 `include "ALUcontrol.v"
+`include "ALU_functions.v"
 
 module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2in, regDst, ALUSrc, ALUOp, clock);
 	output [31:0] ALUresult, busBpreMux;
@@ -18,13 +19,13 @@ module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediat
 	mux32_4 mu1(busA, readData1, address, nextOutput, 32'b0, forwardA);
 	mux32_4 mu2(busBpreMux, readData2, address, nextOutput, 32'b0, forwardB);
 	
-	mux32_2 m2(busB, busBpreMux, immediate, ALUSrc);
+	mux32_2 mu2(busB, busBpreMux, immediate, ALUSrc);
 	
 	alu arithmetic(ALUresult, zeroF, oFlag, nFlag, cFlag, busA, busB, control);
 	
 	ALUcontrol aCon(control, immediate[5:0], ALUOp);
 	
-	mux5_2to1(regWriteSel, rt_DX, rd_DX, regDst);
+	mux5_2to1 mu3(regWriteSel, rt_DX, rd_DX, regDst);
 	
 endmodule
 
