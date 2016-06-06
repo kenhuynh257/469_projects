@@ -118,7 +118,7 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 	and a31(enWriteDec[31], writeDec[31], we);
 	
 	integer k;
-	always @(*)
+	always @(negedge clock)
 	begin
 		if(rst)
 			for (k = 1; k < 32; k = k + 1)
@@ -134,7 +134,7 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 		end
 	end
 	
-	always @ (negedge clock) begin
+	always @ (*) begin
 		if (rst)
 		begin
 			readOut_1 <= 32'b0;
