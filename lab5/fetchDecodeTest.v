@@ -65,23 +65,23 @@ module tester(
 		jumpAddr = 1;
 		branchAddr = 31;
 		for (i = 0; i < 16; i = i + 1) begin
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock; 
+			#delay; clock = ~clock; 
 		end
 		reset = 0;
 		regWrite = 1;
 		for (i = 0; i < 16; i = i + 1) begin // check that registers can be written
+			#delay; clock = ~clock;
 			writeAddr = i;
-			writeData = i;
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			writeData = i; 
+			#delay; clock = ~clock; 
 		end
 		regWrite = 0;
 		for (i = 0; i < 16; i = i + 1) begin // check that registers are not written
-			writeAddr = 15 -i;					 // when regWrite is low but there's stuff on the inputs
-			writeData = 15 - i;
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock;			 // when regWrite is low but there's stuff on the inputs
+			writeAddr = 15 -i;					 
+			writeData = 15 - i; 
+			#delay; clock = ~clock; 
 		end
 		
 		
@@ -89,30 +89,30 @@ module tester(
 		pcWrite = 1;
 		IFIDWrite = 1;
 		for (i = 0; i < 16; i = i + 1) begin
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock; 
+			#delay; clock = ~clock; 
 		end
 		PCSrc = 3'b100; // branchAddr into PC
 		for (i = 0; i < 8; i = i + 1) begin
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock; 
+			#delay; clock = ~clock; ;
 		end
 		PCSrc = 0; // back to sequential instructions
 		IFFlush = 1; // zero IFID register
 		for (i = 0; i < 8; i = i + 1) begin
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock; 
+			#delay; clock = ~clock; 
 		end
 		IFFlush = 0;
 		IFIDWrite = 0; // freeze IFID
 		for (i = 0; i < 8; i = i + 1) begin
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock; 
+			#delay; clock = ~clock; 
 		end
 		pcWrite = 0; // freeze PC
 		for (i = 0; i < 8; i = i + 1) begin
-			clock = ~clock; #delay;
-			clock = ~clock; #delay;
+			#delay; clock = ~clock; 
+			#delay; clock = ~clock; 
 		end
 	end
 endmodule
