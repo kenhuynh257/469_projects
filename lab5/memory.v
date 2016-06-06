@@ -9,7 +9,7 @@ module memory(
 	output [4:0] regSelOut,
 	output [31:0] forwardALUResult,
 	input branchCtrl,
-	input zeroFlag,
+	input negFlag,
 	input memWrite,
 	input memRead,
 	input [31:0] addressIn,
@@ -19,7 +19,7 @@ module memory(
 	
 	assign regSelOut = regWriteSel;
 	assign forwardALUResult = addressIn;
-	assign branchSrc = branchCtrl & zeroFlag;
+	assign branchSrc = branchCtrl & negFlag;
 	wire [31:0] memoryOut;
 	SRAM dataMemory(writeData, memoryOut, addressIn, memWrite, memRead, clock);
 	
@@ -38,7 +38,7 @@ module testbench();
 	wire [4:0] regSelOut,
 	wire [31:0] forwardALUResult,
 	wire branchCtrl,
-	wire zeroFlag,
+	wire negFlag,
 	wire memWrite,
 	wire memRead,
 	wire [31:0] addressIn,
@@ -47,9 +47,9 @@ module testbench();
 	wire clock);
 	
 	memory MEM(branchSrc, readData, arithmeticOut, MEMWBregSelOut, regSelOut, forwardLUResult, 
-				branchCtrl, zeroFlag, memWrite, memRead, addressIn, regWriteSel, writeData, clock);
+				branchCtrl, negFlag, memWrite, memRead, addressIn, regWriteSel, writeData, clock);
 	
-	tester test(branchCtrl, zeroFlag, memWrite, memRead, addressIn, regWriteSel, writeData, clock);
+	tester test(branchCtrl, negFlag, memWrite, memRead, addressIn, regWriteSel, writeData, clock);
 	
 	initial begin
 		$dumpfile("IFID.vcd");
@@ -59,7 +59,7 @@ endmodule
 
 module tester(
 	output reg branchCtrl,
-	output reg zeroFlag,
+	output reg negFlag,
 	output reg memWrite,
 	output reg memRead,
 	output reg addressIn,
