@@ -31,3 +31,4 @@ module ALUcontrol (control,instruction,ALUOp);
 	end
 	
 endmodule
+
