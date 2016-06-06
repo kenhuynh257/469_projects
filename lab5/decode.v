@@ -2,7 +2,7 @@
 
 // tested and looks like it's working but I'm not sure about the latency on the register reads/writes. May need to check out register file.
 module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
-	output reg [5:0] opCode;
+	output [5:0] opCode;
 	output reg [4:0] rs_FD, rt_FD, rd_FD;
 	output reg [31:0] readData_1, readData_2, immediate; // immediate contains the branch address
 	output [6:0] jumpAddrOut;
@@ -19,11 +19,11 @@ module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, r
 	registerFile generalRegister(regDataOut1, regDataOut2, instruction[25:21], instruction[20:16], writeAddr, writeData, regWrite, reset, clock);
 	signExtend extendImmediate(instruction[15:0], extendedImmediate[31:0]);
 
+	assign opCode = instruction[31:26];
 	always @(posedge clock) begin
 		readData_1 <= regDataOut1;
 		readData_2 <= regDataOut2;
 		immediate <= extendedImmediate;
-		opCode <= instruction[31:26];
 		rs_FD <= instruction[25:21];
 		rt_FD <= instruction[20:16];
 		rd_FD <= instruction[15:11];
