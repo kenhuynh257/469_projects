@@ -7,6 +7,7 @@ module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediat
 	output [4:0] regWriteSel;
 	input [4:0] rt_DX, rd_DX;
 	input [31:0] immediate, readData1, readData2;
+	input [1:0] forwardA, forwardB;
 	input regDst, ALUSrc, ALUOp;
 	input clock;
 	
@@ -14,7 +15,7 @@ module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediat
 	wire oFlag, nFlag, cFlag;
 	wire [2:0] control;
 	
-	mux32_4 m1(busA, readData1, address, nextOutput, 32'b0, forwardB);
+	mux32_4 m1(busA, readData1, address, nextOutput, 32'b0, forwardA);
 	mux32_4 m2(busBpreMux, readData2, address, nextOutput, 32'b0, forwardB);
 	
 	mux32_2 m2(busB, busBpreMux, immediate, ALUSrc);
