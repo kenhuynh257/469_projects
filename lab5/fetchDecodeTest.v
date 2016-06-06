@@ -53,7 +53,7 @@ module tester(
 	
 	initial begin
 		// fill up register
-		clock = 1;
+		clock = 0;
 		reset = 1;
 		regWrite = 0;
 		writeAddr = 0;
