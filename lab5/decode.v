@@ -36,7 +36,8 @@ module signExtend(shortImmediate, extendedImmediate);
 	assign extendedImmediate[31:0] = (shortImmediate[15]) ? {16'hFFFF, shortImmediate[15:0]} : {16'b0, shortImmediate[15:0]};
 endmodule
 
-////////////////////////////////////////////////////////////////////
+`define NO_DECODE_TESTBENCH 1
+`ifndef NO_DECODE_TESTBENCH
 module testbench();
 	wire [5:0] opCode;
 	wire [4:0] rs_FD, rt_FD, rd_FD;
@@ -109,3 +110,4 @@ module tester(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, 
 		end
 	end
 endmodule
+`endif

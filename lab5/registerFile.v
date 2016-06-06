@@ -147,6 +147,11 @@ module registerFile (readOut_1, readOut_2, readSel_1, readSel_2, writeSel, data,
 		end
 	end
 	
+	initial 
+	begin
+		memory[0] = 32'b0;
+	end
+	
 endmodule
 
 module dFlipFlop(Q, Qbar, D, clock, reset);

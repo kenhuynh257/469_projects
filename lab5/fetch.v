@@ -71,12 +71,15 @@ module instructionMemory(address, memoryOut);
 	integer i;
 	initial begin
 		// load instructions into memory
-		for (i = 0; i < 64; i = i + 1) begin
-			memory[i][31:0] = i;
+		for (i = 0; i < 32; i = i + 1) begin
+			memory[i][31:0] = {6'b0 + i, 5'b0 + i, 5'b11111 - i, 15'b0 + i}; // op, rs, and immediate count up
+																			 // rt counts down
 		end
 	end
 endmodule
 
+`define NO_FETCH_TESTBENCH 1
+`ifndef NO_FETCH_TESTBENCH
 module testbench();
 	wire [31:0] instruction;
 	wire [2:0] PCSrc;
@@ -169,5 +172,6 @@ module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 		end
 	end
 endmodule
+`endif
 
 	
