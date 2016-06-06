@@ -9,9 +9,9 @@
 //memtoReg,regWrite next 2bits
 //flush
 
-module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j, jr, instruction,stall,clk	
+module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite_XM,regWrite_MW,j, jr, instruction,stall,clk	
 ); 
-	output regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
+	output regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite_XM,regWrite_MW j, jr;
 	output [2:0]ALUOp;
 	output [31:0] 
 	input clk;
@@ -47,6 +47,7 @@ module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j
 	assign branch = fiveBits[4];
 	assign memRead  = fiveBits[3];
 	assign memWrite = fiveBits [2];
+	assign regWrite_XM = fiveBits[0];
 	
 	
 	wire [1:0] twoBits;

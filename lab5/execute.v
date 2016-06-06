@@ -3,7 +3,7 @@
 `include "ALU_functions.v"
 
 module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX,
- immediate, readData1, readData2, nextOutput, address, regDst,
+ immediate, readData1, readData2, nextOutput, address, forwardA, forwardB, regDst,
  ALUSrc, ALUOp, branchOut, clock);
  
 	output reg [31:0] ALUresult, outB;
