@@ -71,6 +71,8 @@ module top(CLOCK_50, SW);
 	wire [4:0]fw_rd_MW; //RD
 	wire fw_regWrite_XM, fw_regWrite_MW ;//control
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	fetch f(f_instruction, f_PCSrc, clk, SW[0], f_jumpAddr, f_jrAddr, f_branchAddr, f_pcWrite, f_IFFlush, f_IFIDWrite);
 	
 	decode d(d_opCode, d_rs_FD, d_rt_FD, d_rd_FD, d_jumpAddrOut, d_jrAddrOut, d_readData_1, d_readData_2, d_immediate,
@@ -87,6 +89,8 @@ module top(CLOCK_50, SW);
 	hazardDectionUnit h(h_stall,h_write, h_memRead_DX, h_rs_FD, h_rt_FD, h_rt_DX);
 	
 	forwardingUnit f(fw_forwardA, fw_forwardB, fw_rs_DX, fw_rt_DX, fw_rd_XM, fw_rd_MW, fw_regWrite_XM, fw_regWrite_MW);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	assign d_instruction = f_instruction;
 	// PCSrc is the mux control for the mux prior to the PC
