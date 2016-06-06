@@ -17,8 +17,8 @@ module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediat
 	wire oFlag, nFlag, cFlag;
 	wire [2:0] control;
 	
-	mux32_4 mux1(busA, readData1, address, nextOutput, 32'b0, forwardA);
-	mux32_4 mux2(busBpreMux, readData2, address, nextOutput, 32'b0, forwardB);
+	mux32_4 mux1(busA, readData1, address, nextOutput, 32'b0, forwardA[0], forwardA[1]);
+	mux32_4 mux2(busBpreMux, readData2, address, nextOutput, 32'b0, forwardB[0], forwardB[1]);
 	
 	mux32_2 mux3(busB, busBpreMux, immediate, ALUSrc);
 	
