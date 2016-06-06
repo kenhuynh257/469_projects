@@ -1,18 +1,21 @@
 `include "registerFile.v" // is the register file tested and working? what about reading and writing in the same clock cycle?
 
 // tested and looks like it's working but I'm not sure about the latency on the register reads/writes. May need to check out register file.
-module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
 	output reg [5:0] opCode;
 	output reg [4:0] rs_FD, rt_FD, rd_FD;
 	output reg [31:0] readData_1, readData_2, immediate;
-	output reg [6:0] jumpAddr_FD;
+	output [6:0] jumpAddrOut;
+	output [6:0] jrAddrOut;
 
 	input [31:0] instruction, writeData;
 	input [4:0] writeAddr;
 	input regWrite;
 	input clock, reset;
 	wire [31:0] regDataOut1, regDataOut2, extendedImmediate; // the last 6 bits are alu function code
-
+	
+	assign jrAddrOut[6:0] = regDataOut1[6:0];
+	assign jumpAddrOut = instruction[6:0];
 	registerFile generalRegister(regDataOut1, regDataOut2, instruction[25:21], instruction[20:16], writeAddr, writeData, regWrite, reset, clock);
 	signExtend extendImmediate(instruction[15:0], extendedImmediate[31:0]);
 
@@ -24,7 +27,6 @@ module decode(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, 
 		rs_FD <= instruction[25:21];
 		rt_FD <= instruction[20:16];
 		rd_FD <= instruction[15:11];
-		jumpAddr_FD <= instruction[6:0];
 	end
 endmodule
 
@@ -41,15 +43,16 @@ endmodule
 module testbench();
 	wire [5:0] opCode;
 	wire [4:0] rs_FD, rt_FD, rd_FD;
-	wire [6:0] jumpAddr_FD;
+	wire [6:0] jumpAddrOut;
+	wire [6:0] jrAddrOut;
 	wire [31:0] readData_1, readData_2, immediate;
 	wire [31:0] instruction, writeData;
 	wire [4:0] writeAddr;
 	wire regWrite;
 	wire clock, reset;
 
-	decode instructionDecode(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
-	tester test(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+	decode instructionDecode(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+	tester test(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
 
 
 	initial begin
@@ -59,10 +62,10 @@ module testbench();
 endmodule
 
 ///////////////////////////////////////////////
-module tester(opCode, rs_FD, rt_FD, rd_FD, jumpAddr_FD, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
+module tester(opCode, rs_FD, rt_FD, rd_FD, jumpAddrOut, jrAddrOut, readData_1, readData_2, immediate, instruction, regWrite, writeAddr, writeData, clock, reset);
 	input [5:0] opCode;
 	input [4:0] rs_FD, rt_FD, rd_FD;
-	input [6:0] jumpAddr_FD;
+	input [6:0] jumpAddrOut;
 	input [31:0] readData_1, readData_2, immediate;
 	output reg [31:0] instruction, writeData;
 	output reg [4:0] writeAddr;
