@@ -2,9 +2,9 @@
 `include "ALUcontrol.v"
 `include "ALU_functions.v"
 
-module execute(ALUresult, outB, zeroF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2, nextOutput, address, regDst, ALUSrc, ALUOp, clock);
+module execute(ALUresult, outB, negF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2, nextOutput, address, regDst, ALUSrc, ALUOp, clock);
 	output reg [31:0] ALUresult, outB;
-	output reg zeroF;
+	output reg negF;
 	output reg [4:0] regWriteSel;
 	input [4:0] rt_DX, rd_DX;
 	input [31:0] immediate, readData1, readData2, nextOutput, address;
@@ -32,7 +32,7 @@ module execute(ALUresult, outB, zeroF, regWriteSel, rt_DX, rd_DX, immediate, rea
 	always @ (posedge clock)
 	begin
 		regWriteSel <= selTemp;
-		zeroF <= zFlag;
+		negF <= nFlag;
 		ALUresult <= ALUout;
 		outB <= busBpreMux;
 	end
