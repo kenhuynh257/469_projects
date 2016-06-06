@@ -2,14 +2,15 @@
 `include "ALUcontrol.v"
 `include "ALU_functions.v"
 
-module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2in, regDst, ALUSrc, ALUOp, clock);
+module execute(ALUresult, busBpreMux, zeroF, regWriteSel, rt_DX, rd_DX, immediate, readData1, readData2, regDst, ALUSrc, ALUOp, clock);
 	output [31:0] ALUresult, busBpreMux;
 	output zeroF;
 	output [4:0] regWriteSel;
 	input [4:0] rt_DX, rd_DX;
 	input [31:0] immediate, readData1, readData2;
 	input [1:0] forwardA, forwardB;
-	input regDst, ALUSrc, ALUOp;
+	input regDst, ALUSrc; 
+	input [2:0] ALUOp;
 	input clock;
 	
 	wire [31:0] busA, busBpreMux, busB;
