@@ -244,6 +244,85 @@ module controlunit(regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrit
 					end
 		endcase
 	end
+endmodule
+/* module testbench();
+	wire regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
+	wire [2:0]ALUOp;
+	wire [5:0] instruction;
 
+	controlunit ctrl(regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j, jr, instruction); 
+	tester test(regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j, jr, instruction);
+
+
+	initial begin
+		$dumpfile("control.vcd");
+		$dumpvars();
+	end
+endmodule
+module tester(regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j, jr, instruction);
+	input regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
+	input [2:0]ALUOp;
+
+
+	output reg [5:0] instruction;
+	integer i;
+
+	parameter delay = 10;
+
+	initial begin
 	
-endmodule 
+		
+		instruction = 6'b0;//nop
+		#delay;
+		
+		
+		instruction = 6'b100100;//and
+		#delay;
+		
+	
+		instruction = 6'b100100;//and
+		#delay;
+		
+	
+		instruction = 6'b1100;//andi
+		#delay;
+		
+		
+		instruction = 6'b100101;//or
+		#delay;
+		
+		
+		instruction = 6'b001101;//ori
+		#delay;
+		
+		
+		instruction = 6'b100110;//xor
+		#delay;
+		
+		
+		instruction = 6'b1110;//xori
+		#delay;
+		
+		
+		instruction = 6'b100000;//add
+		#delay;
+		
+		
+		instruction = 6'b1000;//addi
+		#delay;
+		
+		
+		instruction = 6'b10;//j
+		#delay;
+		
+		
+		instruction = 6'b1001;//jr
+		#delay;
+		
+		
+		instruction = 6'b111;//bgt
+		#delay;
+		
+		
+end
+endmodule */
