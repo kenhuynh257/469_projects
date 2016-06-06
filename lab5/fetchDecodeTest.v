@@ -88,7 +88,7 @@ module tester(
 		// sequential instructions and then some jumps
 		pcWrite = 1;
 		IFIDWrite = 1;
-		for (i = 0; i < 16; i = i + 1) begin
+		for (i = 0; i < 32; i = i + 1) begin
 			#delay; clock = ~clock; 
 			#delay; clock = ~clock; 
 		end
