@@ -7,11 +7,13 @@
 //regDst, ALUSrc , ALUOp (first 5 bits from the left of tenBits)
 //branch,memRead,memWrite (first 3 bits from the left fiveBits)
 //memtoReg,regWrite next 2bits
+//flush
 
 module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j, jr, instruction,stall,clk	
 ); 
 	output regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
 	output [2:0]ALUOp;
+	output [31:0] 
 	input clk;
 	input stall;
 	input [5:0] instruction;
@@ -24,7 +26,7 @@ module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j
 	//go throgh the mux for stalling
 	reg [11:0]notStall;
 	always@(*)
-	if(!stall)
+	if(stall==1)
 		notStall = controlU;
 	else notStall = 0;
 	
