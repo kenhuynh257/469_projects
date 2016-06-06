@@ -1,5 +1,8 @@
-module writeBack(regWriteData, memData, ALUout, rd_MW);
+module writeBack(regWriteData, memData, ALUout, memToReg);
 	output [31:0] regWriteData;
 	input [31:0] memData, ALUout;
-	input [4:0] rd_MW;
+	input memToReg;
+	
+	regWriteData = (memToReg) ? memData : ALUout;
+	
 endmodule
