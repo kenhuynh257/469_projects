@@ -26,7 +26,7 @@ module forwardingUnit(forwardA, forwardB, rs_DX, rt_DX, rd_XM, rd_MW, regWrite_X
 endmodule
 
 ///////////////////////////////////////////////////////////////////////
-module testbench();
+/*module testbench();
 	wire [1:0] forwardA, forwardB;
 	wire [4:0] rs_DX; //RS
 	wire [4:0] rt_DX; //RT
@@ -117,4 +117,4 @@ module tester(forwardA, forwardB, rs_DX, rt_DX, rd_XM, rd_MW, regWrite_XM, regWr
 	rt_DX = 5'b00011;
 	#delay;
 	end
-endmodule
+endmodule*/

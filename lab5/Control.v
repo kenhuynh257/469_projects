@@ -9,11 +9,9 @@
 //memtoReg,regWrite next 2bits
 //flush
 
-module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite_XM,regWrite_MW,j, jr, instruction,stall,clk	
-); 
-	output regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite_XM,regWrite_MW j, jr;
-	output [2:0]ALUOp;
-	output [31:0] 
+module Control(regDst, ALUSrc, ALUOp, branch, memRead, memWrite, memtoReg,regWrite_XM, regWrite_MW, j, jr, instruction, stall, clk); 
+	output regDst, branch, memRead, memtoReg, memWrite, ALUSrc, regWrite_XM, regWrite_MW, j, jr;
+	output [2:0] ALUOp;
 	input clk;
 	input stall;
 	input [5:0] instruction;
@@ -97,7 +95,7 @@ endmodule
 
 
 //////////////////////////////////////////////////
-module testbench();
+/*module testbench();
 	wire regDst,branch,memRead,memtoReg,memWrite,ALUSrc, regWrite, j, jr;
 	wire [2:0]ALUOp;
 	wire clk;
@@ -269,5 +267,5 @@ module tester(regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite,j, 
 		#delay;
 		clk = ~clk;
 end
-endmodule
+endmodule*/
 

@@ -113,7 +113,7 @@ module instructionMemory(address, memoryOut);
 	end
 endmodule
 
-`define NO_FETCH_TESTBENCH 1
+/*`define NO_FETCH_TESTBENCH 1
 `ifndef NO_FETCH_TESTBENCH
 module testbench();
 	wire [31:0] instruction;
@@ -207,6 +207,6 @@ module tester(instruction, PCSrc, clock, reset, jumpAddr, jrAddr, branchAddr, pc
 		end
 	end
 endmodule
-`endif
+`endif*/
 
 	

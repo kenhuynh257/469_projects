@@ -30,8 +30,8 @@ module memory(
 	end
 endmodule
 	
-module testbench();
-	wire branchSrc, /* 3rd bit of PCSrc */
+/*module testbench();
+	wire branchSrc, /* 3rd bit of PCSrc /
 	wire [31:0] readData,
 	wire [31:0] arithmeticOut,
 	wire [4:0] MEMWBregSelOut,
@@ -75,16 +75,4 @@ module tester(
 		// test writing memory
 		// reading memory
 	end
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+*/

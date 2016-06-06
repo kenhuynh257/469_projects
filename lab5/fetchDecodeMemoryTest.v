@@ -1,4 +1,13 @@
-module fetchDecodeMemoryTest();
+`include "fetch.v"
+`include "decode.v"
+`include "execute.v"
+`include "memory.v"
+`include "Control.v"
+`include "hazardDetectionUnit.v"
+`include "forwardingUnit.v"
+
+module fetchDecodeMemoryTest;
+	
 	wire clock, reset;
 	// fetch
 	wire [31:0] f_instruction;
@@ -29,7 +38,6 @@ module fetchDecodeMemoryTest();
 	wire [1:0] x_forwardA, x_forwardB;
 	wire x_regDst, x_ALUSrc;
 	wire[2:0] x_ALUOp;
-	wire [1:0] x_forwardA, x_forwardB;
 	
 	// memory
 	wire [31:0] m_readData;
@@ -64,23 +72,23 @@ module fetchDecodeMemoryTest();
 	wire [4:0]fw_rd_MW; //RD
 	wire fw_regWrite_XM, fw_regWrite_MW ;//control
 	
-	fetch (f_instruction, f_PCSrc, clock, reset, f_jumpAddr, f_jrAddr, f_branchAddr, f_pcWrite, f_IFFlush, f_IFIDWrite);
+	fetch f(f_instruction, f_PCSrc, clock, reset, f_jumpAddr, f_jrAddr, f_branchAddr, f_pcWrite, f_IFFlush, f_IFIDWrite);
 	
-	decode(d_opCode, d_rs_FD, d_rt_FD, d_rd_FD, d_jumpAddrOut, d_jrAddrOut, d_readData_1, d_readData_2, d_immediate,
+	decode d(d_opCode, d_rs_FD, d_rt_FD, d_rd_FD, d_jumpAddrOut, d_jrAddrOut, d_readData_1, d_readData_2, d_immediate,
 			d_instruction, d_regWrite, d_writeAddr, d_writeData, clock, reset);
 	
-	execute(x_ALUresult, x_outB, x_negF, x_regWriteSel, x_rt_DX, x_rd_DX, x_immediate, x_readData1, x_readData2, x_nextOutput,
+	execute x(x_ALUresult, x_outB, x_negF, x_regWriteSel, x_rt_DX, x_rd_DX, x_immediate, x_readData1, x_readData2, x_nextOutput,
 			x_address, x_forwardA, x_forwardB, x_regDst, x_ALUSrc, x_ALUOp, x_branchOut, clock);
  
-	memory(m_branchSrc, m_readData, m_arithmeticOut, m_MEMWBregSelOut, m_regSelOut, m_forwardALUResult, m_branchCtrl,
+	memory m(m_branchSrc, m_readData, m_arithmeticOut, m_MEMWBregSelOut, m_regSelOut, m_forwardALUResult, m_branchCtrl,
 			m_negFlag, m_memWrite, m_memRead,  m_addressIn,  m_regWriteSel,	m_writeData, clock);
 			
-	control (c_regDst,c_ALUSrc,c_ALUOp,c_branch,c_memRead,c_memWrite ,c_memtoReg,c_regWrite_XM,c_regWrite_MW,c_j, c_jr, c_instruction,c_stall,clock);		
+	Control c(c_regDst,c_ALUSrc,c_ALUOp,c_branch,c_memRead,c_memWrite ,c_memtoReg,c_regWrite_XM,c_regWrite_MW,c_j, c_jr, c_instruction,c_stall,clock);		
 	
 	
-	hazardDectionUnit (h_stall,h_write, h_memRead_DX, h_rs_FD, h_rt_FD, h_rt_DX);
+	hazardDetectionUnit h(h_stall,h_write, h_memRead_DX, h_rs_FD, h_rt_FD, h_rt_DX);
 	
-	forwardingUnit (fw_forwardA, fw_forwardB, fw_rs_DX, fw_rt_DX, fw_rd_XM, fw_rd_MW, fw_regWrite_XM, fw_regWrite_MW);
+	forwardingUnit fu(fw_forwardA, fw_forwardB, fw_rs_DX, fw_rt_DX, fw_rd_XM, fw_rd_MW, fw_regWrite_XM, fw_regWrite_MW);
 	
 	assign d_instruction = f_instruction;
 	// PCSrc is the mux control for the mux prior to the PC
@@ -136,23 +144,9 @@ module fetchDecodeMemoryTest();
 	assign fw_regWrite_MW = c_regWrite_MW;
 	
 	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
 	wire memToReg;
-
-
 				
-	tester test();
+	tester test(clock, reset);
 	
 	initial begin
 		$dumpfile("MEMIFID.vcd");
@@ -162,9 +156,31 @@ endmodule
 
 module tester(
 	output reg clock,
-	output reg reset,
-	output reg [1:0] PCSrc,
-	output reg pcWrite,
-	output reg IFIDWrite,
-	output reg IFFlush,
-	output reg )
+	output reg reset);
+	
+	parameter Delay = 1;
+	integer i;
+	
+	initial begin
+		clock = 1'b0;
+		reset = 1'b0;
+		#Delay
+		clock = ~clock;
+		#Delay
+		clock = ~clock;
+		reset = 1'b1;
+		#Delay
+		clock = ~clock;
+		#Delay
+		reset = 1'b0;
+		clock = ~clock;
+		
+		for (i = 0; i < 32; i = i + 1)
+		begin
+			#Delay
+			clock = ~clock;
+		end
+		
+
+	end
+endmodule
