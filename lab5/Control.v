@@ -47,13 +47,13 @@ module Control (regDst,ALUSrc,ALUOp,branch,memRead,memWrite ,memtoReg,regWrite_X
 	assign branch = fiveBits[4];
 	assign memRead  = fiveBits[3];
 	assign memWrite = fiveBits [2];
-	assign regWrite_XM = fiveBits[0];
+	assign regWrite_XM = fiveBits[0];//check if ther is something wrong
 	
 	
 	wire [1:0] twoBits;
 	EXMEMff EXMEMreg (twoBits,fiveBits[1:0],clk);
 	assign memtoReg = twoBits[1];
-	assign regWrite = twoBits[0];
+	assign regWrite_MW = twoBits[0];
 endmodule
 
 

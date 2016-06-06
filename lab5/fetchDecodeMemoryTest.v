@@ -34,7 +34,7 @@ module fetchDecodeMemoryTest();
 	// memory
 	wire [31:0] m_readData;
 	wire [31:0] m_arithmeticOut;
-	wire [4:0] MEMWBregSelOut;
+	wire [4:0] m_MEMWBregSelOut;
 	wire [4:0] m_regSelOut; // to forwarding control
 	wire [31:0] m_forwardALUResult;
 	wire m_branchCtrl;
@@ -46,7 +46,7 @@ module fetchDecodeMemoryTest();
 	wire [31:0] m_writeData;
 	
 	//control
-	wire c_regDst,c_branch,c_memRead,c_memtoReg,c_memWrite,c_ALUSrc, c_regWrite, c_j, c_jr; // output of the control
+	wire c_regDst,c_branch,c_memRead,c_memtoReg,c_memWrite,c_ALUSrc, c_regWrite_XM,c_regWrite_MW, c_j, c_jr; // output of the control
 	wire [2:0] c_ALUOp;//out
 	wire c_stall;//in
 	wire [5:0] instruction;//in
@@ -75,7 +75,7 @@ module fetchDecodeMemoryTest();
 	memory(m_branchSrc, m_readData, m_arithmeticOut, m_MEMWBregSelOut, m_regSelOut, m_forwardALUResult, m_branchCtrl,
 			m_negFlag, m_memWrite, m_memRead,  m_addressIn,  m_regWriteSel,	m_writeData, clock);
 			
-	control (c_regDst,c_ALUSrc,c_ALUOp,c_branch,c_memRead,c_memWrite ,c_memtoReg,c_regWrite,c_j, c_jr, c_instruction,c_stall,clock);		
+	control (c_regDst,c_ALUSrc,c_ALUOp,c_branch,c_memRead,c_memWrite ,c_memtoReg,c_regWrite_XM,c_regWrite_MW,c_j, c_jr, c_instruction,c_stall,clock);		
 	
 	
 	hazardDectionUnit (h_stall,h_write, h_memRead_DX, h_rs_FD, h_rt_FD, h_rt_DX);
@@ -94,15 +94,15 @@ module fetchDecodeMemoryTest();
 	assign f_IFFlush = /*equal to branchSrc */m_branchSrc;
 	assign f_IFIDWrite = /* from hazard */h_write;
 	assign c_instruction = d_opCode;
-	assign /*to forwarding*/ = d_rs_FD;
+	assign /*to forwarding*/fw_rs_DX = d_rs_FD;
 	assign x_rt_DX = d_rt_FD;
 	///* assign forwardingUnit */ = d_rt_FD;
-	///* assign hazard */= d_rt_FD;
+	
 	assign x_rd_DX = d_rd_FD;
 	assign x_readData1 = d_readData_1;
 	assign x_readData2 = d_readData_2;
 	assign  x_immediate = d_immediate;
-	assign d_regWrite = /* from control */c_regWrite;
+	assign d_regWrite = /* from control */c_regWrite_XM;///////////////
 	assign d_writeAddr = m_MEMWBregSelOut;
 	assign d_writeData = (/*memToReg from control*/c_memtoReg) ? m_readData : m_arithmeticOut;
 	assign m_addressIn = x_ALUresult;
@@ -114,7 +114,7 @@ module fetchDecodeMemoryTest();
 	assign x_regDst = /* from control */ c_regDst;
 	assign x_ALUSrc = /* from control */c_ALUSrc;
 	assign x_ALUOp = /* from control */c_ALUOp;
-	assign /* to forwarding */ = m_regSelOut;
+	assign /* to forwarding */fw_rd_XM = m_regSelOut;
 	assign m_branchCtrl = /* from control */c_branch;
 	assign m_memRead = /* from control */c_memRead;
 	assign m_memWrite = /* from control */c_memWrite;
@@ -125,13 +125,15 @@ module fetchDecodeMemoryTest();
 	assign h_rt_FD = f_instruction[20:16] ;
 	assign h_rt_DX = d_rt_FD; 
 	
-	assign fw_rs_DX = f_instruction[25:21]; //rs fromf flcch
-	assign fw_rt_DX = f_instruction[20:16];//rt from flecth
-	assign fw_rd_XM = /*from decode*/x_regWriteSel;
+	//assign fw_rs_DX = f_instruction[25:21]; 
+	assign fw_rt_DX = d_rt_FD;//rt from flecth
+	//assign  = /*from decode*/x_regWriteSel;
 	assign fw_rd_MW = m_MEMWBregSelOut;
+	
 	assign x_forwardA = fw_forwardA;
 	assign x_forwardB = fw_forwardB;
-	
+	assign fw_regWrite_XM = c_regWrite_XM;
+	assign fw_regWrite_MW = c_regWrite_MW;
 	
 	
 	
